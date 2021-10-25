@@ -1,3 +1,5 @@
+<img width="952" alt="Bildschirmfoto 2021-10-25 um 15 43 05" src="https://user-images.githubusercontent.com/12971934/138706856-20ada551-b3ee-478c-bca9-9ee39766c19a.png">
+
 # CraftOS
 
 Nearly five years ago I started this project and back then it run on meteor, then I used react for some time until I finally use vue.js
@@ -19,8 +21,6 @@ I can start listing every module I wrote back then, but it doesn't make sense. I
 Have a look at the screenshots and you'll get the idea.
 
 Open Issues and tell me how you like it. And if you're really seriuos and want me to work for you, just hit me up. 
-
-<img width="952" alt="Bildschirmfoto 2021-10-25 um 15 43 05" src="https://user-images.githubusercontent.com/12971934/138706856-20ada551-b3ee-478c-bca9-9ee39766c19a.png">
 
 <img width="1109" alt="Bildschirmfoto 2021-10-25 um 15 38 21" src="https://user-images.githubusercontent.com/12971934/138706460-cd46b3ef-2b86-4cb9-8f2b-d0bf879e26ef.png">
 <img width="908" alt="Bildschirmfoto 2021-10-25 um 15 39 54" src="https://user-images.githubusercontent.com/12971934/138706756-6b9a164a-a859-4181-9d63-7fd7243fff96.png">
