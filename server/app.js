@@ -49,7 +49,7 @@ async function start() {
 
   mongoose.Promise = Promise
   mongoose.set('debug', config.dev)
-  mongoose.set('useCreateIndex', true)
+  // mongoose.set('useCreateIndex', true)
 
   server.listen(port, host)
   consola.ready({

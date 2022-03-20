@@ -1,18 +1,18 @@
-{
-  "root": true,
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "parserOptions": {
-    "parser": "babel-eslint"
-  },
-  "extends": ["@nuxtjs", "plugin:vue/essential"],
-  // add your custom rules here
-  "rules": {
-    "no-console": 0,
-    "vue/no-textarea-mustache": 0,
-    "no-path-concat": 0,
-    "semi": ["error", "never"]
-  }
-}
+//{
+//  "root": true,
+//  "env": {
+//    "browser": true,
+//    "node": true
+//  },
+//  "parserOptions": {
+//    "parser": "babel-eslint"
+//  },
+//  "extends": ["@nuxtjs", "plugin:vue/essential"],
+//  // add your custom rules here
+//  "rules": {
+//    "no-console": 0,
+//    "vue/no-textarea-mustache": 0,
+//    "no-path-concat": 0,
+//    "semi": ["error", "never"]
+//  }
+//}

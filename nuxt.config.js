@@ -3,6 +3,7 @@ const pkg = require('./package')
 
 // eslint-disable-next-line no-undef
 module.exports = {
+  telemetry: false,
   mode: 'spa',
   /*
   ** Headers of the page
@@ -31,7 +32,7 @@ module.exports = {
   */
   css: [
     '~/assets/semantic/dist/semantic.min.css',
-    { src: '~/assets/transitions/vue2-animate.less', lang: 'less' }
+    // { src: '~/assets/transitions/vue2-animate.less', lang: 'less' }
   ],
 
   /*
@@ -82,16 +83,16 @@ module.exports = {
   /*
   ** Build configuration
   */
-  build: {
-    extend(config, ctx) {
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
-  }
+  // build: {
+  //   extend(config, ctx) {
+  //     if (ctx.isDev && ctx.isClient) {
+  //       config.module.rules.push({
+  //         enforce: 'pre',
+  //         test: /\.(js|vue)$/,
+  //         loader: 'eslint-loader',
+  //         exclude: /(node_modules)/
+  //       })
+  //     }
+  //   }
+  // }
 }
