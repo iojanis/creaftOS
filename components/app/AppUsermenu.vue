@@ -6,13 +6,6 @@
           <img :src="'https://minotar.net/avatar/' + $auth.user.username" :class="{online: isCurrentlyOnline}" style="height: 30px; width: 30px; border-radius: 3px; float:right; margin-right: 9px; margin-top: 2px">
           <span style="color: #ffffff; float: right; margin-right: 15px; margin-top: 8px;" class="ellipsis">{{ $auth.user.username }}</span>
         </nuxt-link>
-        <span class="ui green inverted basic label noselect" style="float: left; margin-top: 4px;">
-          <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow down icon" style="margin: 0" @click="downloadExp"/></a>
-          <span v-else class="detail" style="margin-left: 0"><i class="arrow down icon disabled" style="margin: 0"/></span>
-          {{ currentExp }}°
-          <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow up icon" style="margin: 0" @click="uploadExp"/></a>
-          <span v-else class="detail" style="margin-left: 0"><i class="arrow up icon disabled" style="margin: 0"/></span>
-        </span>
       </div>
       <div v-else style="padding: 0.5em;">
         <nuxt-link to="/login">
@@ -24,6 +17,15 @@
         </nuxt-link>
       </div>
       <div v-if="$auth.loggedIn" style="margin-top: 2.5em;">
+        <div class="item">
+          <span class="ui green inverted basic label noselect">
+            <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow down icon" style="margin: 0" @click="downloadExp"/></a>
+            <span v-else class="detail" style="margin-left: 0"><i class="arrow down icon disabled" style="margin: 0"/></span>
+            {{ currentExp }}°
+            <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow up icon" style="margin: 0" @click="uploadExp"/></a>
+            <span v-else class="detail" style="margin-left: 0"><i class="arrow up icon disabled" style="margin: 0"/></span>
+          </span>
+        </div>
         <nuxt-link :to="'/whois/' + $auth.user.username" class="disabled item">
           My Profile
         </nuxt-link>
