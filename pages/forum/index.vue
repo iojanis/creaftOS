@@ -1,17 +1,17 @@
 <template>
   <div class="ui inventory container padded" style="padding-top: 7.5em!important; padding-bottom: 7em!important;">
-    <div class="overlay">
-      <div class="center">
-        <div style="min-width: 300px;">
-          <h3 class="ui white header">
-            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>
-          </h3>
-          <p>THE FORUM IS UNDER DEVELOPMENT.</p>
-          <p>PLEASE USE THE CHAT FOR COMMUNICATION.</p>
-          <p>THANK YOU FOR UNDERSTANDING.</p>
-        </div>
-      </div>
-    </div>
+    <!--    <div class="overlay">-->
+    <!--      <div class="center">-->
+    <!--        <div style="min-width: 300px;">-->
+    <!--          <h3 class="ui white header">-->
+    <!--            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>-->
+    <!--          </h3>-->
+    <!--          <p>THE FORUM IS UNDER DEVELOPMENT.</p>-->
+    <!--          <p>PLEASE USE THE CHAT FOR COMMUNICATION.</p>-->
+    <!--          <p>THANK YOU FOR UNDERSTANDING.</p>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred" style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;">
       <div class="ui container item" style="border: none!important; ">
         <div class="ui form" style="width: 100%;">

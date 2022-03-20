@@ -333,7 +333,7 @@ export default {
         'set_market_item',
         this.selectedOffer.item,
         this.amount,
-        this.limit
+        this.limit | 1
       )
     },
     changeTransferRate() {

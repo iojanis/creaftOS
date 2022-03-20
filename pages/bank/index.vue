@@ -1,16 +1,16 @@
 <template>
   <div class="ui inventory container padded" style="padding-top: 7.5em!important; padding-bottom: 7em!important;">
-    <div class="overlay">
-      <div class="center">
-        <div style="min-width: 300px;">
-          <h3 class="ui white header">
-            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> BANK IS UNAVAILABLE.</span>
-          </h3>
-          <p>BANKING IS UNDER DEVELOPMENT.</p>
-          <p>THANK YOU FOR UNDERSTANDING.</p>
-        </div>
-      </div>
-    </div>
+    <!--    <div class="overlay">-->
+    <!--      <div class="center">-->
+    <!--        <div style="min-width: 300px;">-->
+    <!--          <h3 class="ui white header">-->
+    <!--            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> BANK IS UNAVAILABLE.</span>-->
+    <!--          </h3>-->
+    <!--          <p>BANKING IS UNDER DEVELOPMENT.</p>-->
+    <!--          <p>THANK YOU FOR UNDERSTANDING.</p>-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
     <div class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred" style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;">
       <div class="ui container item" style="border: none!important; ">
         <div class="ui form" style="width: 100%;">
@@ -18,7 +18,7 @@
             <a data-tooltip="Transfer XP" style="cursor: pointer" data-inverted="" data-position="bottom left">
               <i
                 class="plus icon light"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em; display: none;"/>
+                style="margin-top: 0em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em; display: none;"/>
             </a>
             <input v-model="search" style="text-align: center; color: #ffffff!important;padding: 0px" placeholder="Search" autocomplete="off">
             <i v-if="search.length > 0" class="remove link icon" style="color: rgba(0, 0, 0, 0.34); margin-right: 2.1em; margin-top: 0.15em;" @click="search = ''"/>

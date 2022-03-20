@@ -7,7 +7,7 @@
     <!--</a>-->
     <a class="item" @click="toggleNotificationDrawer(true)">
       <h3 class="ui yellow header shaft boldcraft" style="margin-bottom: 0">
-        C>
+        CraftOS
       </h3>
       <div v-if="false" class="ui left pointing inverted blue basic label" style="margin-right: 0em;">
         12

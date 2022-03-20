@@ -20,7 +20,7 @@
               data-position="bottom left">
               <i
                 class="sun icon light"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
+                style="margin-top: 0.4em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
               />
             </a>
             <input
