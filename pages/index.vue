@@ -1,12 +1,22 @@
 <template>
-  <div class="ui center aligned home">
-    <div class="ui vertical inverted masthead bg texshad center aligned segment second blurred">
-      <div class="ui text container">
-        <h1 class="ui inverted header" style="color: #fbbd08!important;">
+  <div class="">
+    <div class="absolute top-0 bottom-0 left-0 right-0 pt-28 z-20 text-center flex justify-center ">
+      <div class="masthead">
+        <h1 class="text-3xl ui inverted header" style="color: #fbbd08!important;">
           CraftOS
         </h1>
-        <h2 style="font-family: MinecraftiaRegular; margin-top: -0.5em;">Our World Is A Simulation</h2>
+        <h2 style="font-family: MinecraftiaRegular; margin-top: -0.5em;">
+          Our World Is A Simulation
+        </h2>
+        <!--        <div class="mt-5 p-5 rounded">-->
+        <!--          <p>-->
+        <!--            By letting the software decide and handling all the govermental activities-->
+        <!--          </p>-->
+        <!--        </div>-->
       </div>
+    </div>
+    <div class="ui center aligned home">
+      <div class="ui vertical inverted masthead bg texshad center aligned segment second blurred"/>
     </div>
   </div>
 </template>
@@ -14,8 +24,13 @@
 <script>
 export default {
   auth: false,
-
-  mounted() {}
+  data() {
+    return {
+      stats: []
+    }
+  },
+  mounted() {
+  }
 }
 </script>
 

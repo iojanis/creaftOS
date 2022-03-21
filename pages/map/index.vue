@@ -7,7 +7,7 @@
       <div class="center">
         <div style="min-width: 300px;">
           <h3 class="ui white header">
-            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> MAP IS UNAVAILABLE.</span>
+            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> MAP IS UNAVAILABLE.</span>
           </h3>
           <p>THE MAP IS UNDER DEVELOPMENT.</p>
           <p>PLEASE USE TEAMS FOR PROPERTY MANAGEMENT.</p>

@@ -14,7 +14,7 @@ const teamSchema = new Schema({
     type: String
   },
   whitelist: {
-    type: String
+    type: [String]
   },
   xp: {
     type: String

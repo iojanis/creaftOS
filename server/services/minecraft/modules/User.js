@@ -97,7 +97,7 @@ module.exports = function User() {
               setTimeout(function () {
                 server.util.actionbar(
                   event.player,
-                  'Your balance in the bank: ' + user.xp + '°',
+                  'Your balance in the bank: ' + (user.xp).toFixed(2) + '°',
                   'green'
                 )
                 setTimeout(function () {
@@ -157,7 +157,7 @@ module.exports = function User() {
             )
             const newToken = server.TokenDb({
               username: player,
-              code: code,
+              code,
               activation: false
             })
             newToken.save()
@@ -232,7 +232,7 @@ module.exports = function User() {
       const code = parseInt(options.ticket)
       const password = options.password
       const passwordConfirm = options.passwordConfirm
-      server.TokenDb.findOne({ code: code, activation: false }).then((user) => {
+      server.TokenDb.findOne({ code, activation: false }).then((user) => {
         if (password !== passwordConfirm) {
           server.io.to(client.id).emit('account-creation-failed', 'Password do not match...')
           return
@@ -240,7 +240,7 @@ module.exports = function User() {
         if (user) {
           server.UserDb.create({
             username: user.username,
-            password: password,
+            password,
             email: user.username + '@lol.de',
             uuid: user.username,
             experience: 111,
@@ -269,9 +269,9 @@ module.exports = function User() {
     },
     createDebugUser(username, email, password) {
       server.UserDb.create({
-        username: username,
-        email: email,
-        password: password,
+        username,
+        email,
+        password,
         experience: 111,
         kills: 0,
         total_kills: 0,
@@ -297,14 +297,14 @@ module.exports = function User() {
       console.info(prefix + 'get all Items from DataDB')
       server.DataDb.find({}).then((items) => {
         console.info(prefix + 'found ' + items.length + ' items in DataDB')
-        server.ItemDb.findOne({ username: username }).then((exItem) => {
+        server.ItemDb.findOne({ username }).then((exItem) => {
           if (exItem) {
             console.info(prefix + 'found an item in UserDb... exiting now')
           } else {
             items.forEach((item) => {
               console.dir(item)
               server.ItemDb.create({
-                username: username,
+                username,
                 item: item.item,
                 name: item.name,
                 amount: 0,
@@ -322,7 +322,7 @@ module.exports = function User() {
       // todo: Research Upgrade
     },
     isOnline(player) {
-      return server.onlinePlayers.indexOf(player) > -1
+      return server.onlinePlayers.includes(player)
     },
     setOffline(player) {
       server.UserDb.updateOne(
@@ -332,7 +332,8 @@ module.exports = function User() {
             online: false
           }
         }
-      ).then(() => {})
+      ).then(() => {
+      })
     },
     isAdmin(player) {
       // todo: implement isAdmin in user-module

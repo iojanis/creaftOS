@@ -34,7 +34,8 @@ module.exports = function Socket() {
               server.io.to(user).emit('init_user', {
                 isOnline: dbUser.online,
                 username: user,
-                bountyStatus: dbUser.bounty
+                bountyStatus: dbUser.bounty,
+                currentTeam: dbUser.team
               })
               server.item.initStockFor(user)
               server.market.getRecentMarketItems(user)
@@ -65,9 +66,9 @@ module.exports = function Socket() {
         }
       }
       const SocketUser = {
-        username: username,
-        token: token,
-        id: id
+        username,
+        token,
+        id
       }
       server.linkedClients.push(SocketUser)
       server.socket.getAllLinkedSocketIds()

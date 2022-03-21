@@ -12,13 +12,14 @@ module.exports = function Stats() {
   })
 
   server.stats = {
-    noteItemPrice(item, price) {
+    noteItemPrice(item, price, amount) {
       console.info('[C/Stats]: ' + item + ' at price ' + ' ' + price)
-      server.StatDb.insert({ attribute: item, value: price })
+      server.StatDb.create({ attribute: item, type: 'item', value: price, amount })
     },
     noteUserExp(user) {
       console.info('[C/Stats]: ' + user)
-      server.StatDb.insert({ attribute: user.username, value: user.price })
+      // server.StatDb
+      server.StatDb.create({ type: 'user', attribute: user.username, value: user.price })
     },
     noteAllUsersExp() {
       server.UserDb.find({}).then((users) => {

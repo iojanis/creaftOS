@@ -1,31 +1,35 @@
 <template>
   <div class="ui inventory container padded" style="padding-top: 7.5em!important; padding-bottom: 7em!important;">
-    <!--    <div class="overlay">-->
-    <!--      <div class="center">-->
-    <!--        <div style="min-width: 300px;">-->
-    <!--          <h3 class="ui white header">-->
-    <!--            <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> BANK IS UNAVAILABLE.</span>-->
-    <!--          </h3>-->
-    <!--          <p>BANKING IS UNDER DEVELOPMENT.</p>-->
-    <!--          <p>THANK YOU FOR UNDERSTANDING.</p>-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <div class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred" style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;">
+    <div class="overlay">
+      <div class="center">
+        <div style="min-width: 300px;">
+          <h3 class="ui white header">
+            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> BANK IS UNAVAILABLE.</span>
+          </h3>
+          <p>BANKING IS UNDER DEVELOPMENT.</p>
+          <p>THANK YOU FOR UNDERSTANDING.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
+         style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;">
       <div class="ui container item" style="border: none!important; ">
         <div class="ui form" style="width: 100%;">
           <div class="ui big fluid transparent icon input">
             <a data-tooltip="Transfer XP" style="cursor: pointer" data-inverted="" data-position="bottom left">
               <i
                 class="plus icon light"
-                style="margin-top: 0em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em; display: none;"/>
+                style="margin-top: 0em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em; display: none;"
+              />
             </a>
             <input v-model="search" style="text-align: center; color: #ffffff!important;padding: 0px" placeholder="Search" autocomplete="off">
-            <i v-if="search.length > 0" class="remove link icon" style="color: rgba(0, 0, 0, 0.34); margin-right: 2.1em; margin-top: 0.15em;" @click="search = ''"/>
+            <i v-if="search.length > 0" class="remove link icon"
+               style="color: rgba(0, 0, 0, 0.34); margin-right: 2.1em; margin-top: 0.15em;" @click="search = ''"/>
             <a data-tooltip="Transfer XP" style="cursor: pointer" data-inverted="" data-position="bottom right">
               <i
                 class="exchange icon light"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"/>
+                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
+              />
             </a>
           </div>
         </div>
@@ -35,7 +39,8 @@
     <transition
       v-if="false"
       name="fadeDown"
-      appear>
+      appear
+    >
       <div class="bitcoin-price">
         <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
           <defs>
@@ -62,14 +67,18 @@
       class="ui relaxed inverted bordered list stackable two column grid"
       style="margin-top: 0.5em!important; padding-top: 0em!important;"
       name="fadeDown"
-      appear>
+      appear
+    >
       <div
         v-for="item in items"
         :key="item.type"
         class="bordered column item noselect"
-        style="height: 52px;">
-        <img :src="'https://minotar.net/avatar/rgby'" draggable="false" class="ui avatar image" style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;">
-        <img :src="'/mcicons/'+item.type+'-'+item.meta+'.png'" draggable="false" class="ui avatar image" style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;">
+        style="height: 52px;"
+      >
+        <img :src="'https://minotar.net/avatar/rgby'" draggable="false" class="ui avatar image"
+             style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;">
+        <img :src="'/mcicons/'+item.type+'-'+item.meta+'.png'" draggable="false" class="ui avatar image"
+             style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;">
         <div class="content">
           <div class="description">
             <span>{{ new Date().toDateString() }}</span>
@@ -291,7 +300,39 @@ export default {
     }
   },
   mounted() {
-    const data = { '2019-01-01': 869.47, '2019-01-02': 941.2167, '2019-01-03': 832.155, '2019-01-04': 863.6267, '2019-01-05': 835.5983, '2019-01-06': 483.165, '2019-01-07': 441.4583, '2019-01-08': 429.9917, '2019-01-09': 428.2917, '2019-01-10': 669.5825, '2019-01-11': 660.9583, '2019-01-12': 658.6725, '2019-01-13': 540.1583, '2019-01-14': 706.1725, '2019-01-15': 604.1333, '2019-01-16': 630.2567, '2019-01-17': 665.41, '2019-01-18': 630.785, '2019-01-19': 708.9633, '2019-01-20': 552.8933, '2019-01-21': 548.69, '2019-01-22': 598.2183, '2019-01-23': 576.01, '2019-01-24': 598.2717, '2019-01-25': 582.2, '2019-01-26': 580.775, '2019-01-27': 553.0133, '2019-01-28': 454.48, '2019-01-29': 421.12, '2019-01-30': 482.3, '2019-01-31': 441.985 }
+    const data = {
+      '2019-01-01': 869.47,
+      '2019-01-02': 941.2167,
+      '2019-01-03': 832.155,
+      '2019-01-04': 863.6267,
+      '2019-01-05': 835.5983,
+      '2019-01-06': 483.165,
+      '2019-01-07': 441.4583,
+      '2019-01-08': 429.9917,
+      '2019-01-09': 428.2917,
+      '2019-01-10': 669.5825,
+      '2019-01-11': 660.9583,
+      '2019-01-12': 658.6725,
+      '2019-01-13': 540.1583,
+      '2019-01-14': 706.1725,
+      '2019-01-15': 604.1333,
+      '2019-01-16': 630.2567,
+      '2019-01-17': 665.41,
+      '2019-01-18': 630.785,
+      '2019-01-19': 708.9633,
+      '2019-01-20': 552.8933,
+      '2019-01-21': 548.69,
+      '2019-01-22': 598.2183,
+      '2019-01-23': 576.01,
+      '2019-01-24': 598.2717,
+      '2019-01-25': 582.2,
+      '2019-01-26': 580.775,
+      '2019-01-27': 553.0133,
+      '2019-01-28': 454.48,
+      '2019-01-29': 421.12,
+      '2019-01-30': 482.3,
+      '2019-01-31': 441.985
+    }
     for (const key in data) {
       this.dataset.push(data[key])
       this.labels.xLabels.push(key)

@@ -25,27 +25,28 @@ module.exports = function Team() {
 
   server.team = {
     createTeam(player, name) {
+      console.log({ createTeam: { player, name } })
       server.UserDb.findOne({ username: player })
         .then((user) => {
           if (user.online) {
             const slug = getSlug(name)
-            server.TeamDb.findOne({ slug: slug })
+            server.TeamDb.findOne({ slug })
               .then((team) => {
                 if (!team) {
                   server.TeamDb.create({
-                    name: name,
+                    name,
                     slug: getSlug(name),
                     leader: user.username,
                     whitelist: [user.username]
                   })
-                  server.UserDb.update(
+                  server.UserDb.updateOne(
                     { username: user.username },
                     { $set: { teamed: true, team: slug } }
                   ).then(() => {
                     if (user.teamed) {
                       server.send('team leave ' + player)
                     }
-                    server.send('team add ' + slug + ' ' + name)
+                    server.send('team add ' + slug + ' "' + name + '"')
                     server.send('team join ' + slug + ' ' + user.username)
                     return true
                   })
@@ -58,15 +59,18 @@ module.exports = function Team() {
     },
 
     joinTeam(player, name) {
+      console.log({ joinTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
           const slug = getSlug(name)
-          server.TeamDb.findOne({ slug: slug }).then((team) => {
-            if (!team) return false
+          server.TeamDb.findOne({ slug }).then((team) => {
+            if (!team) {
+              return false
+            }
             if (team.whitelist.indexOf(user.username) < -1) {
               return false
             } else {
-              server.UserDb.update(
+              server.UserDb.updateOne(
                 { username: user.username },
                 { $set: { teamed: true, team: slug } }
               )
@@ -81,9 +85,10 @@ module.exports = function Team() {
     },
 
     leaveTeam(player) {
+      console.log({ leaveTeam: { player } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online && user.teamed) {
-          server.UserDb.update(
+          server.UserDb.updateOne(
             { username: user.username },
             { $set: { teamed: false, team: null } }
           )
@@ -98,22 +103,23 @@ module.exports = function Team() {
     },
 
     changeTeam(player, name) {
+      console.log({ changeTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online && user.teamed) {
-          server.UserDb.update(
+          server.UserDb.updateOne(
             { username: user.username },
             { $set: { teamed: false, team: null } }
           ).then(() => {
             server.send('team leave ' & user.username)
             const slug = getSlug(name)
-            server.TeamDb.findOne({ slug: slug }).then((team) => {
+            server.TeamDb.findOne({ slug }).then((team) => {
               if (!team) {
                 return false
               }
               if (team.whitelist.indexOf(user.username) < -1) {
                 return false
               } else {
-                server.UserDb.update(
+                server.UserDb.updateOne(
                   { username: user.username },
                   { $set: { teamed: true, team: slug } }
                 ).then(() => {
@@ -132,6 +138,7 @@ module.exports = function Team() {
     },
 
     addToTeam(leader, player) {
+      console.log({ addToTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
           server.TeamDb.findOne({
@@ -139,7 +146,7 @@ module.exports = function Team() {
             leader: user.username
           }).then((team) => {
             if (team) {
-              server.TeamDb.update(
+              server.TeamDb.updateOne(
                 {
                   slug: team.name,
                   whitelist: { $ne: leader }
@@ -161,6 +168,7 @@ module.exports = function Team() {
     },
 
     removeFromTeam(leader, player) {
+      console.log({ removeFromTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
           server.TeamDb.findOne({
@@ -168,7 +176,7 @@ module.exports = function Team() {
             leader: user.username
           }).then((team) => {
             if (team) {
-              server.TeamDb.update(
+              server.TeamDb.updateOne(
                 {
                   slug: team.name,
                   whitelist: { $ne: leader }

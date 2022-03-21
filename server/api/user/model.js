@@ -1,4 +1,3 @@
-import crypto from 'crypto'
 import bcrypt from 'bcrypt'
 import mongoose, { Schema } from 'mongoose'
 import mongooseKeywords from 'mongoose-keywords'
@@ -56,6 +55,10 @@ const userSchema = new Schema(
       type: Number,
       default: 0
     },
+    teamed: {
+      type: Boolean,
+      default: false
+    },
     team: {
       type: String,
       default: ''
@@ -96,7 +99,9 @@ const userSchema = new Schema(
 )
 
 userSchema.pre('save', function (next) {
-  if (!this.isModified('password')) return next()
+  if (!this.isModified('password')) {
+    return next()
+  }
 
   /* istanbul ignore next */
   const rounds = env === 'test' ? 1 : 9

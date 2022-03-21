@@ -5,7 +5,9 @@
     <app-usermenu/>
     <app-overlay/>
     <app-crashed/>
-    <nuxt/>
+    <div>
+      <nuxt/>
+    </div>
     <app-nav/>
   </div>
 </template>

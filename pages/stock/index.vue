@@ -1,7 +1,7 @@
 <template>
   <div
-    class="ui inventory fluid container padded"
-    style="padding-top: 8em!important; padding-bottom: 8em!important; padding-left: 2em; padding-right: 2em;"
+    class="ui inventory fluid container padded pt-32 pb-64"
+    style=" padding-left: 2em; padding-right: 2em;"
   >
     <div
       v-if="offerModal"
@@ -210,12 +210,11 @@
 
     <div
       class="ui relaxed selection inverted bordered list"
-      style="margin-bottom: 5em;"
     >
       <a
         v-for="item in filteredItems"
-        :data="item"
         :key="item._id"
+        :data="item"
         :class="{ market: item.market }"
         draggable="false"
         class="noselect item"
@@ -231,8 +230,7 @@
         <!--        <span class="floating ui inverted label inventory-item" style="z-index: 10!important;">1</span>-->
         <span
           style="position: relative; left: 20px; top: -10px; text-shadow: 2px 2px #000000, -2px -2px #000000; text-align: right!important;"
-        >{{ item.amount }}</span
-        >
+        >{{ item.amount }}</span>
         <!--        <span style="position: relative; left: 30px; top: -10px;background: #201c31!important;opacity: 0.95;border: 2px solid #4b4a5a!important;border-radius: 4px;padding: 2px;">{{ Math.floor(Math.random() * 63) }}</span>-->
       </a>
     </div>
@@ -333,7 +331,7 @@ export default {
         'set_market_item',
         this.selectedOffer.item,
         this.amount,
-        this.limit | 1
+        this.limit
       )
     },
     changeTransferRate() {

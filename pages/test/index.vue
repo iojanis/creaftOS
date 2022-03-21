@@ -1,5 +1,5 @@
 <template>
-  <div class="ui inverted container normal-font">
+  <div class="ui inverted container normal-font pt-16 pb-32">
     <div class="ui inverted middle aligned list">
       <div class="item" style="margin-top: 1em; padding-bottom: 1em;">
         <div class="header content">
@@ -32,7 +32,7 @@
       </div>
       <div class="item">
         <div class="right floated content">
-          {{ $store.state.currentExp }}
+          {{ ($store.state.currentExp).toFixed(2) }}°
         </div>
         <div class="content">
           currentExp
@@ -44,6 +44,14 @@
         </div>
         <div class="content">
           bountyStatus
+        </div>
+      </div>
+      <div class="item">
+        <div class="right floated content">
+          {{ $store.state.currentTeam }}
+        </div>
+        <div class="content">
+          currentTeam
         </div>
       </div>
       <div class="item">
@@ -162,16 +170,16 @@
             </div>
           </div>
           <div class="white content">
-            <span style="color: white">create-team (team module broken, need to have a look into the new team command format.</span>
+            <span style="color: white">create-team</span>
             <div class="ui inverted input">
-              <input v-model="newTeamName" placeholder="Team Name">
+              <input v-model="teamName" placeholder="Team Name">
             </div>
           </div>
         </form>
       </div>
 
       <div class="inverted item">
-        <form class="ui inverted form" @submit.prevent="transferExp">
+        <form class="ui inverted form" @submit.prevent="changeTeam">
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
@@ -180,9 +188,96 @@
             </div>
           </div>
           <div class="white content">
-            <span style="color: white">create-team</span>
+            <span style="color: white">change-team</span>
             <div class="ui inverted input">
-              <input v-model="newTeamName" placeholder="Team Name">
+              <input v-model="teamName" placeholder="Team Name">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="joinTeam">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon"/>
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">joinTeam</span>
+            <div class="ui inverted input">
+              <input v-model="teamName" placeholder="Team Name">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="leaveTeam">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon"/>
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">leaveTeam</span>
+          </div>
+        </form>
+      </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="addToTeam">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon"/>
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">addToTeam</span>
+            <div class="ui inverted input">
+              <input v-model="teamPlayer" placeholder="Team Player">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="removeFromTeam">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon"/>
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">removeFromTeam</span>
+            <div class="ui inverted input">
+              <input v-model="teamPlayer" placeholder="Team Player">
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="createZone">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon"/>
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">createZone</span>
+            <div class="ui inverted input">
+              <input v-model="zoneName" placeholder="Zone Name">
             </div>
           </div>
         </form>
@@ -194,11 +289,13 @@
 <script>
 export default {
   auth: true,
-  layout: 'terminal',
+  layout: 'default',
   data() {
     return {
       chatMessage: '',
-      newTeamName: '',
+      teamName: '',
+      zoneName: '',
+      teamPlayer: '',
       expAmount: '',
       expReceiver: ''
     }
@@ -224,7 +321,25 @@ export default {
       this.$socket.emit('transfer-exp', this.expReceiver, this.expAmount)
     },
     createTeam() {
-      this.$socket.emit('create_team', this.newTeamName)
+      this.$socket.emit('create_team', this.teamName)
+    },
+    joinTeam() {
+      this.$socket.emit('join_team', this.teamName)
+    },
+    leaveTeam() {
+      this.$socket.emit('leave_team')
+    },
+    changeTeam() {
+      this.$socket.emit('change_team', this.teamName)
+    },
+    addToTeam() {
+      this.$socket.emit('add_to_team', this.teamPlayer)
+    },
+    removeFromTeam() {
+      this.$socket.emit('remove_from_team', this.teamPlayer)
+    },
+    createZone() {
+      this.$socket.emit('create_zone', this.zoneName)
     }
   }
 }

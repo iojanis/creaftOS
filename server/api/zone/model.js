@@ -20,19 +20,19 @@ const zoneSchema = new Schema({
     type: String
   },
   p1: {
-    type: String
+    type: [String]
   },
   p2: {
-    type: String
+    type: [String]
   },
   p3: {
-    type: String
+    type: [String]
   },
   p4: {
-    type: String
+    type: [String]
   },
   pcenter: {
-    type: String
+    type: [String]
   }
 }, {
   timestamps: true,

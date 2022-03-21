@@ -3,7 +3,7 @@
     <div class="center">
       <div>
         <h3 class="ui white header">
-          <span style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"> CONNECTION INTERRUPTED.</span>
+          <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> CONNECTION INTERRUPTED.</span>
         </h3>
         <p>YOU'VE BEEN DISCONNECTED FROM THE SERVER.</p>
         <p>CHECK YOUR INTERNET CONNECTION.</p>

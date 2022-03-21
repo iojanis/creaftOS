@@ -1,5 +1,6 @@
 module.exports = function Zone() {
   const server = this
+  const getSlug = require('speakingurl')
 
   server.io.on('connection', (client) => {
     client.on('create_zone', (options) => {
@@ -96,20 +97,20 @@ module.exports = function Zone() {
             if (zone && zone.username === player) {
               server.util.actionbar(
                 player,
-                `You're in a friendly Zone!`,
+                'You\'re in a friendly Zone!',
                 'green'
               )
-              server.send('gamemode ' + player + ' survival')
+              server.send('gamemode survival ' + player)
               server.send(
                 'tellraw ' +
-                  player +
-                  ' ["",{"text":"[' +
-                  zone.name +
-                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
-                  zone.slug +
-                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  zone.pcenter[0] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                player +
+                ' ["",{"text":"[' +
+                zone.name +
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                zone.slug +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                zone.pcenter[0] +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   zone.pcenter[1] +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
                   zone.pcenter[2] +
@@ -118,7 +119,7 @@ module.exports = function Zone() {
             } else if (zone) {
               server.util.actionbar(
                 player,
-                `You're in a foreign Zone!`,
+                'You\'re in a foreign Zone!',
                 'yellow'
               )
               server.send(
@@ -126,30 +127,31 @@ module.exports = function Zone() {
                   player +
                   ' ["",{"text":"[' +
                   zone.name +
-                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
-                  zone.slug +
-                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  zone.pcenter[0] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  zone.pcenter[1] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  zone.pcenter[2] +
-                  '","bold":true,"italic":true,"color":"none"}]'
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                zone.slug +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                zone.pcenter[0] +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                zone.pcenter[1] +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                zone.pcenter[2] +
+                '","bold":true,"italic":true,"color":"none"}]'
               )
+              server.send('gamemode adventure ' + player)
             } else {
               server.UserDb.findOne({ username: player }).then((user) => {
-                server.util.actionbar(player, `You're in a free Zone!`, 'blue')
-                server.send('gamemode ' + player + ' survival')
+                server.util.actionbar(player, 'You\'re in a free Zone!', 'blue')
+                server.send('gamemode survival ' + player)
                 server.send(
                   'tellraw ' +
-                    player +
-                    ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                    parseInt(user.joined_x) +
-                    '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                    parseInt(user.joined_y) +
-                    '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                    parseInt(user.joined_z) +
-                    '","bold":true,"italic":true,"color":"none"}]'
+                  player +
+                  ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  parseInt(user.joined_x) +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                  parseInt(user.joined_y) +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                  parseInt(user.joined_z) +
+                  '","bold":true,"italic":true,"color":"none"}]'
                 )
               })
             }
@@ -159,7 +161,7 @@ module.exports = function Zone() {
       })
     },
 
-    createZone(player, options) {
+    createZone(player, name) {
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
           const cx = Math.round(user.joined_x)
@@ -222,24 +224,24 @@ module.exports = function Zone() {
               }
             ]
           }).then((zone) => {
-            const implemented = false
+            const implemented = true
             if (zone && zone.username === player) {
               server.util.actionbar(
                 player,
-                `You're in a friendly Zone!`,
+                'You\'re in a friendly Zone!',
                 'green'
               )
-              server.send('gamemode ' + player + ' survival')
+              server.send('gamemode survival ' + player)
               server.send(
                 'tellraw ' +
-                  player +
-                  ' ["",{"text":"[' +
-                  zone.name +
-                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
-                  zone.slug +
-                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  zone.pcenter[0] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                player +
+                ' ["",{"text":"[' +
+                zone.name +
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                zone.slug +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                zone.pcenter[0] +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   zone.pcenter[1] +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
                   zone.pcenter[2] +
@@ -248,7 +250,7 @@ module.exports = function Zone() {
             } else if (zone) {
               server.util.actionbar(
                 player,
-                `You're in a foreign Zone!`,
+                'You\'re in a foreign Zone!',
                 'yellow'
               )
               server.send(
@@ -268,31 +270,32 @@ module.exports = function Zone() {
               )
             } else if (implemented) {
               server.UserDb.findOne({ username: player }).then((user) => {
-                server.util.actionbar(player, `You're in a free Zone!`, 'blue')
+                server.util.actionbar(player, 'You\'re in a free Zone!', 'blue')
 
-                const owner = 'name=' + user.username
-                const notowner = 'name=!' + user.username
+                const owner = 'team=' + user.team
+                const notowner = 'team=!' + user.team
 
                 server.ZoneDb.create({
-                  'cx': cx,
-                  'cy': cy,
-                  'cz': cz,
-                  'ox': ox,
-                  'oz': oz,
-                  'dx': dx,
-                  'dz': dz,
-                  'mx': mx,
-                  'mz': mz,
-                  'nx': nx,
-                  'nz': nz,
-                  'username': user.username,
-                  'name': name,
-                  'slug': getSlug(name),
-                  'team': user.team,
-                  'p1': [nx, nz],
-                  'p2': [ox, oz],
-                  'p3': [mx, mz],
-                  'p4': [dx, dz]
+                  cx,
+                  cy,
+                  cz,
+                  ox,
+                  oz,
+                  dx,
+                  dz,
+                  mx,
+                  mz,
+                  nx,
+                  nz,
+                  username: user.username,
+                  name,
+                  slug: getSlug(name),
+                  team: user.team,
+                  p1: [nx, nz],
+                  p2: [ox, oz],
+                  p3: [mx, mz],
+                  p4: [dx, dz],
+                  pcenter: [cx, cy, cz]
                 }).then(() => {
 
                 })
@@ -437,16 +440,16 @@ module.exports = function Zone() {
                 }, 15 * 200)
                 server.send(
                   '/tellraw ' +
-                    user.username +
-                    ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://CraftOS"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                    cx +
-                    '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                    cy +
-                    '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                    cz +
-                    '","bold":true,"italic":true,"color":"none"}]'
+                  user.username +
+                  ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://CraftOS"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  cx +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                  cy +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                  cz +
+                  '","bold":true,"italic":true,"color":"none"}]'
                 )
-                server.send('gamemode ' + player + ' survival')
+                server.send('gamemode survival ' + player)
               })
             }
           })
@@ -455,9 +458,11 @@ module.exports = function Zone() {
       })
     }, // todo: Implement ASAP
 
-    updateZone() {},
+    updateZone() {
+    },
 
-    removeZone() {},
+    removeZone() {
+    },
 
     tpToZone(player, zone) {
       server.ZoneDb.findOne({ _id: zone }).then((zone) => {

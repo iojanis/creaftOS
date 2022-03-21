@@ -140,6 +140,7 @@ module.exports = function Boot() {
           console.info('[C/Boot]: DataDB is empty! Items will be inserted...')
           let count = 0
           rawData.forEach(function (item) {
+            item.item = item.item.toLowerCase()
             const newData = new server.DataDb(item)
             newData.save()
             count++
@@ -182,8 +183,11 @@ module.exports = function Boot() {
 function readJson(path) {
   return new Promise((resolve) => {
     fs.readFile(path, (err, data) => {
-      if (err) resolve({})
-      else resolve(JSON.parse(data))
+      if (err) {
+        resolve({})
+      } else {
+        resolve(JSON.parse(data))
+      }
     })
   })
 }
@@ -191,8 +195,11 @@ function readJson(path) {
 function writeJson(path, data) {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, JSON.stringify(data, null, 4), (err) => {
-      if (err) reject(err)
-      else resolve(data)
+      if (err) {
+        reject(err)
+      } else {
+        resolve(data)
+      }
     })
   })
 }

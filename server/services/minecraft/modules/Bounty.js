@@ -27,16 +27,18 @@ module.exports = function Bounty() {
 
   server.bounty = {
     initBounty(player) {
-      if (!server.user.isOnline(player)) { console.error(`${player} is not Online (in-game)...`) }
+      if (!server.user.isOnline(player)) {
+        console.error(`${player} is not Online (in-game)...`)
+      }
       server.send(
-        `scoreboard objectives add killCount playerKillCount`
+        'scoreboard objectives add killCount playerKillCount'
       )
     },
     checkBounty(player, by, killer) {
       server.UserDb.findOne({ username: killer })
         .then((dbKiller) => {
-          const killCount = parseInt(dbKiller.total_kills) + 1
           if (dbKiller) {
+            const killCount = parseInt(dbKiller.total_kills) + 1
             server
               .send(
                 `execute if score ${killer} killCount matches ${killCount}`,

@@ -18,7 +18,8 @@ export default {
       currentItems: [],
       currentMarketItems: [],
       currentMarketItemStats: [],
-      currentExp: 0
+      currentExp: 0,
+      currentTeam: 0
     }
   },
   mutations: {
@@ -67,7 +68,9 @@ export default {
       if (index > -1) {
         state.onlinePlayers.splice(index, 1)
       }
-      if (player === state.username) state.isOnline = false
+      if (player === state.username) {
+        state.isOnline = false
+      }
       console.log('[S]: Player left the game: ' + player)
     },
     SOCKET_INIT_CHAT(state, event) {
@@ -79,6 +82,7 @@ export default {
       state.isOnline = event.isOnline
       state.username = event.username
       state.bountyStatus = event.bountyStatus
+      state.currentTeam = event.currentTeam
       console.log('[S]: User-initialized')
     },
     SOCKET_INIT_XP(state, event) {
@@ -154,20 +158,20 @@ export default {
       this._vm.$socket.emit('transfer_exp', receiver, amount)
     },
     DOWNLOAD_STOCK_ITEM(state, item, rate) {
-      this._vm.$socket.emit('download_stock_item', { item: item, rate: rate })
+      this._vm.$socket.emit('download_stock_item', { item, rate })
     },
     UPLOAD_STOCK_ITEM(state, item, rate) {
-      this._vm.$socket.emit('upload_stock_item', { item: item, rate: rate })
+      this._vm.$socket.emit('upload_stock_item', { item, rate })
     },
     SET_MARKET_ITEM(state, item, price) {
-      this._vm.$socket.emit('set_market_item', { item: item, price: price })
+      this._vm.$socket.emit('set_market_item', { item, price })
     },
     UNSET_MARKET_ITEM(state, item) {
-      this._vm.$socket.emit('unset_market_item', { item: item })
+      this._vm.$socket.emit('unset_market_item', { item })
     },
     BUY_MARKET_ITEM(state, item, amount, price) {
       console.log(item, amount, price)
-      this._vm.$socket.emit('buy_market_item', { item: item, amount: amount, price: price })
+      this._vm.$socket.emit('buy_market_item', { item, amount, price })
     },
     SET_TOKEN(state, token) {
       state.token = token

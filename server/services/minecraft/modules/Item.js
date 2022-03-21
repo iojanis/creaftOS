@@ -37,7 +37,9 @@ module.exports = function Item() {
       const _filter = (filter === 0) ? { test: 1 } : { test: 0 }
       await server.ItemDb.find({ username }, _filter).then(
         (items) => {
-          if (items) return items
+          if (items) {
+            return items
+          }
         }
       ).catch(
         (err) => {
@@ -63,10 +65,12 @@ module.exports = function Item() {
       )
     },
     removeItemsFromGame(username, amount, item) {
-      if (!server.user.isOnline(username)) { return Promise.reject(new Error('not-online-ingame')) }
-      server.ItemDb.findOne({ item: item }).then((remItem) => {
+      if (!server.user.isOnline(username)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
+      server.ItemDb.findOne({ item }).then((remItem) => {
         server.UserDb.updateOne(
-          { username: username },
+          { username },
           { $set: { last_item: item } }
         ).then(() => {
           server.send(
@@ -81,12 +85,16 @@ module.exports = function Item() {
       })
     },
     removeItemsFromDb(username, amount, name) {
-      if (!server.user.isOnline(username)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(username)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
       server.ItemDb.findOne({
         item: name,
-        username: username
+        username
       }).then((item) => {
-        if (item.amount === 0) { return Promise.reject(new Error('not-enough-items')) }
+        if (item.amount === 0) {
+          return Promise.reject(new Error('not-enough-items'))
+        }
         if (item && item.amount < amount) {
           amount = item.amount
         }
@@ -114,15 +122,17 @@ module.exports = function Item() {
       })
     },
     addItemsToGame(username, amount, item) {
-      if (!server.user.isOnline(username)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(username)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
       server.send('give ' + username + ' minecraft:' + item + ' ' + amount)
     },
     addItemsToDb(username, amount, item) {
       if (server.user.isOnline(username)) {
-        server.ItemDb.findOne({ username: username, item: item })
+        server.ItemDb.findOne({ username, item })
           .then(
             (dataItem) => {
-              server.ItemDb.update(dataItem._id, { $inc: { amount: amount } })
+              server.ItemDb.updateOne(dataItem._id, { $inc: { amount } })
                 .then((item) => {
                   server.item.updateItem(username, item)
                 })

@@ -25,7 +25,7 @@ module.exports = function Bank() {
   })
   server.bank = {
     async getCurrentExp(username) {
-      await server.UserDb.findOne({ username: username })
+      await server.UserDb.findOne({ username })
         .then((user) => {
           const xp = user.xp
           return xp
@@ -40,7 +40,9 @@ module.exports = function Bank() {
           new Error('api.takeFromGame: no-player-and-or-amount')
         )
       }
-      if (!server.user.isOnline(player)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(player)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
 
       if (parseFloat(amount) >= 11) {
         return server
@@ -66,7 +68,9 @@ module.exports = function Bank() {
           new Error('api.withdraw: no-player-and-or-amount')
         )
       }
-      if (!server.user.isOnline(player)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(player)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
 
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user && user.xp >= amount) {
@@ -83,7 +87,9 @@ module.exports = function Bank() {
           new Error('api.takeFromGame: no-player-and-or-amount')
         )
       }
-      if (!server.user.isOnline(player)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(player)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
 
       server.bank.takeFromGame(player, amount).then(() => {
         server.io.to(player).emit('bank_deposited', amount)
@@ -128,7 +134,9 @@ module.exports = function Bank() {
         })
     },
     addToGame(player, amount) {
-      if (!server.user.isOnline(player)) { return Promise.reject(new Error('not-online-ingame')) }
+      if (!server.user.isOnline(player)) {
+        return Promise.reject(new Error('not-online-ingame'))
+      }
       server.send('xp add ' + player + ' ' + parseFloat(amount) + ' levels').then(() => {
         server.io.to(player).emit('bank_added_to_game', amount)
       })

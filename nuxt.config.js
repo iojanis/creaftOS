@@ -32,7 +32,8 @@ module.exports = {
   */
   css: [
     '~/assets/semantic/dist/semantic.min.css',
-    // { src: '~/assets/transitions/vue2-animate.less', lang: 'less' }
+    '~/assets/main.css',
+    { src: '~/assets/transitions/vue2-animate.less', lang: 'less' }
   ],
 
   /*
@@ -80,19 +81,30 @@ module.exports = {
   router: {
     middleware: ['auth']
   },
+
+  buildModules: [
+    '@nuxt/postcss8'
+    // ...
+  ],
   /*
   ** Build configuration
   */
-  // build: {
-  //   extend(config, ctx) {
-  //     if (ctx.isDev && ctx.isClient) {
-  //       config.module.rules.push({
-  //         enforce: 'pre',
-  //         test: /\.(js|vue)$/,
-  //         loader: 'eslint-loader',
-  //         exclude: /(node_modules)/
-  //       })
-  //     }
-  //   }
-  // }
+  build: {
+    postcss: {
+      plugins: {
+        tailwindcss: {},
+        autoprefixer: {}
+      }
+    }
+    // extend(config, ctx) {
+    //   if (ctx.isDev && ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: 'pre',
+    //       test: /\.(js|vue)$/,
+    //       loader: 'eslint-loader',
+    //       exclude: /(node_modules)/
+    //     })
+    //   }
+    // }
+  }
 }
