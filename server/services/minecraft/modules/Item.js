@@ -66,7 +66,7 @@ module.exports = function Item () {
     },
     removeItemsFromGame (username, amount, item) {
       if (!server.user.isOnline(username)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
       server.ItemDb.findOne({ item }).then((remItem) => {
         server.UserDb.updateOne(
@@ -86,14 +86,14 @@ module.exports = function Item () {
     },
     removeItemsFromDb (username, amount, name) {
       if (!server.user.isOnline(username)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
       server.ItemDb.findOne({
         item: name,
         username
       }).then((item) => {
         if (item.amount === 0) {
-          return Promise.reject(new Error('not-enough-items'))
+          return
         }
         if (item && item.amount < amount) {
           amount = item.amount
@@ -123,7 +123,7 @@ module.exports = function Item () {
     },
     addItemsToGame (username, amount, item) {
       if (!server.user.isOnline(username)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
       server.send('give ' + username + ' minecraft:' + item + ' ' + amount)
     },

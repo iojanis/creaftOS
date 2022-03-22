@@ -1,4 +1,4 @@
-module.exports = function Bank() {
+module.exports = function Bank () {
   const server = this
   server.on('taken', (event) => {
     console.log(
@@ -24,7 +24,7 @@ module.exports = function Bank() {
     })
   })
   server.bank = {
-    async getCurrentExp(username) {
+    async getCurrentExp (username) {
       await server.UserDb.findOne({ username })
         .then((user) => {
           const xp = user.xp
@@ -34,14 +34,14 @@ module.exports = function Bank() {
           console.error(error)
         })
     },
-    takeFromGame(player, amount) {
+    takeFromGame (player, amount) {
       if (!player || !amount) {
         return Promise.reject(
           new Error('api.takeFromGame: no-player-and-or-amount')
         )
       }
       if (!server.user.isOnline(player)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
 
       if (parseFloat(amount) >= 11) {
@@ -62,14 +62,14 @@ module.exports = function Bank() {
           .catch(() => false)
       }
     },
-    withdraw(player, amount) {
+    withdraw (player, amount) {
       if (!player || !amount) {
         return Promise.reject(
           new Error('api.withdraw: no-player-and-or-amount')
         )
       }
       if (!server.user.isOnline(player)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
 
       server.UserDb.findOne({ username: player }).then((user) => {
@@ -81,21 +81,21 @@ module.exports = function Bank() {
         }
       })
     },
-    deposit(player, amount) {
+    deposit (player, amount) {
       if (!player || !amount) {
         return Promise.reject(
           new Error('api.takeFromGame: no-player-and-or-amount')
         )
       }
       if (!server.user.isOnline(player)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
 
       server.bank.takeFromGame(player, amount).then(() => {
         server.io.to(player).emit('bank_deposited', amount)
       })
     },
-    transaction(sender, amount, receiver) {
+    transaction (sender, amount, receiver) {
       const floatAmount = parseFloat(amount)
       server.UserDb.findOne({ username: sender })
         .then((user) => {
@@ -111,7 +111,7 @@ module.exports = function Bank() {
           console.error(err)
         })
     },
-    removeFromWeb(player, amount) {
+    removeFromWeb (player, amount) {
       return server.UserDb.updateOne(
         { username: player },
         { $inc: { xp: -parseFloat(amount) } }
@@ -120,7 +120,7 @@ module.exports = function Bank() {
         server.bank.updateXpDb(player)
       })
     },
-    addToWeb(player, amount) {
+    addToWeb (player, amount) {
       return server.UserDb.updateOne(
         { username: player },
         { $inc: { xp: parseFloat(amount) } }
@@ -133,18 +133,18 @@ module.exports = function Bank() {
           console.error(err)
         })
     },
-    addToGame(player, amount) {
+    addToGame (player, amount) {
       if (!server.user.isOnline(player)) {
-        return Promise.reject(new Error('not-online-ingame'))
+        return
       }
       server.send('xp add ' + player + ' ' + parseFloat(amount) + ' levels').then(() => {
         server.io.to(player).emit('bank_added_to_game', amount)
       })
     },
-    updateXp(player, exp) {
+    updateXp (player, exp) {
       server.io.to(player).emit('update_xp', { xp: exp })
     },
-    updateXpDb(player) {
+    updateXpDb (player) {
       server.UserDb.findOne({ username: player }).then((dbUser) => {
         server.io.to(dbUser.username).emit('update_xp', { xp: dbUser.xp })
         console.info(
