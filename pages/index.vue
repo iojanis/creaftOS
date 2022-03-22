@@ -8,15 +8,42 @@
         <h2 style="font-family: MinecraftiaRegular; margin-top: -0.5em;">
           Our World Is A Simulation
         </h2>
-        <!--        <div class="mt-5 p-5 rounded">-->
-        <!--          <p>-->
-        <!--            By letting the software decide and handling all the govermental activities-->
-        <!--          </p>-->
-        <!--        </div>-->
+        <div class="ui text container pt-8">
+          <p class="text-left mb-2">
+            Glad you are here.
+          </p>
+          <p class="text-justify mb-4">
+            We could use some help! This Minecraft server is meant to be collaborative. Think of it as a micro-society managed by an intelligent computer system. CraftOS is open source and provides the website you are on and a Minecraft server connected to it. Through it, you can trade items, buy properties via a map, chat, and more.
+          </p>
+          <div v-if="!$auth.loggedIn" class="item mt-2">
+            You can
+            <nuxt-link to="/login">
+              <span style="color: #ffffff;  margin-top: 8px"> Login</span>
+            </nuxt-link>
+            or
+            <nuxt-link to="/join">
+              <span style="color: #ffffff;  margin-top: 8px">Create an Account</span>
+            </nuxt-link>
+          </div>
+          <div class="mt-4">
+            <a href="https://github.com/iojanis/CraftOS" target="_blank" class="item ui inverted basic button">
+              Github
+            </a>
+            <a href="https://github.com/users/iojanis/projects/4" target="_blank" class="item ui inverted basic button">
+              Roadmap
+            </a>
+            <a href="https://discord.gg/B2qnDq4y" target="_blank" class="item ui inverted basic button">
+              Discord
+            </a>
+          </div>
+          <p class="text-center mt-4">
+            What are you waiting for? Connect to <span class="bg-gray-500/30 rounded-sm px-2 py-1 select-all">rea.lity.cc</span>
+          </p>
+        </div>
       </div>
     </div>
     <div class="ui center aligned home">
-      <div class="ui vertical inverted masthead bg texshad center aligned segment second blurred"/>
+      <div class="ui vertical inverted masthead bg texshad center aligned segment second blurred" />
     </div>
   </div>
 </template>
@@ -24,12 +51,12 @@
 <script>
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       stats: []
     }
   },
-  mounted() {
+  mounted () {
   }
 }
 </script>

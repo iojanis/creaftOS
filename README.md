@@ -1,6 +1,6 @@
 # CraftOS
 
-Readme coming soon.
+Readme coming soon. Try it out in the meantime: https://rea.lity.cc
 
 <img width="952" alt="Bildschirmfoto 2021-10-25 um 15 43 05" src="https://user-images.githubusercontent.com/12971934/138706856-20ada551-b3ee-478c-bca9-9ee39766c19a.png">
 <img width="1109" alt="Bildschirmfoto 2021-10-25 um 15 38 21" src="https://user-images.githubusercontent.com/12971934/138706460-cd46b3ef-2b86-4cb9-8f2b-d0bf879e26ef.png">

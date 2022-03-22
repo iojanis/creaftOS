@@ -54,9 +54,8 @@ export default {
             username: this.username,
             password: this.password
           }
-        }, (response) => {
-          this.$router.push('chat')
-        })
+        }).then(() =>
+          this.$router.push('chat'))
       } catch (e) {
         this.password = ''
         // eslint-disable-next-line no-console

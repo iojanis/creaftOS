@@ -3,7 +3,7 @@
   Description: Handles User-related events and actions.
   Author: Janis Jendraß
  */
-module.exports = function User() {
+module.exports = function User () {
   const server = this
   server.onlinePlayers = []
   server.onlineCount = () => server.onlinePlayers.length
@@ -53,7 +53,7 @@ module.exports = function User() {
   })
 
   server.user = {
-    setOnline(event) {
+    setOnline (event) {
       server.UserDb.findOne({ username: event.player }).then((user) => {
         if (user) {
           const OnlineUserCount = server.UserDb.find({ online: true }).count()
@@ -120,7 +120,7 @@ module.exports = function User() {
         }
       })
     },
-    createToken(player) {
+    createToken (player) {
       server.TokenDb.findOne({ username: player, activation: false }).then(
         (user) => {
           if (user) {
@@ -174,7 +174,7 @@ module.exports = function User() {
         }
       )
     },
-    welcomeNewbieMessage(player, ticket) {
+    welcomeNewbieMessage (player, ticket) {
       setTimeout(function () {
         server.cmdTo('title', player, 'times 20 100 20')
         server.cmdTo(
@@ -228,10 +228,13 @@ module.exports = function User() {
         }, 7000)
       }, 1)
     },
-    useToken(options, client) {
+    useToken (options, client) {
       const code = parseInt(options.ticket)
       const password = options.password
       const passwordConfirm = options.passwordConfirm
+      if (!code || !password || !passwordConfirm) {
+        return
+      }
       server.TokenDb.findOne({ code, activation: false }).then((user) => {
         if (password !== passwordConfirm) {
           server.io.to(client.id).emit('account-creation-failed', 'Password do not match...')
@@ -267,7 +270,7 @@ module.exports = function User() {
         }
       })
     },
-    createDebugUser(username, email, password) {
+    createDebugUser (username, email, password) {
       server.UserDb.create({
         username,
         email,
@@ -287,11 +290,11 @@ module.exports = function User() {
         console.log(err)
       })
     },
-    preparePlayer(username) {
+    preparePlayer (username) {
       server.bounty.initBounty(username)
       // todo: Implement all command-executions here...
     },
-    prepareUserAccount(username) {
+    prepareUserAccount (username) {
       const prefix = '[C/User/prepareUserAccount]: '
       console.info(prefix + username + 'is going to be prepared.')
       console.info(prefix + 'get all Items from DataDB')
@@ -316,15 +319,15 @@ module.exports = function User() {
         })
       })
     },
-    upgradeUserAccount(username) {
+    upgradeUserAccount (username) {
       const prefix = '[C/User/upgradeUserAccount]: '
       console.info(prefix + username + 'is going to be upgraded.')
       // todo: Research Upgrade
     },
-    isOnline(player) {
+    isOnline (player) {
       return server.onlinePlayers.includes(player)
     },
-    setOffline(player) {
+    setOffline (player) {
       server.UserDb.updateOne(
         { username: player },
         {
@@ -335,10 +338,10 @@ module.exports = function User() {
       ).then(() => {
       })
     },
-    isAdmin(player) {
+    isAdmin (player) {
       // todo: implement isAdmin in user-module
     },
-    setAdmin(player) {
+    setAdmin (player) {
       // todo: implement setAdmin in user-module
     }
   }
