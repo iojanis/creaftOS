@@ -3,7 +3,7 @@ import { spawn } from 'child_process'
 import MapCrafter from '../mapcrafter'
 
 class Minecraft extends EventsEmitter {
-  constructor(config, io) {
+  constructor (config, io) {
     super()
     console.info('[C]: Minecraft-Server-Creator (Creaft) has been created')
     this.io = io
@@ -22,10 +22,12 @@ class Minecraft extends EventsEmitter {
     console.info('[C]: Minecraft-Server-Creator (Creaft) has been initialized')
     this.boot.run()
   }
-  sanityCheck() {
+
+  sanityCheck () {
     console.info('[C]: SanityCheck...')
   }
-  load(what, where) {
+
+  load (what, where) {
     const that = this
     console.info('[C]: Loading ' + what + '...')
     require('fs')
@@ -37,14 +39,16 @@ class Minecraft extends EventsEmitter {
         }
       })
   }
-  use(module) {
+
+  use (module) {
     if (this.modules.filter(m => m === module).length === 0) {
       this.modules.push(module)
       module.call(this)
       console.info('[C]: Module loaded: ' + module.name)
     }
   }
-  start(jar = 'server.jar', args = ['-Xmx' + this.config.options.server_ram + 'M']) {
+
+  start (jar = 'server.jar', args = ['-Xmx' + this.config.options.server_ram + 'M']) {
     if (this.locked) {
       console.error('Server is locked! Cannot start Minecraft-Server')
       return new Error('server-locked')
@@ -56,13 +60,13 @@ class Minecraft extends EventsEmitter {
     )
     console.info('[C]: Minecraft-Server has been spawned')
     process.stdin.on('data', (l) => {
-      if (this.spawn && this.online) this.spawn.stdin.write(l)
+      if (this.spawn && this.online) { this.spawn.stdin.write(l) }
     })
     this.spawn.stdout.on('data', (l) => {
       l.toString()
         .split('\n')
         .forEach((c) => {
-          if (c) this.emit('console', c)
+          if (c) { this.emit('console', c) }
         })
     })
     process.on('exit', () => {
@@ -72,12 +76,12 @@ class Minecraft extends EventsEmitter {
       this.stop()
     })
   }
-  send(command, successRegex, failRegex) {
+
+  send (command, successRegex, failRegex) {
     return new Promise((resolve, reject) => {
-      if (!this.spawn) return reject(new Error('Server not started'))
+      if (!this.spawn) { return reject(new Error('Server not started')) }
       this.spawn.stdin.write(`${command}\n`)
-      if (!successRegex) resolve()
-      else {
+      if (!successRegex) { resolve() } else {
         const temp = (event) => {
           const success = event.match(successRegex)
           if (success) {
@@ -99,13 +103,16 @@ class Minecraft extends EventsEmitter {
       }
     })
   }
-  cmdTo(command, target, args) {
+
+  cmdTo (command, target, args) {
     return this.send(`${command} ${target} ${args}`)
   }
-  wait(time = 1, obj) {
+
+  wait (time = 1, obj) {
     setTimeout(() => obj, time * 100)
   }
-  stop() {
+
+  stop () {
     if (this.spawn) {
       this.spawn.kill()
       this.spawn = null

@@ -1,4 +1,4 @@
-module.exports = function Market() {
+module.exports = function Market () {
   const server = this
   server.io.on('connection', (client) => {
     client.on('get_market_items', (item) => {
@@ -8,7 +8,7 @@ module.exports = function Market() {
       )
     })
     client.on('get_market_item_stats_by', (filter) => {
-      server.market.getRecentMarketItems(
+      server.market.getMarketItemStats(
         server.socket.getUsernameFromId(client.id),
         filter
       )
@@ -46,16 +46,15 @@ module.exports = function Market() {
     })
   })
   server.market = {
-    getMarketItemStats(username, item) {
-      server.StatDb.find({ item }, { limit: 15 })
+    getMarketItemStats (username, item) {
+      server.StatDb.find({ attribute: item })
         .then((items) => {
           if (items) {
-            // reduce all stats by day
-            server.io.to(username).emit('receive_stats', items)
+            server.io.to(username).emit('receive_market_item_stats', items)
           }
         })
     },
-    getRecentMarketItems(username, filter) {
+    getRecentMarketItems (username, filter) {
       const _filter = {}
       server.ItemDb.find({ market: true }, _filter)
         .then((items) => {
@@ -70,7 +69,7 @@ module.exports = function Market() {
           console.error(err)
         })
     },
-    getMarketItemsFrom(username, receiver, filter) {
+    getMarketItemsFrom (username, receiver, filter) {
       const _filter = {}
       server.ItemDb.find({ username, market: true }, _filter)
         .then((items) => {
@@ -89,7 +88,7 @@ module.exports = function Market() {
           console.error(err)
         })
     },
-    getMarketItemsBy(username, item, filter) {
+    getMarketItemsBy (username, item, filter) {
       const _filter = {}
       server.ItemDb.find({ item, market: true }, _filter)
         .then((items) => {
@@ -108,7 +107,7 @@ module.exports = function Market() {
           console.error(err)
         })
     },
-    setMarketItem(username, name, amount, limit) {
+    setMarketItem (username, name, amount, limit) {
       let price = 0
       if (amount) {
         const res = amount.replace(',', '.')
@@ -132,7 +131,7 @@ module.exports = function Market() {
         })
       }
     },
-    buyMarketItem(username, name, seller, amount, price) {
+    buyMarketItem (username, name, seller, amount, price) {
       console.log(`${username} buys ${amount} ${name} for ${price}`)
       server.UserDb.findOne({ username }).then((user) => {
         server.ItemDb.findOne({ item: name, username: seller }).then((item) => {

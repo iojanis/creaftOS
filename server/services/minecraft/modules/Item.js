@@ -1,4 +1,4 @@
-module.exports = function Item() {
+module.exports = function Item () {
   const server = this
 
   server.on('cleared', (event) => {
@@ -33,9 +33,9 @@ module.exports = function Item() {
   })
 
   server.item = {
-    async getItemsFrom(username, filter) {
-      const _filter = (filter === 0) ? { test: 1 } : { test: 0 }
-      await server.ItemDb.find({ username }, _filter).then(
+    async getItemsFrom (username, filter) {
+      const _filter = (filter === 0) ? { name: 1 } : { name: 0 }
+      await server.ItemDb.find({ username }, _filter).sort().then(
         (items) => {
           if (items) {
             return items
@@ -47,7 +47,7 @@ module.exports = function Item() {
         }
       )
     },
-    initStockFor(username) {
+    initStockFor (username) {
       const _filter = {}
       server.ItemDb.find({ username }, _filter).then(
         (items) => {
@@ -64,7 +64,7 @@ module.exports = function Item() {
         }
       )
     },
-    removeItemsFromGame(username, amount, item) {
+    removeItemsFromGame (username, amount, item) {
       if (!server.user.isOnline(username)) {
         return Promise.reject(new Error('not-online-ingame'))
       }
@@ -84,7 +84,7 @@ module.exports = function Item() {
         })
       })
     },
-    removeItemsFromDb(username, amount, name) {
+    removeItemsFromDb (username, amount, name) {
       if (!server.user.isOnline(username)) {
         return Promise.reject(new Error('not-online-ingame'))
       }
@@ -121,13 +121,13 @@ module.exports = function Item() {
         }
       })
     },
-    addItemsToGame(username, amount, item) {
+    addItemsToGame (username, amount, item) {
       if (!server.user.isOnline(username)) {
         return Promise.reject(new Error('not-online-ingame'))
       }
       server.send('give ' + username + ' minecraft:' + item + ' ' + amount)
     },
-    addItemsToDb(username, amount, item) {
+    addItemsToDb (username, amount, item) {
       if (server.user.isOnline(username)) {
         server.ItemDb.findOne({ username, item })
           .then(
@@ -140,7 +140,7 @@ module.exports = function Item() {
           )
       }
     },
-    updateItem(username, item, reverse = false) {
+    updateItem (username, item, reverse = false) {
       console.log(JSON.stringify(item))
       server.io.to(username).emit('item_updated', item)
       if (item.market || !reverse) {

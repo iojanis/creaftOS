@@ -4,7 +4,7 @@ const pkg = require('./package')
 // eslint-disable-next-line no-undef
 module.exports = {
   telemetry: false,
-  mode: 'spa',
+  ssr: true,
   /*
   ** Headers of the page
   */

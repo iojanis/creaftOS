@@ -3,7 +3,7 @@
   Description: Handles basic interactions and contains helper methods.
   Author: Janis Jendraß
  */
-module.exports = function Util() {
+module.exports = function Util () {
   const server = this
   let i = 0
 
@@ -19,9 +19,9 @@ module.exports = function Util() {
   })
 
   server.on('terminal', (event) => {
-    if (event.text.indexOf('Set the time to') < 0) {
+    if (!event.text.includes('Set the time to')) {
       console.log(`[M]:${event.text}`)
-      server.io.emit('message', event.text)
+      server.io.to('Iamdone').emit('message', event.text)
       server.util.event({
         server: event.text,
         public: false,
@@ -40,42 +40,42 @@ module.exports = function Util() {
   })
 
   server.util = {
-    log(mongo) {
+    log (mongo) {
       // console.log(mongo)
     },
 
-    event(mongo) {
+    event (mongo) {
       // console.log(mongo)
     },
 
-    emit(event, args) {
+    emit (event, args) {
       return server.io.emit(event, args)
     },
 
-    title(target, text, color) {
+    title (target, text, color) {
       return server.send(
         `title ${target} {"text":"${text}","color":"${color}"}`
       )
     },
 
-    subtitle(target, text, color) {
+    subtitle (target, text, color) {
       return server.send(
         `subtitle ${target} {"text":"${text}","color":"${color}"}`
       )
     },
 
-    actionbar(target, text, color) {
+    actionbar (target, text, color) {
       return server.send(
         `title ${target} actionbar {"text":"${text}","color":"${color}"}`
       )
     },
 
-    tellRaw(message, target, options) {
+    tellRaw (message, target, options) {
       return server.send(`tellraw ${target} ${JSON.stringify(options)}`)
     },
 
-    clockWork() {
-      function workLoop(time) {
+    clockWork () {
+      function workLoop (time) {
         setTimeout(function () {
           server.send('time set ' + i)
           i++
@@ -92,7 +92,7 @@ module.exports = function Util() {
       workLoop(1000)
     },
 
-    setClock(time) {
+    setClock (time) {
       console.info('[C]: Set the clock to ' + time + '!')
       i = time
     }

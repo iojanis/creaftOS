@@ -1,4 +1,4 @@
-module.exports = function Zone() {
+module.exports = function Zone () {
   const server = this
   const getSlug = require('speakingurl')
 
@@ -27,7 +27,7 @@ module.exports = function Zone() {
   })
 
   server.zone = {
-    checkForZone(player) {
+    checkForZone (player) {
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
           const cx = Math.round(user.joined_x)
@@ -50,50 +50,53 @@ module.exports = function Zone() {
           // eslint-disable-next-line no-unused-vars
           const my = 0
 
-          server.ZoneDb.findOne({
+          const filter = {
             $or: [
               {
                 $and: [
-                  { ox: { $lte: cx } },
-                  { oz: { $lte: cz } },
-                  { dx: { $gte: cx } },
-                  { dz: { $gte: cz } }
+                  { p1: { $lte: cx } },
+                  { p2: { $lte: cz } },
+                  { p3: { $gte: cx } },
+                  { p4: { $gte: cz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: ox } },
-                  { oz: { $lte: oz } },
-                  { dx: { $gte: ox } },
-                  { dz: { $gte: oz } }
+                  { p1: { $lte: ox } },
+                  { p2: { $lte: oz } },
+                  { p3: { $gte: ox } },
+                  { p4: { $gte: oz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: dx } },
-                  { oz: { $lte: dz } },
-                  { dx: { $gte: dx } },
-                  { dz: { $gte: dz } }
+                  { p1: { $lte: dx } },
+                  { p2: { $lte: dz } },
+                  { p3: { $gte: dx } },
+                  { p4: { $gte: dz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: mx } },
-                  { oz: { $lte: mz } },
-                  { dx: { $gte: mx } },
-                  { dz: { $gte: mz } }
+                  { p1: { $lte: mx } },
+                  { p2: { $lte: mz } },
+                  { p3: { $gte: mx } },
+                  { p4: { $gte: mz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: nx } },
-                  { oz: { $lte: nz } },
-                  { dx: { $gte: nx } },
-                  { dz: { $gte: nz } }
+                  { p1: { $lte: nx } },
+                  { p2: { $lte: nz } },
+                  { p3: { $gte: nx } },
+                  { p4: { $gte: nz } }
                 ]
               }
             ]
-          }).then((zone) => {
+          }
+
+          server.ZoneDb.findOne(filter).then((zone) => {
+            console.log(zone)
             if (zone && zone.username === player) {
               server.util.actionbar(
                 player,
@@ -119,7 +122,7 @@ module.exports = function Zone() {
             } else if (zone) {
               server.util.actionbar(
                 player,
-                'You\'re in a foreign Zone!',
+                'You\'re in/near a foreign Zone!',
                 'yellow'
               )
               server.send(
@@ -137,7 +140,6 @@ module.exports = function Zone() {
                 zone.pcenter[2] +
                 '","bold":true,"italic":true,"color":"none"}]'
               )
-              server.send('gamemode adventure ' + player)
             } else {
               server.UserDb.findOne({ username: player }).then((user) => {
                 server.util.actionbar(player, 'You\'re in a free Zone!', 'blue')
@@ -161,7 +163,7 @@ module.exports = function Zone() {
       })
     },
 
-    createZone(player, name) {
+    createZone (player, name) {
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
           const cx = Math.round(user.joined_x)
@@ -180,50 +182,52 @@ module.exports = function Zone() {
           const ny = 0
           const my = 0
 
-          server.ZoneDb.findOne({
+          const filter = {
             $or: [
               {
                 $and: [
-                  { ox: { $lte: cx } },
-                  { oz: { $lte: cz } },
-                  { dx: { $gte: cx } },
-                  { dz: { $gte: cz } }
+                  { p1: { $lte: cx } },
+                  { p2: { $lte: cz } },
+                  { p3: { $gte: cx } },
+                  { p4: { $gte: cz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: ox } },
-                  { oz: { $lte: oz } },
-                  { dx: { $gte: ox } },
-                  { dz: { $gte: oz } }
+                  { p1: { $lte: ox } },
+                  { p2: { $lte: oz } },
+                  { p3: { $gte: ox } },
+                  { p4: { $gte: oz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: dx } },
-                  { oz: { $lte: dz } },
-                  { dx: { $gte: dx } },
-                  { dz: { $gte: dz } }
+                  { p1: { $lte: dx } },
+                  { p2: { $lte: dz } },
+                  { p3: { $gte: dx } },
+                  { p4: { $gte: dz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: mx } },
-                  { oz: { $lte: mz } },
-                  { dx: { $gte: mx } },
-                  { dz: { $gte: mz } }
+                  { p1: { $lte: mx } },
+                  { p2: { $lte: mz } },
+                  { p3: { $gte: mx } },
+                  { p4: { $gte: mz } }
                 ]
               },
               {
                 $and: [
-                  { ox: { $lte: nx } },
-                  { oz: { $lte: nz } },
-                  { dx: { $gte: nx } },
-                  { dz: { $gte: nz } }
+                  { p1: { $lte: nx } },
+                  { p2: { $lte: nz } },
+                  { p3: { $gte: nx } },
+                  { p4: { $gte: nz } }
                 ]
               }
             ]
-          }).then((zone) => {
+          }
+
+          server.ZoneDb.findOne(filter).then((zone) => {
             const implemented = true
             if (zone && zone.username === player) {
               server.util.actionbar(
@@ -458,13 +462,13 @@ module.exports = function Zone() {
       })
     }, // todo: Implement ASAP
 
-    updateZone() {
+    updateZone () {
     },
 
-    removeZone() {
+    removeZone () {
     },
 
-    tpToZone(player, zone) {
+    tpToZone (player, zone) {
       server.ZoneDb.findOne({ _id: zone }).then((zone) => {
         server.UserDb.findOne({ username: player }).then((user) => {
           if (user.xp >= 11) {

@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ui.basic.label, .ui.basic.labels .label {
+    border: 2px solid rgba(46, 191, 62, 0.50) !important;
+}

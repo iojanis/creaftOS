@@ -21,29 +21,32 @@
         <!--            <label class="rules inverted" style="color: #fff" data-content="short-rules" data-variation="">Remember me</label>-->
         <!--          </div>-->
         <!--        </div>-->
-        <button type="submit" class="ui fluid big submit yellow inverted button">Login</button>
+        <button type="submit" class="ui fluid big submit yellow inverted button">
+          Login
+        </button>
         <div class="inverted field" style="margin-top: 1em;">
           <router-link :to="{ name: 'join' }">
-            <div class="ui fluid basic inverted  button">Create Account</div>
+            <div class="ui fluid basic inverted  button">
+              Create Account
+            </div>
           </router-link>
         </div>
       </form>
     </div>
   </div>
-
 </template>
 
 <script>
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       username: '',
       password: ''
     }
   },
   methods: {
-    handleSubmit(e) {
+    handleSubmit (e) {
       e.preventDefault()
       try {
         this.$auth.loginWith('local', {
@@ -52,7 +55,7 @@ export default {
             password: this.password
           }
         }, (response) => {
-          this.$router.push('/')
+          this.$router.push('chat')
         })
       } catch (e) {
         this.password = ''

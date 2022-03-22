@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 export default {
-  state() {
+  state () {
     return {
       isConnected: false, // Socket-Connection-Status
       isOnline: false, // Game-Connection-Status
@@ -23,16 +23,16 @@ export default {
     }
   },
   mutations: {
-    USER_DRAWER(state, status) {
+    USER_DRAWER (state, status) {
       state.UserDrawer = status
     },
-    NOTIFICATION_DRAWER(state, status) {
+    NOTIFICATION_DRAWER (state, status) {
       state.NotificationDrawer = status
     },
-    OVERLAY(state, status) {
+    OVERLAY (state, status) {
       state.Overlay = status
     },
-    SOCKET_CONNECT(state, status) {
+    SOCKET_CONNECT (state, status) {
       state.isConnected = true
       state.Crashed = false
       if (state.token && state.username) {
@@ -43,27 +43,27 @@ export default {
       }
       console.log('[S]: Client connected anonymously to Socket-Server')
     },
-    SOCKET_DISCONNECT(state, status) {
+    SOCKET_DISCONNECT (state, status) {
       state.isConnected = false
       state.Crashed = true
       console.log('[S]: Client disconnected from Socket-Server')
     },
-    SOCKET_MESSAGE(state, message) {
+    SOCKET_MESSAGE (state, message) {
       state.message = message
       console.log('[S]: Generic-Message: ' + message)
     },
-    SOCKET_CHAT_MESSAGE(state, message) {
+    SOCKET_CHAT_MESSAGE (state, message) {
       state.latestMessages.unshift(message)
       console.log('[S]: New Chat-Message: ' + message)
     },
-    SOCKET_PLAYER_JOINED(state, player) {
+    SOCKET_PLAYER_JOINED (state, player) {
       state.onlinePlayers.push(player)
       if (state.username === player) {
         state.isOnline = true
       }
       console.log('[S]: Player joined the game: ' + player)
     },
-    SOCKET_PLAYER_LEFT(state, player) {
+    SOCKET_PLAYER_LEFT (state, player) {
       const index = state.onlinePlayers.indexOf(player)
       if (index > -1) {
         state.onlinePlayers.splice(index, 1)
@@ -73,38 +73,54 @@ export default {
       }
       console.log('[S]: Player left the game: ' + player)
     },
-    SOCKET_INIT_CHAT(state, event) {
+    SOCKET_INIT_CHAT (state, event) {
       state.onlinePlayers = event.online
       state.latestMessages = event.latest
       console.log('[S]: Chat-initialized')
     },
-    SOCKET_INIT_USER(state, event) {
+    SOCKET_INIT_USER (state, event) {
       state.isOnline = event.isOnline
       state.username = event.username
       state.bountyStatus = event.bountyStatus
       state.currentTeam = event.currentTeam
       console.log('[S]: User-initialized')
     },
-    SOCKET_INIT_XP(state, event) {
+    SOCKET_INIT_XP (state, event) {
       state.currentExp = event.exp
       console.log('[S]: EXP-initialized')
     },
-    SOCKET_INIT_STOCK(state, items) {
+    SOCKET_INIT_STOCK (state, items) {
       state.currentItems = items
       console.log('[S]: Items-initialized')
     },
-    SOCKET_INIT_MARKET(state, items) {
+    SOCKET_INIT_MARKET (state, items) {
       state.currentMarketItems = items
       console.log('[S]: Market-Items-initialized')
     },
-    SOCKET_RECEIVE_MARKET_ITEM_STATS(state, items) {
-      for (const item in items) {
-        this.dataset.push(item.value)
-        this.labels.xLabels.push(item.createdAt)
+    SOCKET_RECEIVE_MARKET_ITEM_STATS (state, items) {
+      console.log('SOCKET_RECEIVE_MARKET_ITEM_STATS', items)
+      const that = {
+        dataset: [],
+        dataset2: [],
+        labels: {
+          xLabels: [],
+          yLabels: 5,
+          yLabelsTextFormatter: val => Math.round(val * 100) / 100 + '°'
+        },
+        labels2: {
+          xLabels: [],
+          yLabels: 5,
+          yLabelsTextFormatter: val => Math.round(val * 100) / 100 + '°'
+        }
       }
-      state.currentMarketItemStats = items
+      for (let i = 0; i < items.length; i++) {
+        that.dataset.push(items[i].value * 1)
+        that.dataset2.push(items[i].amount * items[i].value)
+        // that.labels.xLabels.push(new Date(items[i].createdAt).getTime())
+      }
+      state.currentMarketItemStats = that
     },
-    SOCKET_ITEM_UPDATED(state, updatedItem) {
+    SOCKET_ITEM_UPDATED (state, updatedItem) {
       console.log(JSON.stringify(updatedItem))
       console.log('[S]: Stock-Item updated: ')
       for (let i = 0; i < state.currentItems.length; i++) {
@@ -116,7 +132,7 @@ export default {
         }
       }
     },
-    SOCKET_MARKET_ITEM_UPDATED(state, updatedItem) {
+    SOCKET_MARKET_ITEM_UPDATED (state, updatedItem) {
       console.log('[S]: Market-Item updated: ' + updatedItem.toString())
       let done = false
       for (let i = 0; i < state.currentMarketItems.length; i++) {
@@ -138,42 +154,45 @@ export default {
         state.currentMarketItems.push(updatedItem)
       }
     },
-    SOCKET_UPDATE_XP(state, event) {
+    SOCKET_UPDATE_XP (state, event) {
       this.state.currentExp = event.xp
       console.log('[S]: XP-updated to: ' + event.xp)
     },
-    GET_STOCK_ITEMS(state, mode) {
+    GET_STOCK_ITEMS (state, mode) {
       this._vm.$socket.emit('get_stock_items', mode)
     },
-    GET_MARKET_ITEMS(state, mode) {
+    GET_MARKET_ITEMS (state, mode) {
       this._vm.$socket.emit('get_market_items', mode)
     },
-    DOWNLOAD_EXP(state) {
+    GET_MARKET_ITEM_STATS (state, mode) {
+      this._vm.$socket.emit('get_market_item_stats', mode)
+    },
+    DOWNLOAD_EXP (state) {
       this._vm.$socket.emit('download_exp')
     },
-    UPLOAD_EXP(state) {
+    UPLOAD_EXP (state) {
       this._vm.$socket.emit('upload_exp')
     },
-    TRANSFER_EXP(state, receiver, amount) {
+    TRANSFER_EXP (state, receiver, amount) {
       this._vm.$socket.emit('transfer_exp', receiver, amount)
     },
-    DOWNLOAD_STOCK_ITEM(state, item, rate) {
+    DOWNLOAD_STOCK_ITEM (state, item, rate) {
       this._vm.$socket.emit('download_stock_item', { item, rate })
     },
-    UPLOAD_STOCK_ITEM(state, item, rate) {
+    UPLOAD_STOCK_ITEM (state, item, rate) {
       this._vm.$socket.emit('upload_stock_item', { item, rate })
     },
-    SET_MARKET_ITEM(state, item, price) {
+    SET_MARKET_ITEM (state, item, price) {
       this._vm.$socket.emit('set_market_item', { item, price })
     },
-    UNSET_MARKET_ITEM(state, item) {
+    UNSET_MARKET_ITEM (state, item) {
       this._vm.$socket.emit('unset_market_item', { item })
     },
-    BUY_MARKET_ITEM(state, item, amount, price) {
+    BUY_MARKET_ITEM (state, item, amount, price) {
       console.log(item, amount, price)
       this._vm.$socket.emit('buy_market_item', { item, amount, price })
     },
-    SET_TOKEN(state, token) {
+    SET_TOKEN (state, token) {
       state.token = token
     }
   },
@@ -201,61 +220,64 @@ export default {
     }
   },
   actions: {
-    setToken({ commit }, token) {
+    setToken ({ commit }, token) {
       commit('SET_TOKEN', token)
     },
-    toggleUserDrawer({ commit }, status) {
+    toggleUserDrawer ({ commit }, status) {
       commit('USER_DRAWER', status)
       commit('OVERLAY', true)
     },
-    toggleNotificationDrawer({ commit }, status) {
+    toggleNotificationDrawer ({ commit }, status) {
       commit('NOTIFICATION_DRAWER', status)
       commit('OVERLAY', true)
     },
-    toggleAll({ commit }, status) {
+    toggleAll ({ commit }, status) {
       commit('OVERLAY', status)
       commit('NOTIFICATION_DRAWER', status)
       commit('USER_DRAWER', status)
     },
     // Experience
-    downloadExp({ commit }) {
+    downloadExp ({ commit }) {
       commit('DOWNLOAD_EXP')
     },
-    uploadExp({ commit }) {
+    uploadExp ({ commit }) {
       commit('UPLOAD_EXP')
     },
-    transferExp({ commit }, receiver, amount) {
+    transferExp ({ commit }, receiver, amount) {
       commit('TRANSFER_EXP', receiver, amount)
     },
     // Items
-    getStockItems({ commit }, mode) {
+    getStockItems ({ commit }, mode) {
       commit('GET_STOCK_ITEMS', mode)
     },
-    downloadStockItem({ commit }, item, rate) {
+    downloadStockItem ({ commit }, item, rate) {
       commit('DOWNLOAD_STOCK_ITEM', item, rate)
     },
-    uploadStockItem({ commit }, item, rate) {
+    uploadStockItem ({ commit }, item, rate) {
       commit('UPLOAD_STOCK_ITEM', item, rate)
     },
     // Items / Market
-    getMarketItems({ commit }, mode) {
+    getMarketItems ({ commit }, mode) {
       commit('GET_MARKET_ITEMS', mode)
     },
-    setMarketItem({ commit }, item, price) {
+    getMarketItemStats ({ commit }, mode) {
+      commit('GET_MARKET_ITEM_STATS', mode)
+    },
+    setMarketItem ({ commit }, item, price) {
       commit('SET_MARKET_ITEM', item, price)
     },
-    unsetMarketItem({ commit }, item) {
+    unsetMarketItem ({ commit }, item) {
       commit('UNSET_MARKET_ITEM', item)
     },
-    buyMarketItem({ commit }, item, amount, price) {
+    buyMarketItem ({ commit }, item, amount, price) {
       console.log(item, amount, price)
       commit('BUY_MARKET_ITEM', item, amount, price)
     },
-    buyItem({ commit }, options) {
+    buyItem ({ commit }, options) {
       this._vm.$socket.emit('buy_market_item', options)
     },
     // User
-    createUserAccount({ commit }, options) {
+    createUserAccount ({ commit }, options) {
       this._vm.$socket.emit('create-user-account', options)
     }
   }

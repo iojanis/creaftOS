@@ -10,7 +10,7 @@
       @click="offerModal = false"
     >
       <div
-        class="ui inverted modal front visible active price-modal"
+        class="ui inverted longer modal front visible active price-modal"
         style="display: block !important;"
         @click.stop=""
       >
@@ -28,7 +28,10 @@
           <!--              STATISTICS ARE UNAVAILABLE.</span-->
           <!--              >-->
           <!--          </h3>-->
-          <div class="bitcoin-price">
+          <div
+            v-if="currentMarketItemStats && currentMarketItemStats.dataset2 && currentMarketItemStats.dataset2.length > 1"
+            class="bitcoin-price"
+          >
             <svg
               style="width:0; height:0; position:absolute;"
               aria-hidden="true"
@@ -40,25 +43,40 @@
                   <stop offset="100%" stop-color="#ffffff" />
                 </linearGradient>
               </defs>
-            </svg>
+            </svg>                        <h3 class="ui white header">
+              <span
+                style="background: rgba(204,204,204,0.12); padding-left: 0.3em; padding-right: 0.2em"
+              >
+                PRICE PER ITEM</span>
+            </h3>
             <TrendChart
-              v-if="currentMarketItemStats.length"
               :datasets="[
-                { data: currentMarketItemStats, fill: true, className: 'curve-btc' }
+                { data: currentMarketItemStats.dataset, fill: true, smooth: false, showPoints: false, className: 'curve-btc' }
               ]"
-              :labels="labels"
+              :labels="currentMarketItemStats.labels"
+              :min="0"
+              :grid="grid"
+            />                        <h3 class="ui white header">
+              <span
+                style="background: rgba(204,204,204,0.12); padding-left: 0.3em; padding-right: 0.2em"
+              >
+                VOLUME (AMOUNT * PRICE)</span>
+            </h3>
+            <TrendChart
+              :datasets="[
+                { data: currentMarketItemStats.dataset2, fill: true, smooth: false, showPoints: false, className: 'curve-btc' }
+              ]"
+              :labels="currentMarketItemStats.labels2"
               :min="0"
               :grid="grid"
             />
-            <h3 v-else class="ui white header">
-              <span
-                style="background: #cccccc; padding-left: 0.3em; padding-right: 0.2em"
-              >
-                NO DATA YET.</span
-                >
-            </h3>
           </div>
-
+          <h3 v-else class="ui white header">
+            <span
+              style="background: rgba(204,204,204,0.12); padding-left: 0.3em; padding-right: 0.2em"
+            >
+              NO DATA</span>
+          </h3>
           <transition-group
             mode="out-in"
             tag="div"
@@ -106,8 +124,7 @@
                 <a draggable="false" href="#" @click.stop="">
                   <a
                     class="ui inverted basic label green"
-                  >{{ Math.floor(Math.random() * 1444) }}°</a
-                  >
+                  >{{ Math.floor(Math.random() * 1444) }}°</a>
                 </a>
               </div>
             </div>
@@ -262,7 +279,7 @@
               v-if="$store.state.username != item.username"
               :data-tooltip="
                 `Buy ${transferRateNumber()} for ${item.price *
-                transferRateNumber()}°`
+                  transferRateNumber()}°`
               "
               class="ui inverted basic label green"
               data-inverted=""
@@ -275,8 +292,7 @@
                   item.price
                 )
               "
-            >{{ item.price * transferRateNumber() }}°</a
-            >
+            >{{ item.price * transferRateNumber() }}°</a>
             <a
               v-else
               data-inverted=""
@@ -304,19 +320,19 @@ export default {
     TrendChart
   },
   auth: false,
-  data() {
+  data () {
     return {
-      dataset: [],
+      dataset: ['0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2', '0.2'],
       labels: {
-        xLabels: [],
+        xLabels: ['2022-03-21T21:27:51.754Z', '2022-03-21T21:27:54.569Z', '2022-03-21T21:27:55.309Z', '2022-03-21T21:27:55.764Z', '2022-03-21T21:27:56.052Z', '2022-03-21T21:27:56.262Z', '2022-03-21T21:27:56.468Z', '2022-03-21T21:27:56.688Z', '2022-03-21T21:27:56.919Z', '2022-03-21T21:27:57.119Z', '2022-03-21T21:27:57.339Z', '2022-03-21T21:27:57.548Z', '2022-03-21T21:27:57.760Z', '2022-03-21T21:27:57.979Z', '2022-03-21T21:27:58.170Z', '2022-03-21T21:27:58.363Z', '2022-03-21T21:27:58.565Z', '2022-03-21T21:27:58.751Z', '2022-03-21T21:27:58.947Z', '2022-03-21T21:27:59.165Z', '2022-03-21T21:27:59.342Z', '2022-03-21T21:27:59.536Z', '2022-03-21T21:27:59.710Z'],
         yLabels: 5,
         yLabelsTextFormatter: val => Math.round(val * 100) / 100 + '°'
       },
       grid: {
         verticalLines: true,
-        verticalLinesNumber: 1,
+        verticalLinesNumber: 10,
         horizontalLines: true,
-        horizontalLinesNumber: 1
+        horizontalLinesNumber: 5
       },
       transferDirection: 0,
       transferRate: 3,
@@ -329,22 +345,28 @@ export default {
   },
   computed: {
     ...mapGetters(['currentMarketItems', 'currentMarketItemStats']),
-    offerItem() {
+    offerItem () {
       return true
     },
-    filteredMarketItems() {
+    filteredMarketItems () {
       let filter = false
+      let sort
       if (this.search.length > 2) {
         filter = item => item.name.includes(this.search)
       } else if (this.viewMode === 1) {
-        filter = item => item.amount > 0
+        filter = item => item.username === this.$store.state.auth.user.username
       } else {
-        filter = item => item
+        filter = item => item.amount > 1
       }
-      return this.currentMarketItems.filter(filter)
+      if (this.transferDirection === 1) {
+        sort = (a, b) => b.amount - a.amount && b.price - a.price
+      } else {
+        sort = (a, b) => a.amount - b.amount && a.price - b.price
+      }
+      return this.currentMarketItems.filter(filter).sort(sort)
     }
   },
-  mounted() {
+  mounted () {
     if (this.currentMarketItems.length < 1) {
       this.$store.watch(
         (state) => {
@@ -364,24 +386,24 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getMarketItems', 'buyItem']),
-    buyMarketItemHere(item, seller, amount, price) {
+    ...mapActions(['getMarketItems', 'getMarketItemStats', 'buyItem']),
+    buyMarketItemHere (item, seller, amount, price) {
       const options = {
-        item: item,
-        seller: seller,
-        amount: amount,
-        price: price
+        item,
+        seller,
+        amount,
+        price
       }
       this.buyItem(options)
     },
-    showStatsFor(item) {
+    showStatsFor (item) {
       this.offerModal = true
       this.$socket.emit('get_market_item_stats_by', item)
     },
-    removeOffer(item) {
+    removeOffer (item) {
       this.$socket.emit('set_market_item', item, null)
     },
-    changeTransferRate() {
+    changeTransferRate () {
       switch (this.transferRate) {
         case 0:
           this.transferRate = 1
@@ -397,7 +419,7 @@ export default {
           break
       }
     },
-    transferRateText() {
+    transferRateText () {
       switch (this.transferRate) {
         case 0:
           return '1 Item'
@@ -409,7 +431,7 @@ export default {
           return '64 Items'
       }
     },
-    transferRateNumber() {
+    transferRateNumber () {
       switch (this.transferRate) {
         case 0:
           return 1
@@ -421,15 +443,15 @@ export default {
           return 64
       }
     },
-    changeTransferDirection() {
+    changeTransferDirection () {
       this.transferDirection === 0
         ? (this.transferDirection = 1)
         : (this.transferDirection = 0)
     },
-    changeView() {
+    changeView () {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     },
-    changeManage() {
+    changeManage () {
       this.manageMode === 0 ? (this.manageMode = 1) : (this.manageMode = 0)
     }
   }
@@ -448,15 +470,15 @@ export default {
   padding-bottom: 1rem;
 }
 .bitcoin-price {
-  padding: 0.5em;
+  padding: 0.1em;
 }
 .bitcoin-price .vtc {
-  height: 150px;
+  height: 75px;
   font-size: 12px;
 }
 @media (min-width: 699px) {
   .bitcoin-price .vtc {
-    height: 250px;
+    height: 160px;
   }
 }
 .bitcoin-price .grid line,

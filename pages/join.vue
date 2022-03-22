@@ -14,7 +14,7 @@
         </div>
         <div class="inverted field">
           <div class="ui large left inverted input">
-            <input v-model="ticket" type="text" placeholder="Ticket">
+            <input v-model="ticket" type="text" autocomplete="off" placeholder="Ticket">
           </div>
         </div>
         <div class="inverted field">
@@ -24,12 +24,12 @@
         </div>
         <div class="inverted field">
           <div class="ui large left inverted input">
-            <input v-model="password" type="password" placeholder="Password">
+            <input v-model="password" type="password" autocomplete="off" placeholder="Password">
           </div>
         </div>
         <div class="inverted field">
           <div class="ui large left inverted input">
-            <input v-model="passwordConfirm" type="password" placeholder="Confirm Password">
+            <input v-model="passwordConfirm" type="password" autocomplete="off" placeholder="Confirm Password">
           </div>
         </div>
         <!--      <div class="inverted field" style="margin-bottom: 2em;">-->
@@ -38,16 +38,19 @@
         <!--          <label class="inverted rules" style="color: #fff" data-content="short-rules" data-variation="">I accept the rules</label>-->
         <!--        </div>-->
         <!--      </div>-->
-        <button type="submit" class="ui fluid big inverted yellow submit button">Create Account</button>
+        <button type="submit" class="ui fluid big inverted yellow submit button">
+          Create Account
+        </button>
         <div class="field" style="margin-top: 1em;">
           <router-link :to="{ name: 'login' }">
-            <div class="ui fluid inverted basic button">Login</div>
+            <div class="ui fluid inverted basic button">
+              Login
+            </div>
           </router-link>
         </div>
       </form>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -55,7 +58,7 @@ import { mapActions } from 'vuex'
 
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       ticket: '',
       password: '',
@@ -64,7 +67,7 @@ export default {
   },
   methods: {
     ...mapActions(['createUserAccount']),
-    handleSubmit(e) {
+    handleSubmit (e) {
       e.preventDefault()
       const options = {
         ticket: this.ticket,

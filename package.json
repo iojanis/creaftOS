@@ -4,6 +4,7 @@
   "main": "server",
   "private": true,
   "scripts": {
+    "start": "npm run build && npm run prod",
     "build": "nuxt build",
     "mongo": "mongod --config /usr/local/etc/mongod.conf --fork",
     "dev": "cross-env NODE_ENV=development nodemon -i server/index.js --watch server",

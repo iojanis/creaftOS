@@ -242,7 +242,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       transferDirection: 0,
       transferRate: 3,
@@ -258,13 +258,13 @@ export default {
   },
   computed: {
     ...mapGetters(['currentItems']),
-    offerItem() {
+    offerItem () {
       return true
     },
-    filteredItems() {
+    filteredItems () {
       let filter = false
       if (this.search.length > 2) {
-        filter = item => item.name.includes(this.search)
+        filter = item => item.name.toLowerCase().includes(this.search.toLowerCase())
       } else if (this.viewMode === 1) {
         filter = item => item.amount > 0
       } else {
@@ -273,7 +273,7 @@ export default {
       return this.currentItems.filter(filter)
     }
   },
-  mounted() {
+  mounted () {
     if (this.currentItems.length < 1) {
       this.getStockItems(0)
     }
@@ -283,7 +283,7 @@ export default {
   },
   methods: {
     ...mapActions(['getStockItems']),
-    itemAction(id) {
+    itemAction (id) {
       let realRate
       switch (this.transferRate) {
         case 0:
@@ -316,7 +316,7 @@ export default {
         })
       }
     },
-    removeOffer() {
+    removeOffer () {
       this.offerModal = false
       this.$socket.emit(
         'set_market_item',
@@ -325,7 +325,7 @@ export default {
         0
       )
     },
-    submitOffer() {
+    submitOffer () {
       this.offerModal = false
       this.$socket.emit(
         'set_market_item',
@@ -334,7 +334,7 @@ export default {
         this.limit
       )
     },
-    changeTransferRate() {
+    changeTransferRate () {
       switch (this.transferRate) {
         case 0:
           this.transferRate = 1
@@ -350,7 +350,7 @@ export default {
           break
       }
     },
-    transferRateText() {
+    transferRateText () {
       switch (this.transferRate) {
         case 0:
           return '1 Item'
@@ -362,15 +362,15 @@ export default {
           return '64 Items'
       }
     },
-    changeTransferDirection() {
+    changeTransferDirection () {
       this.transferDirection === 0
         ? (this.transferDirection = 1)
         : (this.transferDirection = 0)
     },
-    changeView() {
+    changeView () {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     },
-    changeManage() {
+    changeManage () {
       if (this.$store.state.isOnline) {
         this.manageMode === 0 ? (this.manageMode = 1) : (this.manageMode = 0)
       } else {

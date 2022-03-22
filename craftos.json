@@ -1,0 +1,9 @@
+{
+  "apps": [
+  {
+    "name": "CraftOS",
+    "script": "npm",
+    "args" : "start"
+  }
+]
+}
