@@ -17,8 +17,8 @@ module.exports = {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
-      { src: '/leaflet.js' }
-      // { src: '/overviewer.js' }
+      { src: '/leaflet.js' },
+      { src: '/mapc.js' }
     ]
   },
 
@@ -33,6 +33,7 @@ module.exports = {
   css: [
     '~/assets/semantic/dist/semantic.min.css',
     '~/assets/main.css',
+    '~/assets/leaflet.css',
     { src: '~/assets/transitions/vue2-animate.less', lang: 'less' }
   ],
 

@@ -19,7 +19,7 @@ betterLogging(console)
 
 const app = express(apiRoot, api)
 
-async function start() {
+async function start () {
   const nuxt = new Nuxt(config)
 
   const {
@@ -59,7 +59,7 @@ async function start() {
 
   const settings = {
     options: {
-      server_path: process.env.SERVER_PATH || '/root/minecraft_server',
+      server_path: process.env.SERVER_PATH || '/root/minecraft-server',
       server_ram: process.env.SERVER_RAM || 4096,
       server_locked: process.env.SERVER_LOCKED || false,
       game_debug: process.env.GAME_DEBUG || true,
