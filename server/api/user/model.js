@@ -116,9 +116,9 @@ userSchema.pre('save', function (next) {
 })
 
 userSchema.methods = {
-  view(full) {
+  view (full) {
     const view = {}
-    let fields = ['id', 'username']
+    let fields = ['id', 'username', 'joined_x', 'joined_y', 'joined_z']
 
     if (full) {
       fields = [...fields, 'email', 'createdAt']
@@ -131,7 +131,7 @@ userSchema.methods = {
     return view
   },
 
-  authenticate(password) {
+  authenticate (password) {
     return bcrypt
       .compare(password, this.password)
       .then(valid => (valid ? this : false))

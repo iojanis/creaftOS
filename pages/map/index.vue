@@ -99,12 +99,16 @@ export default {
       gy: 0
     }
   },
-  mounted() {
+  async mounted() {
 
     var Mapcrafter = new MapcrafterUI(CONFIG);
     Mapcrafter.addControl(new MousePosControl(), "topright", 1);
     // Mapcrafter.addControl(new RotationSelectControl(), "bottomright", 1);
     // Mapcrafter.addControl(new MapSelectControl(), "topright", 1);
+
+    // this.gx =
+
+    const zones = await this.$axios.$get('/zones')
 
     Mapcrafter.init();
 
@@ -116,7 +120,7 @@ export default {
         // name of the marker group, displayed in the webinterface
         'name': 'Signs',
         // icon of the markers belonging to that group (optional)
-        'icon': 'sign.png',
+        'icon': 'compass.png',
         // size of that icon
         'iconSize': [32, 32],
         // whether this marker group is shown by default (optional)
@@ -129,7 +133,7 @@ export default {
             // // more markers:
             // {"pos" : [100, 100, 64], "title" : "Test1"},
             // {"pos" : [100, 200, 64], "title" : "Test2"},
-            { 'pos': [Math.round(this.gx), Math.round(this.gz), 64], 'title': 'LAST JOIN POSITION', 'icon': 'compass.png' }
+            { 'pos': [Math.round(this.$auth.user.joined_x), Math.round(this.$auth.user.joined_z), Math.round(this.$auth.user.joined_y)], 'title': 'LAST JOIN POSITION', 'icon': 'compass.png' }
           ]
         }
       },
@@ -158,23 +162,28 @@ export default {
 
     const markers = []
 
-    const doc = {"_id":{"$oid":"6239074e887ffeee934108d0"},"name":"Test2","slug":"test2","team":"team-1","username":"Iamdone","p1":["431","169"],"p2":["175","169"],"p3":["175","425"],"p4":["431","425"],"pcenter":["0","71","0"],"createdAt":{"$date":"2022-03-21T23:16:30.816Z"},"updatedAt":{"$date":"2022-03-21T23:16:30.816Z"},"__v":0}
+    console.log(zones)
 
-    const zoneObj2 = {
-      'pos': [0,0,0],
-      'title': doc.name + ': ' + doc.username + ' owns this property.'
-    }
-    MAPCRAFTER_MARKERS[0].markers.world.push(zoneObj2)
-    //
 
-    const zoneObj = {
-      'p1': [0,0],
-      'p2': [256,0],
-      'p3': [256,256],
-      'p4': [0,256],
-      'color': 'white'
-    }
-    MAPCRAFTER_MARKERS[1].markers.world.push(zoneObj)
+
+    zones.forEach((zone) => {
+      const zoneObj2 = {
+        'pos': [parseInt(zone.pcenter[0]), parseInt(zone.pcenter[2]), parseInt(zone.pcenter[1])],
+        'title': zone.name + ': ' + zone.username + ' owns this property.'
+      }
+      MAPCRAFTER_MARKERS[0].markers.world.push(zoneObj2)
+
+      const zoneObj = {
+        'p1': [parseInt(zone.p1[0]), parseInt(zone.p1[1])],
+        'p2': [parseInt(zone.p2[0]), parseInt(zone.p2[1])],
+        'p3': [parseInt(zone.p3[0]), parseInt(zone.p3[1])],
+        'p4': [parseInt(zone.p4[0]), parseInt(zone.p4[1])],
+        'color': 'white'
+      }
+      MAPCRAFTER_MARKERS[1].markers.world.push(zoneObj)
+    })
+
+
 
     //
     // const cx = Math.round(this.gx) // center positions
@@ -219,14 +228,7 @@ export default {
 
 </script>
 
-<style>
-
-.leaflet-top {
-  top: 47px !important;
-}
-.leaflet-bottom {
-  bottom: 0px !important;
-}
+<style scoped>
 
 .fluid.container {
   width: 100vw;
