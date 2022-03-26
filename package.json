@@ -1,6 +1,7 @@
 {
-  "name": "creaft",
-  "version": "20.3.1",
+  "name": "craft-os",
+  "version": "3.3.0",
+  "license": "Creative Commons Attribution-NonCommercial (CC-BY-NC)",
   "main": "server",
   "private": true,
   "scripts": {

@@ -39,7 +39,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'AppBar',
-  data() {
+  data () {
     return {
       latestChatMassage: false
     }
@@ -47,22 +47,22 @@ export default {
   computed: {
     ...mapGetters(['isCurrentlyOnline'])
   },
-  mounted() {
+  mounted () {
   },
   sockets: {
-    player_joined(player) {
+    player_joined (player) {
       this.latestChatMassage = false
       setTimeout(() => {
         this.latestChatMassage = `${player} joined the game!`
       }, 400)
     },
-    player_left(player) {
+    player_left (player) {
       this.latestChatMassage = false
       setTimeout(() => {
         this.latestChatMassage = `${player} left the game...`
       }, 400)
     },
-    chat_message(event) {
+    chat_message (event) {
       this.latestChatMassage = false
       setTimeout(() => {
         this.latestChatMassage = `[${event.player}] ${event.message}`

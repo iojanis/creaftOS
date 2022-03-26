@@ -15,7 +15,7 @@
         @click.stop=""
       >
         <div class="content" style="background: none!important;">
-          <form class="ui inverted fonta form" @submit.prevent="console.log()">
+          <form class="ui inverted fonta form" @submit.prevent="createTeam()">
             <h1 class="ui yellow header" style="text-align: center">
               Create a Team
             </h1>
@@ -28,7 +28,7 @@
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
-                <input type="text" placeholder="Name of Team" >
+                <input type="text" placeholder="Name of Team">
               </div>
             </div>
             <div class="inverted field">
@@ -58,7 +58,9 @@
           >
             Cancel
           </div>
-          <div class="ui green inverted button">Create</div>
+          <div class="ui green inverted button">
+            Create
+          </div>
         </div>
       </div>
     </div>
@@ -87,7 +89,7 @@
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
-                <input type="text" placeholder="Name of Team" >
+                <input type="text" placeholder="Name of Team">
               </div>
             </div>
             <div class="inverted field">
@@ -117,7 +119,9 @@
           >
             Cancel
           </div>
-          <div class="ui green inverted button">Create</div>
+          <div class="ui green inverted button">
+            Create
+          </div>
         </div>
       </div>
     </div>
@@ -220,8 +224,7 @@
           <a draggable="false" href="#">
             <span
               class="ui inverted basic label green"
-            >{{ Math.floor(Math.random() * 1444) }}°</span
-            >
+            >{{ Math.floor(Math.random() * 1444) }}°</span>
           </a>
         </div>
       </div>
@@ -232,7 +235,7 @@
 <script>
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       newTeamModal: false,
       editTeamModal: false,
@@ -242,7 +245,7 @@ export default {
     }
   },
   methods: {
-    changeView() {
+    changeView () {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     }
   }
