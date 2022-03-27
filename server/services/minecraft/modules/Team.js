@@ -1,6 +1,7 @@
-module.exports = function Team() {
+module.exports = function Team () {
   const server = this
   const getSlug = require('speakingurl')
+  const teamPrice = 111
 
   server.io.on('connection', (client) => {
     client.on('create_team', (team) => {
@@ -24,13 +25,13 @@ module.exports = function Team() {
   })
 
   server.team = {
-    createTeam(player, name) {
+    createTeam (player, name) {
       console.log({ createTeam: { player, name } })
       server.UserDb.findOne({ username: player })
         .then((user) => {
-          if (user.online) {
+          if (user.online && user.xp >= teamPrice) {
             const slug = getSlug(name)
-            server.TeamDb.findOne({ slug })
+            server.TeamDb.findOne({ slug, name })
               .then((team) => {
                 if (!team) {
                   server.TeamDb.create({
@@ -38,19 +39,31 @@ module.exports = function Team() {
                     slug: getSlug(name),
                     leader: user.username,
                     whitelist: [user.username]
+                  }).then(()=>{
+                    server.UserDb.updateOne(
+                      { username: user.username },
+                      { $set: { teamed: true, team: slug, xp: -teamPrice } }
+                    ).then(() => {
+                      if (user.teamed) {
+                        server.send('team leave ' + player)
+                      }
+                      server.send('team add ' + slug + ' "' + name + '"')
+                      server.send('team join ' + slug + ' ' + user.username)
+                      server.socket.to(user.username).send('team_created', {
+                        name,
+                        slug
+                      })
+                      server.socket.to(user.username).send('team_created_success', {
+                        team, player
+                      })
+                      return true
+                    })
                   })
-                  server.UserDb.updateOne(
-                    { username: user.username },
-                    { $set: { teamed: true, team: slug } }
-                  ).then(() => {
-                    if (user.teamed) {
-                      server.send('team leave ' + player)
-                    }
-                    server.send('team add ' + slug + ' "' + name + '"')
-                    server.send('team join ' + slug + ' ' + user.username)
-                    return true
-                  })
+
                 } else {
+                  server.socket.to(user.username).send('team_created_fail', {
+                    team, player
+                  })
                   return false
                 }
               })
@@ -58,7 +71,7 @@ module.exports = function Team() {
         })
     },
 
-    joinTeam(player, name) {
+    joinTeam (player, name) {
       console.log({ joinTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
@@ -84,7 +97,7 @@ module.exports = function Team() {
       })
     },
 
-    leaveTeam(player) {
+    leaveTeam (player) {
       console.log({ leaveTeam: { player } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online && user.teamed) {
@@ -94,15 +107,19 @@ module.exports = function Team() {
           )
             .then(() => {
               server.send('team leave ' + player)
+              server.socket.to(user.username).send('team_leave_success', {
+                player
+              })
               return true
             })
         } else {
+          server.socket.to(user.username).send('team_leave_failed')
           return false
         }
       })
     },
 
-    changeTeam(player, name) {
+    changeTeam (player, name) {
       console.log({ changeTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online && user.teamed) {
@@ -127,17 +144,21 @@ module.exports = function Team() {
                     'team join ' + slug + ' ' + user.username
                   )
                 })
+                server.socket.to(user.username).send('team_changed', {
+                  team, player
+                })
                 return true
               }
             })
           })
         } else {
+          server.socket.to(user.username).send('team_not_changed')
           return false
         }
       })
     },
 
-    addToTeam(leader, player) {
+    addToTeam (leader, player) {
       console.log({ addToTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
@@ -149,16 +170,20 @@ module.exports = function Team() {
               server.TeamDb.updateOne(
                 {
                   slug: team.name,
-                  whitelist: { $ne: leader }
+                  whitelist: { $ne: player }
                 },
                 {
                   $addToSet: { whitelist: player }
                 }
               ).then((affected) => {
                 if (affected) {
+                  server.socket.to(user.username).send('add_to_team_success', {
+                    team, player
+                  })
                   return true
                 } else {
-                  throw new Error('not affected')
+                  server.socket.to(user.username).send('add_to_team_failed')
+                  return false
                 }
               })
             }
@@ -167,7 +192,7 @@ module.exports = function Team() {
       })
     },
 
-    removeFromTeam(leader, player) {
+    removeFromTeam (leader, player) {
       console.log({ removeFromTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
@@ -179,17 +204,13 @@ module.exports = function Team() {
               server.TeamDb.updateOne(
                 {
                   slug: team.name,
-                  whitelist: { $ne: leader }
+                  whitelist: { $ne: player }
                 },
                 {
                   $pull: { whitelist: player }
                 }
               ).then((affected) => {
-                if (affected) {
-                  return true
-                } else {
-                  throw new Error('error-appeared')
-                }
+                return !!affected
               })
             }
           })

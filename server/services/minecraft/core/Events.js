@@ -2,7 +2,7 @@
   Name: Events-Module (Events.js)
   Description: Contains all the essential events used in other modules.
 */
-module.exports = function Events() {
+module.exports = function Events () {
   const server = this
 
   server.on('console', (event) => {

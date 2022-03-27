@@ -3,7 +3,7 @@
     <div class="ui vertical horizontal aligned segment">
       <form class="ui large form" @submit.prevent="handleSubmit">
         <h1 class="ui yellow header">
-          CraftOS/Login
+          EnderNET/Login
         </h1>
         <div class="inverted field">
           <div class="ui large left input inverted">

@@ -4,7 +4,7 @@
   Author: Janis Jendraß
   ForVersion: <1.14.X
  */
-module.exports = function AllData() {
+module.exports = function AllData () {
   this.items = [
     { name: 'Acacia Button', item: 'Acacia_Button' },
     { name: 'Acacia Door', item: 'Acacia_Door' },

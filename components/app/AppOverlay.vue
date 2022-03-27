@@ -1,6 +1,6 @@
 <template>
   <transition name="fastfade">
-    <div v-if="$store.state.Overlay" class="overlay" @click="toggleAll(false)"/>
+    <div v-if="$store.state.Overlay" class="overlay" @click="toggleAll(false)" />
   </transition>
 </template>
 

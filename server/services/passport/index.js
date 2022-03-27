@@ -16,7 +16,7 @@ export const password = () => (req, res, next) =>
       return res.status(401).end()
     }
     req.logIn(user, { session: false }, (err) => {
-      if (err) return res.status(401).end()
+      if (err) { return res.status(401).end() }
       next()
     })
   })(req, res, next)
@@ -37,7 +37,7 @@ export const token = ({ required, roles = User.roles } = {}) => (
       return res.status(401).end()
     }
     req.logIn(user, { session: false }, (err) => {
-      if (err) return res.status(401).end()
+      if (err) { return res.status(401).end() }
       next()
     })
   })(req, res, next)
@@ -50,7 +50,7 @@ export const local = () => (req, res, next) =>
       return res.status(401).end()
     }
     req.logIn(user, { session: false }, (err) => {
-      if (err) return res.status(401).end()
+      if (err) { return res.status(401).end() }
       next()
     })
   })(req, res, next)
@@ -68,7 +68,7 @@ passport.use(
         password: schema.tree.password
       })
       userSchema.validate({ username, password }, (err) => {
-        if (err) done(err)
+        if (err) { done(err) }
       })
 
       User.findOne({ username }).then((user) => {
@@ -97,7 +97,7 @@ passport.use(
     })
 
     userSchema.validate({ username, password }, (err) => {
-      if (err) done(err)
+      if (err) { done(err) }
     })
 
     User.findOne({ username }).then((user) => {

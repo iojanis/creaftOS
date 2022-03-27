@@ -1,4 +1,4 @@
-module.exports = function Stats() {
+module.exports = function Stats () {
   const server = this
   /*
     StatsModule to keep track of Statistics.
@@ -12,16 +12,16 @@ module.exports = function Stats() {
   })
 
   server.stats = {
-    noteItemPrice(item, price, amount) {
+    noteItemPrice (item, price, amount) {
       console.info('[C/Stats]: ' + item + ' at price ' + ' ' + price)
       server.StatDb.create({ attribute: item, type: 'item', value: price, amount })
     },
-    noteUserExp(user) {
+    noteUserExp (user) {
       console.info('[C/Stats]: ' + user)
       // server.StatDb
       server.StatDb.create({ type: 'user', attribute: user.username, value: user.price })
     },
-    noteAllUsersExp() {
+    noteAllUsersExp () {
       server.UserDb.find({}).then((users) => {
         users.forEach((user) => {
           this.noteUserExp(user)

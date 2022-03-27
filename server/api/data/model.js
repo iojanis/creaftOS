@@ -21,7 +21,7 @@ const dataSchema = new Schema(
 )
 
 dataSchema.methods = {
-  view(full) {
+  view (full) {
     const view = {
       // simple view
       id: this.id,
@@ -33,9 +33,9 @@ dataSchema.methods = {
 
     return full
       ? {
-        ...view
+          ...view
         // add properties for a full view
-      }
+        }
       : view
   }
 }

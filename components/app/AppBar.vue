@@ -7,7 +7,7 @@
     <!--</a>-->
     <a class="item" @click="toggleNotificationDrawer(true)">
       <h3 class="ui yellow header shaft boldcraft" style="margin-bottom: 0">
-        CraftOS
+        EnderNET
       </h3>
       <div v-if="false" class="ui left pointing inverted blue basic label" style="margin-right: 0em;">
         12
@@ -27,8 +27,8 @@
         <div v-if="false" class="ui right pointing inverted basic green label" style="margin-left: 0em;">
           -122°
         </div>
-        <img v-if="!$auth.loggedIn" style="height: 30px; width: 30px; border-radius: 3px;" src="https://minotar.net/avatar/steve">
-        <img v-else :src="'https://minotar.net/avatar/' + $auth.user.username" :class="{online: isCurrentlyOnline}" style="height: 30px; width: 30px; border-radius: 3px;">
+        <img v-if="$auth.loggedIn" :src="'https://minotar.net/avatar/' + $auth.user.username" :class="{online: isCurrentlyOnline}" style="height: 30px; width: 30px; border-radius: 3px;">
+        <img v-else style="height: 30px; width: 30px; border-radius: 3px;" src="https://minotar.net/avatar/steve">
       </a>
     </div>
   </div>

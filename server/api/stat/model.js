@@ -22,7 +22,7 @@ const statSchema = new Schema({
 })
 
 statSchema.methods = {
-  view(full) {
+  view (full) {
     const view = {
       // simple view
       id: this.id,

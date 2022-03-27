@@ -40,7 +40,7 @@
         </a>
       </div>
       <div class="item" style="position: absolute; bottom: 0; right: 0; padding-right: 2em">
-        CraftOS αv3.3.0
+        EnderNET αv3.3.0
       </div>
     </div>
   </transition>

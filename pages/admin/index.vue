@@ -3,17 +3,23 @@
     <div class="ui inverted relaxed list" style="background: transparent!important;">
       <div class="item">
         <div class="content">
-          <div class="header normal-font">Snickerdoodle</div>
+          <div class="header normal-font">
+            Snickerdoodle
+          </div>
         </div>
       </div>
       <div class="item">
         <div class="content">
-          <div class="header">Poodle</div>
+          <div class="header">
+            Poodle
+          </div>
         </div>
       </div>
       <div class="item">
         <div class="content">
-          <div class="header">Paulo</div>
+          <div class="header">
+            Paulo
+          </div>
         </div>
       </div>
     </div>
@@ -23,7 +29,7 @@
 <script>
 export default {
   layout: 'terminal',
-  mounted() {
+  mounted () {
     this.$store.watch(
       (state) => {
         try {

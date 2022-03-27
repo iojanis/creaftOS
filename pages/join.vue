@@ -3,7 +3,7 @@
     <div class="ui vertical horizontal aligned segment">
       <form class="ui large form inverted" @submit.prevent="handleSubmit">
         <h1 class="ui yellow header">
-          CraftOS/Join
+          EnderNET/Join
         </h1>
         <div class="field">
           <div class="ui error message">

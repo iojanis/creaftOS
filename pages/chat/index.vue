@@ -17,7 +17,8 @@
             <a
               data-inverted=""
               data-tooltip="It's currently day!"
-              data-position="bottom left">
+              data-position="bottom left"
+            >
               <i
                 class="sun icon light"
                 style="margin-top: 0.4em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
@@ -76,8 +77,8 @@
     >
       <div
         v-for="(message, i) in getLatestMessages"
-        :data="message"
         :key="'i' + i"
+        :data="message"
         class="event"
       >
         <div class="label">
@@ -88,7 +89,9 @@
           >
         </div>
         <div class="content">
-          <div class="date">Today</div>
+          <div class="date">
+            Today
+          </div>
           <div class="summary">
             [{{ message.player }}] {{ message.message }}
           </div>
@@ -103,7 +106,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   auth: false,
-  data() {
+  data () {
     return {
       message: ''
     }
@@ -115,14 +118,14 @@ export default {
     })
   },
   methods: {
-    sendChatMessage() {
+    sendChatMessage () {
       console.log('sent')
       if (this.message.length > 3) {
         this.$socket.emit('send-chat-message', this.message)
         this.message = ''
       }
     },
-    isOnline(player) {
+    isOnline (player) {
       const index = this.getOnlinePlayers.indexOf(player)
       if (index > -1) {
         return true

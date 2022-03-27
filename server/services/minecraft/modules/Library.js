@@ -1,4 +1,4 @@
-module.exports = function Library() {
+module.exports = function Library () {
   const server = this
 
   server.io.on('connection', (client) => {

@@ -109,9 +109,9 @@ module.exports = function Zone () {
                 player +
                 ' ["",{"text":"[' +
                 zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
                 zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                 zone.pcenter[0] +
                 '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   zone.pcenter[1] +
@@ -130,9 +130,9 @@ module.exports = function Zone () {
                   player +
                   ' ["",{"text":"[' +
                   zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
                 zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                 zone.pcenter[0] +
                 '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                 zone.pcenter[1] +
@@ -147,7 +147,7 @@ module.exports = function Zone () {
                 server.send(
                   'tellraw ' +
                   player +
-                  ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                   parseInt(user.joined_x) +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   parseInt(user.joined_y) +
@@ -241,9 +241,9 @@ module.exports = function Zone () {
                 player +
                 ' ["",{"text":"[' +
                 zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
                 zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                 zone.pcenter[0] +
                 '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   zone.pcenter[1] +
@@ -262,9 +262,9 @@ module.exports = function Zone () {
                   player +
                   ' ["",{"text":"[' +
                   zone.name +
-                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"http://CraftOS/map/' +
+                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
                   zone.slug +
-                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"CraftOS"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                   zone.pcenter[0] +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   zone.pcenter[1] +
@@ -445,7 +445,7 @@ module.exports = function Zone () {
                 server.send(
                   '/tellraw ' +
                   user.username +
-                  ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://CraftOS"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                   cx +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   cy +
@@ -641,7 +641,7 @@ module.exports = function Zone () {
     //
     //         S.send('setblock ' + (ox + 128) + ' 1 ' + (oz + 128) + ' minecraft:redstone_block')
     //       }, 15 * 200)
-    //       S.send('/tellraw ' + user.username + ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://CraftOS"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' + cx + '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' + cy + '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' + cz + '","bold":true,"italic":true,"color":"none"}]')
+    //       S.send('/tellraw ' + user.username + ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' + cx + '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' + cy + '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' + cz + '","bold":true,"italic":true,"color":"none"}]')
     //     } else {
     //       // not enough exp
     //     }

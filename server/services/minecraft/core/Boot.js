@@ -8,7 +8,7 @@ import fs from 'fs'
 import https from 'https'
 import axios from 'axios'
 
-module.exports = function Boot() {
+module.exports = function Boot () {
   const server = this
   const rawData = this.items
 
@@ -47,7 +47,7 @@ module.exports = function Boot() {
   }
 
   server.boot = {
-    run() {
+    run () {
       console.info('[C/Boot]: Bootstrapping...')
       // this.checkForOrCreateConfig()
       this.insertData()
@@ -63,10 +63,10 @@ module.exports = function Boot() {
       server.locked = false
       server.start()
     },
-    runMapper() {
+    runMapper () {
       this.mapper.start()
     },
-    resetAtMidnight() {
+    resetAtMidnight () {
       const now = new Date()
       const night = new Date(
         now.getFullYear(),
@@ -81,10 +81,10 @@ module.exports = function Boot() {
         this.resetAtMidnight()
       }, msToMidnight)
     },
-    runAtMidnight() {
+    runAtMidnight () {
       server.stats.noteAllUsersExp()
     },
-    getUpdate() {
+    getUpdate () {
       console.info('[C/Boot]: Get newest Minecraft-Server-Version...')
       axios
         .get('http://launchermeta.mojang.com/mc/game/version_manifest.json')
@@ -99,7 +99,7 @@ module.exports = function Boot() {
           console.error(error)
         })
     },
-    updateServer() {
+    updateServer () {
       server.stop()
       console.info('[C/Boot]: Get newest Minecraft-Server-Version...')
       axios
@@ -134,7 +134,7 @@ module.exports = function Boot() {
           console.error(error)
         })
     },
-    insertData() {
+    insertData () {
       server.DataDb.find({}).then((result) => {
         if (result.length === 0) {
           console.info('[C/Boot]: DataDB is empty! Items will be inserted...')
@@ -149,38 +149,38 @@ module.exports = function Boot() {
         }
       })
     },
-    cleanDatabase() {
+    cleanDatabase () {
       server.UserDb.updateMany({}, { $set: { online: false } }).then(() => {
         console.info('[C/Boot]: All players have set to be offline')
       })
     },
-    checkForOrCreateConfig() {
+    checkForOrCreateConfig () {
       const path = server.config.options.server_path + '/config.json'
       if (!fs.access(path)) {
         fs.writeFile(path, SampleConfig)
       }
     },
-    loadConfig(attr) {
+    loadConfig (attr) {
       return readJson(server.config.options.server_path + '/config.json')
         .then(data => attr ? data[attr] : data)
     },
-    saveConfig(attr, value) {
+    saveConfig (attr, value) {
       return readJson(server.config.options.server_path + '/config.json')
         .then((data) => {
           data[attr] = value
           return writeJson(server.config.options.server_path, data)
         })
     },
-    loadMcConfig(prop) {
+    loadMcConfig (prop) {
       // todo: implement server.properties loading
     },
-    saveMcConfig(prop) {
+    saveMcConfig (prop) {
       // todo: implement server.properties saving
     }
   }
 }
 
-function readJson(path) {
+function readJson (path) {
   return new Promise((resolve) => {
     fs.readFile(path, (err, data) => {
       if (err) {
@@ -192,7 +192,7 @@ function readJson(path) {
   })
 }
 
-function writeJson(path, data) {
+function writeJson (path, data) {
   return new Promise((resolve, reject) => {
     fs.writeFile(path, JSON.stringify(data, null, 4), (err) => {
       if (err) {
@@ -204,10 +204,10 @@ function writeJson(path, data) {
   })
 }
 
-function readProp(path, prop) {
+function readProp (path, prop) {
   // todo: implement server.properties reading
 }
 
-function writeProp(path, prop) {
+function writeProp (path, prop) {
   // todo: implement server.properties writing
 }

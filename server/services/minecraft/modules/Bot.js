@@ -1,4 +1,4 @@
-module.exports = function Bot() {
+module.exports = function Bot () {
   const server = this
   // server.on('chat', (event) => {
   //

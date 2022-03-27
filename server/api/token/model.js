@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose'
 
 const tokenSchema = new Schema(
   {
@@ -17,14 +17,14 @@ const tokenSchema = new Schema(
     toJSON: {
       virtuals: true,
       transform: (obj, ret) => {
-        delete ret._id;
+        delete ret._id
       }
     }
   }
-);
+)
 
 tokenSchema.methods = {
-  view(full) {
+  view (full) {
     const view = {
       // simple view
       id: this.id,
@@ -33,18 +33,18 @@ tokenSchema.methods = {
       activation: this.activation,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
-    };
+    }
 
     return full
       ? {
           ...view
           // add properties for a full view
         }
-      : view;
+      : view
   }
-};
+}
 
-const model = mongoose.model("Token", tokenSchema);
+const model = mongoose.model('Token', tokenSchema)
 
-export const schema = model.schema;
-export default model;
+export const schema = model.schema
+export default model

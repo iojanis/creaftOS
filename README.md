@@ -1,4 +1,16 @@
-# CraftOS
+# EnderNET: Our World Is A Simulation
+An experimental Minecraft server wrapper written in Node.js with a Nuxt/Vue.js frontend.
+
+
+## Introduction
+The name EnderNET is a combination of the minecraft related end and the internet. Just like the real internet it offers markets and a lot of other services, like Banking, Maps, Chats and more.
+
+The EnderNET spawns and controls a vanilla minecraft server and provides a web interface to control it. Designed both, for desktop and mobile devices, it is a great extension to a minecraft server.
+
+## Features
+- Desktop and mobile web interface ☑️
+- Vanilla Minecraft server ☑️
+- Node.js server wrapper ☑️
 
 Readme coming soon. Try it out in the meantime: https://rea.lity.cc
 

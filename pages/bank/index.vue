@@ -11,8 +11,10 @@
         </div>
       </div>
     </div>
-    <div class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
-         style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;">
+    <div
+      class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
+      style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;"
+    >
       <div class="ui container item" style="border: none!important; ">
         <div class="ui form" style="width: 100%;">
           <div class="ui big fluid transparent icon input">
@@ -23,8 +25,12 @@
               />
             </a>
             <input v-model="search" style="text-align: center; color: #ffffff!important;padding: 0px" placeholder="Search" autocomplete="off">
-            <i v-if="search.length > 0" class="remove link icon"
-               style="color: rgba(0, 0, 0, 0.34); margin-right: 2.1em; margin-top: 0.15em;" @click="search = ''"/>
+            <i
+              v-if="search.length > 0"
+              class="remove link icon"
+              style="color: rgba(0, 0, 0, 0.34); margin-right: 2.1em; margin-top: 0.15em;"
+              @click="search = ''"
+            />
             <a data-tooltip="Transfer XP" style="cursor: pointer" data-inverted="" data-position="bottom right">
               <i
                 class="exchange icon light"
@@ -45,8 +51,8 @@
         <svg style="width:0; height:0; position:absolute;" aria-hidden="true" focusable="false">
           <defs>
             <linearGradient id="btcFill" x1="1" x2="1" y1="0" y2="1">
-              <stop offset="0%" stop-color="#f69119"/>
-              <stop offset="100%" stop-color="#ffffff"/>
+              <stop offset="0%" stop-color="#f69119" />
+              <stop offset="100%" stop-color="#ffffff" />
             </linearGradient>
           </defs>
         </svg>
@@ -75,10 +81,18 @@
         class="bordered column item noselect"
         style="height: 52px;"
       >
-        <img :src="'https://minotar.net/avatar/rgby'" draggable="false" class="ui avatar image"
-             style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;">
-        <img :src="'/mcicons/'+item.type+'-'+item.meta+'.png'" draggable="false" class="ui avatar image"
-             style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;">
+        <img
+          :src="'https://minotar.net/avatar/rgby'"
+          draggable="false"
+          class="ui avatar image"
+          style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;"
+        >
+        <img
+          :src="'/mcicons/'+item.type+'-'+item.meta+'.png'"
+          draggable="false"
+          class="ui avatar image"
+          style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;"
+        >
         <div class="content">
           <div class="description">
             <span>{{ new Date().toDateString() }}</span>
@@ -108,7 +122,7 @@ export default {
     TrendChart
   },
   auth: false,
-  data() {
+  data () {
     return {
       dataset: [],
       labels: {
@@ -299,7 +313,7 @@ export default {
       search: ''
     }
   },
-  mounted() {
+  mounted () {
     const data = {
       '2019-01-01': 869.47,
       '2019-01-02': 941.2167,
@@ -339,10 +353,10 @@ export default {
     }
   },
   methods: {
-    downloadItem(item, amount) {
+    downloadItem (item, amount) {
       this.$socket.emit('download-item', item, amount)
     },
-    changeTransferRate() {
+    changeTransferRate () {
       switch (this.transferRate) {
         case 0:
           this.transferRate = 1
@@ -358,7 +372,7 @@ export default {
           break
       }
     },
-    transferRateText() {
+    transferRateText () {
       switch (this.transferRate) {
         case 0:
           return '1 Item'
@@ -370,15 +384,15 @@ export default {
           return '64 Items'
       }
     },
-    changeTransferDirection() {
+    changeTransferDirection () {
       this.transferDirection === 0
         ? (this.transferDirection = 1)
         : (this.transferDirection = 0)
     },
-    changeView() {
+    changeView () {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     },
-    changeManage() {
+    changeManage () {
       this.manageMode === 0 ? (this.manageMode = 1) : (this.manageMode = 0)
     }
   }

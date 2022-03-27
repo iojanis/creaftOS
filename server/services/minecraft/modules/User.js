@@ -86,7 +86,7 @@ module.exports = function User () {
             server.cmdTo(
               'title',
               event.player,
-              'title {"text":"' + 'CraftOS' + '","color":"gold"}'
+              'title {"text":"' + 'EnderNET' + '","color":"gold"}'
             )
             setTimeout(function () {
               server.util.actionbar(
@@ -144,7 +144,7 @@ module.exports = function User () {
               server.send(
                 'kick ' +
                   player +
-                  ' Go to: CraftOS/join Token: ' +
+                  ' Go to: EnderNET/join Token: ' +
                   user.code
               )
             }, 0 * 500)
@@ -153,7 +153,7 @@ module.exports = function User () {
             server.user.preparePlayer(player)
             const code = Math.floor(Math.random() * (1 + 99999 - 11111))
             console.info(
-              '[C/User]: ' + player + ' is new to CraftOS. His token is: ' + code
+              '[C/User]: ' + player + ' is new to EnderNET. His token is: ' + code
             )
             const newToken = server.TokenDb({
               username: player,
@@ -167,7 +167,7 @@ module.exports = function User () {
               server.send(
                 'tell ' +
                   player +
-                  ' Go to CraftOS/join to create an account!'
+                  ' Go to EnderNET/join to create an account!'
               )
             }, 0 * 500)
           }
@@ -185,7 +185,7 @@ module.exports = function User () {
         server.cmdTo(
           'title',
           player,
-          'title {"text":"' + 'CraftOS' + '","color":"gold"}'
+          'title {"text":"' + 'EnderNET' + '","color":"gold"}'
         )
         setTimeout(function () {
           server.cmdTo('title', player, 'times 20 200 20')
@@ -204,7 +204,7 @@ module.exports = function User () {
             server.cmdTo(
               'title',
               player,
-              'subtitle {"text":"' + 'Visit CraftOS/Join to create an account.' + '"}'
+              'subtitle {"text":"' + 'Visit EnderNET/Join to create an account.' + '"}'
             )
             server.cmdTo(
               'title',

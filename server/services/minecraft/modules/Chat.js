@@ -1,4 +1,4 @@
-module.exports = function Chat() {
+module.exports = function Chat () {
   const server = this
   server.latestMessages = []
 
@@ -27,7 +27,7 @@ module.exports = function Chat() {
       const player = server.socket.getUsernameFromId(client.id)
       console.log(player)
       if (player) {
-        server.latestMessages.unshift({ player: player, message: message })
+        server.latestMessages.unshift({ player, message })
         server.chat.sendChatMessage(player, message)
         server.send(
           'tellraw @a ["",{"text":"[' +
@@ -43,7 +43,7 @@ module.exports = function Chat() {
   })
 
   server.chat = {
-    sendChatMessage(player, message) {
+    sendChatMessage (player, message) {
       server.io.emit('chat_message', { player, message })
     }
   }

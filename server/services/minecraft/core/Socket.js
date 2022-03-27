@@ -1,17 +1,17 @@
 import { verify } from '../../jwt'
 
-module.exports = function Socket() {
+module.exports = function Socket () {
   const server = this
   server.linkedClients = []
 
   const capcon = require('capture-console')
 
-  const stderr = capcon.captureStderr(function scope() {
+  const stderr = capcon.captureStderr(function scope () {
     // whatever is done in here has stderr captured,
     // the return value is a string containing stderr
   })
 
-  const stdout = capcon.captureStdout(function scope() {
+  const stdout = capcon.captureStdout(function scope () {
     // whatever is done in here has stdout captured,
     // the return value is a string containing stdout
   })
@@ -59,7 +59,7 @@ module.exports = function Socket() {
   })
 
   server.socket = {
-    linkSocketId(id, token, username) {
+    linkSocketId (id, token, username) {
       for (let i = 0; i < server.linkedClients.length; i++) {
         if (server.linkedClients[i].id === id) {
           server.linkedClients.splice(i, 1)
@@ -73,7 +73,7 @@ module.exports = function Socket() {
       server.linkedClients.push(SocketUser)
       server.socket.getAllLinkedSocketIds()
     },
-    unlinkSocketId(id) {
+    unlinkSocketId (id) {
       for (let i = 0; i < server.linkedClients.length; i++) {
         if (server.linkedClients[i].id === id) {
           server.linkedClients.splice(i, 1)
@@ -81,26 +81,26 @@ module.exports = function Socket() {
       }
       server.socket.getAllLinkedSocketIds()
     },
-    getAllLinkedSocketIds() {
+    getAllLinkedSocketIds () {
       server.linkedClients.forEach((client) => {
         console.log(client)
       })
     },
-    getIdFromUsername(username) {
+    getIdFromUsername (username) {
       for (let i = 0; i < server.linkedClients.length; i++) {
         if (server.linkedClients[i].username === username) {
           return server.linkedClients[i].id
         }
       }
     },
-    getTokenFromUsername(username) {
+    getTokenFromUsername (username) {
       for (let i = 0; i < server.linkedClients.length; i++) {
         if (server.linkedClients[i].username === username) {
           return server.linkedClients[i].id
         }
       }
     },
-    getUsernameFromId(id) {
+    getUsernameFromId (id) {
       for (let i = 0; i < server.linkedClients.length; i++) {
         if (server.linkedClients[i].id === id) {
           return server.linkedClients[i].username

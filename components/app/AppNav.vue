@@ -7,7 +7,8 @@
         :to="{ name: Item.name }"
         :class="{ disabled: Item.auth && !$auth.loggedIn }"
         active-class="active"
-        class="bordered item">
+        class="bordered item"
+      >
         <img :src="'/mcicons/' + Item.icon + '.png'" draggable="false" class="img-icon">
         {{ Item.title }}
       </nuxt-link>
@@ -18,7 +19,7 @@
 <script>
 export default {
   name: 'AppBar',
-  data() {
+  data () {
     return {
       loaded: false,
       MenuItems: [
@@ -68,13 +69,13 @@ export default {
           name: 'map',
           title: 'MAP',
           icon: '345-0',
-          auth: true,
-          disabled: true
+          auth: false,
+          disabled: false
         }
       ]
     }
   },
-  mounted() {
+  mounted () {
     this.loaded = true
   }
 }

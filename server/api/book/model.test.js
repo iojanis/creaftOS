@@ -1,5 +1,5 @@
-import { Book } from '.'
 import { User } from '../user'
+import { Book } from '.'
 
 let user, book
 

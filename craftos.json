@@ -1,7 +1,7 @@
 {
   "apps": [
   {
-    "name": "CraftOS",
+    "name": "EnderNET",
     "script": "npm",
     "args" : "start"
   }

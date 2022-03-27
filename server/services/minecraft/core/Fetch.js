@@ -2,12 +2,12 @@ import fs from 'fs'
 import axios from 'axios'
 import cheerio from 'cheerio'
 
-module.exports = function Fetch() {
+module.exports = function Fetch () {
   const server = this
   this.blockList = []
   this.itemList = []
   server.fetch = {
-    getAllBlocks() {
+    getAllBlocks () {
       const webpage = 'https://minecraft.gamepedia.com/Java_Edition_data_values'
       console.log('[C/Fetch]: getAllBlocks')
       console.log('[C/Fetch]: downloading webpage: ' + webpage)
@@ -39,10 +39,10 @@ module.exports = function Fetch() {
           }
         }, error => console.log(error))
     },
-    getAllItems() {
+    getAllItems () {
       console.log('[C/Fetch]: getAllItems')
       fs.readFile('/Users/janis/block_images/items.html', (err, html) => {
-        if (err) return
+        if (err) { return }
         const $ = cheerio.load(html)
         $('.stikitable').first().find('tr').each(function (i, elem) {
           $(this).find('td').each(function (j, elem) {
@@ -66,7 +66,7 @@ module.exports = function Fetch() {
         this.getAllItemImages()
       })
     },
-    getAllBlockImages() {
+    getAllBlockImages () {
       server.blockList.forEach((block) => {
         if (block.img) {
           // eslint-disable-next-line no-useless-escape
@@ -84,14 +84,14 @@ module.exports = function Fetch() {
         }
       })
     },
-    getAllItemImages() {
+    getAllItemImages () {
       server.itemList.forEach((block) => {
         if (block.name) {
           this.getOneItemImage(block.name, block.item)
         }
       })
     },
-    async getOneItemImage(name, item) {
+    async getOneItemImage (name, item) {
       const _name = name.replace(/ /g, '_')
       await axios.get(`https://minecraft.gamepedia.com/File:${_name}.png`)
         .then((response) => {
@@ -129,7 +129,6 @@ module.exports = function Fetch() {
             })
             .catch(() => {
               console.log(name + ' not possible to fetch... trying: ')
-
             })
         })
     }

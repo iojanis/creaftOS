@@ -11,7 +11,7 @@ import logModel from '../../../api/log/model'
 import zoneModel from '../../../api/zone/model'
 import statModel from '../../../api/stat/model'
 
-module.exports = function Mongo() {
+module.exports = function Mongo () {
   const server = this
 
   server.UserDb = userModel

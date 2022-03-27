@@ -41,7 +41,7 @@ export const update = ({ bodymen: { body }, params, user }, res, next) =>
   User.findById(params.id === 'me' ? user.id : params.id)
     .then(notFound(res))
     .then((result) => {
-      if (!result) return null
+      if (!result) { return null }
       const isAdmin = user.role === 'admin'
       const isSelfUpdate = user.id === result.id
       if (!isSelfUpdate && !isAdmin) {
@@ -66,7 +66,7 @@ export const updatePassword = (
   User.findById(params.id === 'me' ? user.id : params.id)
     .then(notFound(res))
     .then((result) => {
-      if (!result) return null
+      if (!result) { return null }
       const isSelfUpdate = user.id === result.id
       if (!isSelfUpdate) {
         res.status(401).json({

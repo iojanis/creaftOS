@@ -45,7 +45,7 @@ const CONFIG = {
         0
       ],
       "maxZoom": 8,
-      "name": "CraftOS World",
+      "name": "EnderNET World",
       "renderView": "isometric",
       "rotations": [
         0
@@ -102,13 +102,17 @@ export default {
   async mounted() {
 
     var Mapcrafter = new MapcrafterUI(CONFIG);
-    Mapcrafter.addControl(new MousePosControl(), "topright", 1);
+    // Mapcrafter.addControl(new MousePosControl(), "topright", 1);
     // Mapcrafter.addControl(new RotationSelectControl(), "bottomright", 1);
     // Mapcrafter.addControl(new MapSelectControl(), "topright", 1);
 
     // this.gx =
 
     const zones = await this.$axios.$get('/zones')
+
+    let joined_x = this.$auth.loggedIn ? this.$auth.user.joined_x : 0
+    let joined_z = this.$auth.loggedIn ? this.$auth.user.joined_z : 0
+    let joined_y = this.$auth.loggedIn ? this.$auth.user.joined_y : 0
 
     Mapcrafter.init();
 
@@ -133,7 +137,7 @@ export default {
             // // more markers:
             // {"pos" : [100, 100, 64], "title" : "Test1"},
             // {"pos" : [100, 200, 64], "title" : "Test2"},
-            { 'pos': [Math.round(this.$auth.user.joined_x), Math.round(this.$auth.user.joined_z), Math.round(this.$auth.user.joined_y)], 'title': 'LAST JOIN POSITION', 'icon': 'compass.png' }
+            { 'pos': [Math.round(joined_x), Math.round(joined_z), Math.round(joined_y)], 'title': 'LAST JOIN POSITION', 'icon': 'compass.png' }
           ]
         }
       },

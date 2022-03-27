@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-module.exports = function NewModule() {
+module.exports = function NewModule () {
   const server = this // other Methods can be called using their name like: server.user.someMethod()
 
   /*
@@ -25,11 +25,11 @@ module.exports = function NewModule() {
       Methods are always inside their own Object.
      */
 
-    newMethod(username, message) {
+    newMethod (username, message) {
       // todo: some actions
       server.io.to(username).emit('method_action_over_io', message) // socket-events can be sent to a username
     },
-    otherMethod(ZoneSlug, PlayerName) {
+    otherMethod (ZoneSlug, PlayerName) {
       // todo: some other actions
       server.ZoneDb.findOne({ slug: ZoneSlug }) // databases look like: UserDb, ZoneDb etc.
         .then((zone) => {

@@ -110,7 +110,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -127,10 +127,10 @@
         <div class="right floated content">
           <div class="ui inverted input">
             <button class="ui inverted icon basic button" type="submit" @click="uploadExp">
-              <i class="arrow up icon"/> 11°
+              <i class="arrow up icon" /> 11°
             </button>
             <button class="ui inverted icon basic button" type="submit" @click="downloadExp">
-              <i class="arrow down icon"/> 11°
+              <i class="arrow down icon" /> 11°
             </button>
           </div>
         </div>
@@ -144,7 +144,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -165,7 +165,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -183,7 +183,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -201,7 +201,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -219,7 +219,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -234,7 +234,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -252,7 +252,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -270,7 +270,7 @@
           <div class="right floated content">
             <div class="ui inverted input">
               <button class="ui inverted icon basic button" type="submit">
-                <i class="bolt icon"/>
+                <i class="bolt icon" />
               </button>
             </div>
           </div>
@@ -290,7 +290,7 @@
 export default {
   auth: true,
   layout: 'default',
-  data() {
+  data () {
     return {
       chatMessage: '',
       teamName: '',
@@ -300,45 +300,45 @@ export default {
       expReceiver: ''
     }
   },
-  mounted() {
+  mounted () {
 
   },
   methods: {
-    json(input) {
+    json (input) {
       return JSON.stringify(input)
     },
-    sendChatMessage() {
+    sendChatMessage () {
       this.$socket.emit('send-chat-message', this.chatMessage)
       this.chatMessage = ''
     },
-    uploadExp() {
+    uploadExp () {
       this.$socket.emit('upload-exp')
     },
-    downloadExp() {
+    downloadExp () {
       this.$socket.emit('download-exp')
     },
-    transferExp() {
+    transferExp () {
       this.$socket.emit('transfer-exp', this.expReceiver, this.expAmount)
     },
-    createTeam() {
+    createTeam () {
       this.$socket.emit('create_team', this.teamName)
     },
-    joinTeam() {
+    joinTeam () {
       this.$socket.emit('join_team', this.teamName)
     },
-    leaveTeam() {
+    leaveTeam () {
       this.$socket.emit('leave_team')
     },
-    changeTeam() {
+    changeTeam () {
       this.$socket.emit('change_team', this.teamName)
     },
-    addToTeam() {
+    addToTeam () {
       this.$socket.emit('add_to_team', this.teamPlayer)
     },
-    removeFromTeam() {
+    removeFromTeam () {
       this.$socket.emit('remove_from_team', this.teamPlayer)
     },
-    createZone() {
+    createZone () {
       this.$socket.emit('create_zone', this.zoneName)
     }
   }

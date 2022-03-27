@@ -4,14 +4,19 @@
     "browser": true,
     "node": true
   },
+  "plugins": [
+    "prettier"
+  ],
   //  "parserOptions": {
   //    "parser": "babel-eslint"
   //  },
   "extends": [
     "@nuxtjs",
-    "plugin:vue/essential"
+    "plugin:vue/essential",
+//    "plugin:nuxt/recommended",
+    "eslint:recommended",
+    "prettier"
   ],
-  // add your custom rules here
   "rules": {
     "no-console": 0,
     "vue/no-textarea-mustache": 0,
