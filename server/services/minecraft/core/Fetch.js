@@ -1,3 +1,8 @@
+/*
+  Name: Fetch-Module (Fetch.js)
+  Description: Contains all the logic to fetch items and blocks from the MC-Wiki.
+  todo: Currently not working.
+*/
 import fs from 'fs'
 import axios from 'axios'
 import cheerio from 'cheerio'

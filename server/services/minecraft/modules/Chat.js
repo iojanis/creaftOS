@@ -18,15 +18,15 @@ module.exports = function Chat () {
     console.log(server.latestMessages)
   })
 
-  server.io.on('connection', (client) => {
+  server.io.on('connection',  (client) => {
     const latest = server.latestMessages
     const online = server.onlinePlayers
     client.emit('init_chat', { latest, online })
     client.on('send-chat-message', (message) => {
       console.log('received chat message')
       const player = server.socket.getUsernameFromId(client.id)
-      console.log(player)
       if (player) {
+        server.bot.respondWithAI({ player, message })
         server.latestMessages.unshift({ player, message })
         server.chat.sendChatMessage(player, message)
         server.send(

@@ -1,8 +1,7 @@
 /*
   Name: Data-Module (AllData.js)
   Description: Contains static data for the server.
-  Author: Janis Jendraß
-  ForVersion: <1.14.X
+  ForVersion: <1.18.X
  */
 module.exports = function AllData () {
   this.items = [
@@ -35,10 +34,8 @@ module.exports = function AllData () {
     { name: 'Bamboo', item: 'Bamboo' },
     { name: 'Bamboo Shoot', item: 'Bamboo_Shoot' },
     { name: 'Barrel', item: 'Barrel' },
-    { name: 'Barrier', item: 'Barrier' },
     { name: 'Basalt', item: 'Basalt' },
     { name: 'Beacon', item: 'Beacon' },
-    { name: 'Bedrock', item: 'Bedrock' },
     { name: 'Bee Nest', item: 'Bee_Nest' },
     { name: 'Beehive', item: 'Beehive' },
     { name: 'Beetroots', item: 'Beetroots' },
@@ -306,16 +303,14 @@ module.exports = function AllData () {
     { name: 'Flowering Azalea', item: 'Flowering_Azalea' },
     { name: 'Flowering Azalea Leaves', item: 'Flowering_Azalea_Leaves' },
     { name: 'Frogspawn', item: 'Frogspawn' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Furnace', item: 'Furnace' },
     { name: 'Gilded Blackstone', item: 'Gilded_Blackstone' },
     { name: 'Glass', item: 'Glass' },
     { name: 'Glass Pane', item: 'Glass_Pane' },
     { name: 'Glow Item Frame', item: 'Glow_Item_Frame' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Glow Lichen', item: 'Glow_Lichen' },
     { name: 'Glowing Obsidian', item: 'Glowing_Obsidian' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Glowstone', item: 'Glowstone' },
     { name: 'Gold Ore', item: 'Gold_Ore' },
     { name: 'Granite', item: 'Granite' },
@@ -372,7 +367,6 @@ module.exports = function AllData () {
     { name: 'Iron Ore', item: 'Iron_Ore' },
     { name: 'Iron Trapdoor', item: 'Iron_Trapdoor' },
     { name: 'Item Frame', item: 'Item_Frame' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Jack o Lantern', item: 'Jack_o_Lantern' },
     { name: 'Jigsaw Block', item: 'Jigsaw_Block' },
     { name: 'Jukebox', item: 'Jukebox' },
@@ -457,35 +451,35 @@ module.exports = function AllData () {
     { name: 'Magenta Wool', item: 'Magenta_Wool' },
     { name: 'Magma Block', item: 'Magma_Block' },
     { name: 'Mangrove Button', item: 'Mangrove_Button' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Door', item: 'Mangrove_Door' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Fence', item: 'Mangrove_Fence' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Fence Gate', item: 'Mangrove_Fence_Gate' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Leaves', item: 'Mangrove_Leaves' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Log', item: 'Mangrove_Log' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Pressure Plate', item: 'Mangrove_Pressure_Plate' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Propagule', item: 'Mangrove_Propagule' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Planks', item: 'Mangrove_Planks' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Roots', item: 'Mangrove_Roots' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Sign', item: 'Mangrove_Sign' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Slab', item: 'Mangrove_Slab' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Stairs', item: 'Mangrove_Stairs' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Trapdoor', item: 'Mangrove_Trapdoor' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mangrove Wood', item: 'Mangrove_Wood' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Medium Amethyst Bud', item: 'Medium_Amethyst_Bud' },
     { name: 'Melon', item: 'Melon' },
     { name: 'Melon Stem', item: 'Melon_Stem' },
@@ -500,17 +494,17 @@ module.exports = function AllData () {
     { name: 'Mossy Stone Brick Wall', item: 'Mossy_Stone_Brick_Wall' },
     { name: 'Mossy Stone Bricks', item: 'Mossy_Stone_Bricks' },
     { name: 'Mud', item: 'Mud' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mud Brick Slab', item: 'Mud_Brick_Slab' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mud Brick Stairs', item: 'Mud_Brick_Stairs' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mud Brick Wall', item: 'Mud_Brick_Wall' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mud Bricks', item: 'Mud_Bricks' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Muddy Mangrove Roots', item: 'Muddy_Mangrove_Roots' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Mushroom Stem', item: 'Mushroom_Stem' },
     { name: 'Mycelium', item: 'Mycelium' },
     { name: 'Nether Brick Fence', item: 'Nether_Brick_Fence' },
@@ -521,7 +515,6 @@ module.exports = function AllData () {
     { name: 'Nether Gold Ore', item: 'Nether_Gold_Ore' },
     { name: 'Nether Quartz Ore', item: 'Nether_Quartz_Ore' },
     { name: 'Nether Reactor Core', item: 'Nether_Reactor_Core' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Nether Sprouts', item: 'Nether_Sprouts' },
     { name: 'Nether Wart', item: 'Nether_Wart' },
     { name: 'Nether Wart Block', item: 'Nether_Wart_Block' },
@@ -544,7 +537,7 @@ module.exports = function AllData () {
     { name: 'Observer', item: 'Observer' },
     { name: 'Obsidian', item: 'Obsidian' },
     { name: 'Ochre Froglight', item: 'Ochre_Froglight' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Ominous Banner', item: 'Ominous_Banner' },
     { name: 'Orange Banner', item: 'Orange_Banner' },
     { name: 'Orange Bed', item: 'Orange_Bed' },
@@ -566,9 +559,9 @@ module.exports = function AllData () {
     { name: 'Oxidized Cut Copper Stairs', item: 'Oxidized_Cut_Copper_Stairs' },
     { name: 'Packed Ice', item: 'Packed_Ice' },
     { name: 'Packed Mud', item: 'Packed_Mud' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Pearlescent Froglight', item: 'Pearlescent_Froglight' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Peony', item: 'Peony' },
     { name: 'Petrified Oak Slab', item: 'Petrified_Oak_Slab' },
     { name: 'Pink Banner', item: 'Pink_Banner' },
@@ -677,7 +670,7 @@ module.exports = function AllData () {
     { name: 'Redstone Torch', item: 'Redstone_Torch' },
     { name: 'Redstone Wire', item: 'Redstone_Wire' },
     { name: 'Reinforced Deepslate', item: 'Reinforced_Deepslate' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Repeating Command Block', item: 'Repeating_Command_Block' },
     { name: 'Respawn Anchor', item: 'Respawn_Anchor' },
     { name: 'Rooted Dirt', item: 'Rooted_Dirt' },
@@ -689,14 +682,14 @@ module.exports = function AllData () {
     { name: 'Sandstone Wall', item: 'Sandstone_Wall' },
     { name: 'Scaffolding', item: 'Scaffolding' },
     { name: 'Sculk', item: 'Sculk' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Sculk Catalyst', item: 'Sculk_Catalyst' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Sculk Sensor', item: 'Sculk_Sensor' },
     { name: 'Sculk Shrieker', item: 'Sculk_Shrieker' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Sculk Vein', item: 'Sculk_Vein' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Sea Lantern', item: 'Sea_Lantern' },
     { name: 'Sea Pickle', item: 'Sea_Pickle' },
     { name: 'Seagrass', item: 'Seagrass' },
@@ -728,7 +721,6 @@ module.exports = function AllData () {
     { name: 'Soul Sand', item: 'Soul_Sand' },
     { name: 'Soul Soil', item: 'Soul_Soil' },
     { name: 'Soul Torch', item: 'Soul_Torch' },
-    { name: 'Spawner', item: 'Spawner' },
     { name: 'Sponge', item: 'Sponge' },
     { name: 'Spore Blossom', item: 'Spore_Blossom' },
     { name: 'Spruce Button', item: 'Spruce_Button' },
@@ -756,8 +748,6 @@ module.exports = function AllData () {
     { name: 'Stone Slab', item: 'Stone_Slab' },
     { name: 'Stone Stairs', item: 'Stone_Stairs' },
     { name: 'Stonecutter', item: 'Stonecutter' },
-    { name: 'Stonecutter', item: 'Stonecutter/old' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Stripped Acacia Log', item: 'Stripped_Acacia_Log' },
     { name: 'Stripped Acacia Wood', item: 'Stripped_Acacia_Wood' },
     { name: 'Stripped Birch Log', item: 'Stripped_Birch_Log' },
@@ -769,9 +759,9 @@ module.exports = function AllData () {
     { name: 'Stripped Jungle Log', item: 'Stripped_Jungle_Log' },
     { name: 'Stripped Jungle Wood', item: 'Stripped_Jungle_Wood' },
     { name: 'Stripped Mangrove Log', item: 'Stripped_Mangrove_Log' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Stripped Mangrove Wood', item: 'Stripped_Mangrove_Wood' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Stripped Oak Log', item: 'Stripped_Oak_Log' },
     { name: 'Stripped Oak Wood', item: 'Stripped_Oak_Wood' },
     { name: 'Stripped Spruce Log', item: 'Stripped_Spruce_Log' },
@@ -800,7 +790,7 @@ module.exports = function AllData () {
     { name: 'Turtle Egg', item: 'Turtle_Egg' },
     { name: 'Twisting Vines', item: 'Twisting_Vines' },
     { name: 'Verdant Froglight', item: 'Verdant_Froglight' },
-    { name: 'upcoming', item: 'Planned_versions' },
+
     { name: 'Vines', item: 'Vines' },
     { name: 'Warped Button', item: 'Warped_Button' },
     { name: 'Warped Door', item: 'Warped_Door' },
@@ -819,7 +809,7 @@ module.exports = function AllData () {
     { name: 'Warped Trapdoor', item: 'Warped_Trapdoor' },
     { name: 'Warped Wart Block', item: 'Warped_Wart_Block' },
     { name: 'Water', item: 'Water' },
-    { name: 'Waxed Block of Copper', item: 'Waxed_Block_of_Copper' },
+    { name: 'Waxed Block of Copper', item: 'Copper_Block' },
     { name: 'Waxed Cut Copper', item: 'Waxed_Cut_Copper' },
     { name: 'Waxed Cut Copper Slab', item: 'Waxed_Cut_Copper_Slab' },
     { name: 'Waxed Cut Copper Stairs', item: 'Waxed_Cut_Copper_Stairs' },
@@ -903,15 +893,12 @@ module.exports = function AllData () {
     { name: 'Kelp', item: 'Kelp' },
     { name: 'Lava Bucket', item: 'Lava_Bucket' },
     { name: 'Lead', item: 'Lead' },
-    { name: 'Lingering Potion', item: 'Lingering_Potion' },
     { name: 'Mangrove Boat', item: 'Mangrove_Boat' },
-    { name: 'Java Edition 1.19', item: 'Java_Edition_1.19' },
     { name: 'Melon Seeds', item: 'Melon_Seeds' },
     { name: 'Minecart', item: 'Minecart' },
     { name: 'Minecart with Chest', item: 'Minecart_with_Chest' },
     { name: 'Minecart with Command Block', item: 'Minecart_with_Command_Block' },
     { name: 'Minecart with Furnace', item: 'Minecart_with_Furnace' },
-    { name: 'Java Edition', item: 'Java_Edition' },
     { name: 'Minecart with Hopper', item: 'Minecart_with_Hopper' },
     { name: 'Minecart with TNT', item: 'Minecart_with_TNT' },
     { name: 'Nether Wart', item: 'Nether_Wart' },
@@ -922,7 +909,6 @@ module.exports = function AllData () {
     { name: 'Pumpkin Seeds', item: 'Pumpkin_Seeds' },
     { name: 'Redstone Dust', item: 'Redstone_Dust' },
     { name: 'Snowball', item: 'Snowball' },
-    { name: 'Splash Potion', item: 'Splash_Potion' },
     { name: 'Spruce Boat', item: 'Spruce_Boat' },
     { name: 'String', item: 'String' },
     { name: 'Sweet Berries', item: 'Sweet_Berries' },
@@ -958,8 +944,6 @@ module.exports = function AllData () {
     { name: 'Cooked Salmon', item: 'Cooked_Salmon' },
     { name: 'Cookie', item: 'Cookie' },
     { name: 'Cyan Dye', item: 'Cyan_Dye' },
-    { name: 'Debug Stick', item: 'Debug_Stick' },
-    { name: 'Java Edition', item: 'Java_Edition' },
     { name: 'Diamond Axe', item: 'Diamond_Axe' },
     { name: 'Diamond Boots', item: 'Diamond_Boots' },
     { name: 'Diamond Chestplate', item: 'Diamond_Chestplate' },
@@ -975,7 +959,6 @@ module.exports = function AllData () {
     { name: 'Empty Map', item: 'Empty_Map' },
     { name: 'Enchanted Golden Apple', item: 'Enchanted_Golden_Apple' },
     { name: 'Goat Horn', item: 'Goat_Horn' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Glass Bottle', item: 'Glass_Bottle' },
     { name: 'Glow Ink Sac', item: 'Glow_Ink_Sac' },
     { name: 'Gold Ingot', item: 'Gold_Ingot' },
@@ -1008,9 +991,7 @@ module.exports = function AllData () {
     { name: 'Iron Shovel', item: 'Iron_Shovel' },
     { name: 'Iron Sword', item: 'Iron_Sword' },
     { name: 'Knowledge Book', item: 'Knowledge_Book' },
-    { name: 'Java Edition', item: 'Java_Edition' },
     { name: 'Lapis Lazuli', item: 'Lapis_Lazuli#Dye' },
-    { name: 'Bedrock Edition', item: 'Bedrock_Edition' },
     { name: 'Leather Boots', item: 'Leather_Boots' },
     { name: 'Leather Cap', item: 'Leather_Cap' },
     { name: 'Leather Horse Armor', item: 'Leather_Horse_Armor' },
@@ -1052,7 +1033,6 @@ module.exports = function AllData () {
     { name: 'Orange Dye', item: 'Orange_Dye' },
     { name: 'Pink Dye', item: 'Pink_Dye' },
     { name: 'Poisonous Potato', item: 'Poisonous_Potato' },
-    { name: 'Potion', item: 'Potion' },
     { name: 'Pufferfish (item)', item: 'Pufferfish_(item)' },
     { name: 'Pumpkin Pie', item: 'Pumpkin_Pie' },
     { name: 'Purple Dye', item: 'Purple_Dye' },
@@ -1070,7 +1050,6 @@ module.exports = function AllData () {
     { name: 'Shears', item: 'Shears' },
     { name: 'Shield', item: 'Shield' },
     { name: 'Spectral Arrow', item: 'Spectral_Arrow' },
-    { name: 'Java Edition', item: 'Java_Edition' },
     { name: 'Spider Eye', item: 'Spider_Eye' },
     { name: 'Spyglass', item: 'Spyglass' },
     { name: 'Steak', item: 'Steak' },
@@ -1151,6 +1130,5 @@ module.exports = function AllData () {
     { name: 'Shulker Shell', item: 'Shulker_Shell' },
     { name: 'Slimeball', item: 'Slimeball' },
     { name: 'Stick', item: 'Stick' }
-
   ]
 }

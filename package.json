@@ -85,6 +85,7 @@
     "morgan": "^1.7.0",
     "nuxt": "^2.3.4",
     "nuxt-i18n": "^6.28.1",
+    "openai": "^2.0.5",
     "passport": "^0.5.2",
     "passport-http": "^0.3.0",
     "passport-http-bearer": "^1.0.1",

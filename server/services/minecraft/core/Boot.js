@@ -2,7 +2,6 @@
   Name: Boot-Module (Boot.js)
   Description: Bootstraps the server and handles data-inserts / server-upgrades
                / server-management from the web / configurations and so on.
-  Author: Janis Jendraß
  */
 import fs from 'fs'
 import https from 'https'

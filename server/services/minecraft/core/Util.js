@@ -1,7 +1,6 @@
 /*
   Name: Util-Module (user.js)
   Description: Handles basic interactions and contains helper methods.
-  Author: Janis Jendraß
  */
 module.exports = function Util () {
   const server = this
