@@ -282,14 +282,32 @@
           </div>
         </form>
       </div>
+
+      <div class="inverted item">
+        <form class="ui inverted form" @submit.prevent="tpToZone">
+          <div class="right floated content">
+            <div class="ui inverted input">
+              <button class="ui inverted icon basic button" type="submit">
+                <i class="bolt icon" />
+              </button>
+            </div>
+          </div>
+          <div class="white content">
+            <span style="color: white">tpToZone</span>
+            <div class="ui inverted input">
+              <input v-model="zoneName" placeholder="Zone Name">
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   auth: true,
-  layout: 'default',
   data () {
     return {
       chatMessage: '',
@@ -340,6 +358,9 @@ export default {
     },
     createZone () {
       this.$socket.emit('create_zone', this.zoneName)
+    },
+    tpToZone () {
+      this.$socket.emit('tp_to_zone', this.zoneName)
     }
   }
 }

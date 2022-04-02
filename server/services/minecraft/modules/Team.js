@@ -42,31 +42,47 @@ module.exports = function Team () {
                   }).then(()=>{
                     server.UserDb.updateOne(
                       { username: user.username },
-                      { $set: { teamed: true, team: slug, xp: -teamPrice } }
+                      { $set: { teamed: true, team: slug }, $inc: { xp: -teamPrice } }
                     ).then(() => {
                       if (user.teamed) {
                         server.send('team leave ' + player)
                       }
                       server.send('team add ' + slug + ' "' + name + '"')
                       server.send('team join ' + slug + ' ' + user.username)
-                      server.socket.to(user.username).send('team_created', {
+                      server.io.to(user.username).send('team_created', {
                         name,
                         slug
                       })
-                      server.socket.to(user.username).send('team_created_success', {
+                      server.io.to(user.username).send('team_created_success', {
                         team, player
                       })
+                      server.util.actionbar(
+                          player,
+                          'Created team: ' + name + ' for ' + teamPrice + '° XPL',
+                          'green'
+                      )
                       return true
                     })
                   })
 
                 } else {
-                  server.socket.to(user.username).send('team_created_fail', {
+                  server.util.actionbar(
+                      player,
+                      'Failed to create team...',
+                      'red'
+                  )
+                  server.io.to(user.username).send('team_created_fail', {
                     team, player
                   })
                   return false
                 }
               })
+          } else {
+            server.util.actionbar(
+                player,
+                'Not enough XPL° to create a team...',
+                'red'
+            )
           }
         })
     },
@@ -90,6 +106,11 @@ module.exports = function Team () {
               server.send(
                 'team join ' + slug + ' ' + user.username
               )
+              server.util.actionbar(
+                  player,
+                  'Joined team: ' + team.name,
+                  'green'
+              )
               return true
             }
           })
@@ -107,13 +128,18 @@ module.exports = function Team () {
           )
             .then(() => {
               server.send('team leave ' + player)
-              server.socket.to(user.username).send('team_leave_success', {
+              server.io.to(user.username).send('team_leave_success', {
                 player
               })
+              server.util.actionbar(
+                  player,
+                  'Left the team.',
+                  'green'
+              )
               return true
             })
         } else {
-          server.socket.to(user.username).send('team_leave_failed')
+          server.io.to(user.username).send('team_leave_failed')
           return false
         }
       })
@@ -144,15 +170,20 @@ module.exports = function Team () {
                     'team join ' + slug + ' ' + user.username
                   )
                 })
-                server.socket.to(user.username).send('team_changed', {
+                server.io.to(user.username).send('team_changed', {
                   team, player
                 })
+                server.util.actionbar(
+                    player,
+                    'Switched to team: ' + team.name,
+                    'green'
+                )
                 return true
               }
             })
           })
         } else {
-          server.socket.to(user.username).send('team_not_changed')
+          server.io.to(user.username).send('team_not_changed')
           return false
         }
       })
@@ -177,12 +208,17 @@ module.exports = function Team () {
                 }
               ).then((affected) => {
                 if (affected) {
-                  server.socket.to(user.username).send('add_to_team_success', {
+                  server.io.to(user.username).send('add_to_team_success', {
                     team, player
                   })
+                  server.util.actionbar(
+                      leader,
+                      'Added to team: ' + team.name,
+                      'green'
+                  )
                   return true
                 } else {
-                  server.socket.to(user.username).send('add_to_team_failed')
+                  server.io.to(user.username).send('add_to_team_failed')
                   return false
                 }
               })

@@ -4,7 +4,7 @@
     style="padding-top: 8em!important; padding-bottom: 8em!important; padding-left: 2em; padding-right: 2em;"
   >
     <div
-      v-if="newTeamModal"
+      v-if="newTeamModal && isCurrentlyOnline"
       class="ui dimmer modals page visible active overlay"
       style="display: flex !important;"
       @click="newTeamModal = false"
@@ -78,7 +78,7 @@
         <div class="content" style="background: none!important;">
           <form class="ui inverted fonta form" @submit.prevent="console.log()">
             <h1 class="ui yellow header" style="text-align: center">
-              Create a Team
+              Edit Team
             </h1>
             <div class="field">
               <div class="ui error message">
@@ -137,8 +137,8 @@
               style="cursor: pointer"
               data-inverted=""
               data-position="bottom left"
-              data-tooltip="Create Team"
-              @click="newTeamModal = true"
+              :data-tooltip="isCurrentlyOnline ? 'Create Team' : 'You are currently offline'"
+              @click="isCurrentlyOnline ? newTeamModal = true : newTeamModal = false"
             >
               <i
                 class="icon plus"
@@ -233,6 +233,8 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex"
+
 export default {
   auth: false,
   data () {
@@ -243,6 +245,15 @@ export default {
       items: [],
       search: ''
     }
+  },
+  mounted() {
+    this.$axios.$get('/teams').then(response => {
+      this.items = response.data
+      console.log(response.data)
+    })
+  },
+  computed: {
+    ...mapGetters(['isCurrentlyOnline'])
   },
   methods: {
     changeView () {

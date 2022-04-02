@@ -1,3 +1,4 @@
+const getSlug = require("speakingurl")
 module.exports = function Zone () {
   const server = this
   const getSlug = require('speakingurl')
@@ -23,6 +24,9 @@ module.exports = function Zone () {
     })
     client.on('tp_to_zone', (zone) => {
       server.zone.tpToZone(server.socket.getUsernameFromId(client.id), zone)
+    })
+    client.on('set_lat_long', () => {
+      server.user.setLatLong(server.socket.getUsernameFromId(client.id))
     })
   })
 
@@ -96,11 +100,10 @@ module.exports = function Zone () {
           }
 
           server.ZoneDb.findOne(filter).then((zone) => {
-            console.log(zone)
             if (zone && zone.username === player) {
               server.util.actionbar(
                 player,
-                'You\'re in a friendly Zone!',
+                'You joined in/near a friendly Zone!',
                 'green'
               )
               server.send('gamemode survival ' + player)
@@ -122,7 +125,7 @@ module.exports = function Zone () {
             } else if (zone) {
               server.util.actionbar(
                 player,
-                'You\'re in/near a foreign Zone!',
+                'You joined in/near a foreign Zone!',
                 'yellow'
               )
               server.send(
@@ -142,7 +145,7 @@ module.exports = function Zone () {
               )
             } else {
               server.UserDb.findOne({ username: player }).then((user) => {
-                server.util.actionbar(player, 'You\'re in a free Zone!', 'blue')
+                server.util.actionbar(player, 'You joined in/near unclaimed land.', 'blue')
                 server.send('gamemode survival ' + player)
                 server.send(
                   'tellraw ' +
@@ -232,7 +235,7 @@ module.exports = function Zone () {
             if (zone && zone.username === player) {
               server.util.actionbar(
                 player,
-                'You\'re in a friendly Zone!',
+                'You joined in/near a friendly Zone!',
                 'green'
               )
               server.send('gamemode survival ' + player)
@@ -254,7 +257,7 @@ module.exports = function Zone () {
             } else if (zone) {
               server.util.actionbar(
                 player,
-                'You\'re in a foreign Zone!',
+                'You joined in/near a foreign Zone!',
                 'yellow'
               )
               server.send(
@@ -274,186 +277,192 @@ module.exports = function Zone () {
               )
             } else if (implemented) {
               server.UserDb.findOne({ username: player }).then((user) => {
-                server.util.actionbar(player, 'You\'re in a free Zone!', 'blue')
+                if (user.xp >= 111) {
+                  server.UserDb.updateOne(
+                      { username: player },
+                      { $inc: { xp: -111 } }
+                  ).then((_user) => {
+                    const owner = 'team=' + user.team
+                    const notowner = 'team=!' + user.team
 
-                const owner = 'team=' + user.team
-                const notowner = 'team=!' + user.team
+                    server.ZoneDb.create({
+                      cx,
+                      cy,
+                      cz,
+                      ox,
+                      oz,
+                      dx,
+                      dz,
+                      mx,
+                      mz,
+                      nx,
+                      nz,
+                      username: user.username,
+                      name,
+                      slug: getSlug(name),
+                      team: user.team,
+                      p1: [nx, nz],
+                      p2: [ox, oz],
+                      p3: [mx, mz],
+                      p4: [dx, dz],
+                      pcenter: [cx, cy, cz]
+                    }).then(() => {
+                      setTimeout(function () {
+                        // SET CB(Gamemode 0 for OWNER)
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 2 ' +
+                            (oz + 128) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+                            'x=' +
+                            (ox + 4) +
+                            ',y=' +
+                            oy +
+                            ',z=' +
+                            (oz + 4) +
+                            ',dx=247,dy=256,dz=247' +
+                            ',gamemode=adventure,' +
+                            owner +
+                            ']"} replace'
+                        )
+                      }, 0 * 200)
 
-                server.ZoneDb.create({
-                  cx,
-                  cy,
-                  cz,
-                  ox,
-                  oz,
-                  dx,
-                  dz,
-                  mx,
-                  mz,
-                  nx,
-                  nz,
-                  username: user.username,
-                  name,
-                  slug: getSlug(name),
-                  team: user.team,
-                  p1: [nx, nz],
-                  p2: [ox, oz],
-                  p3: [mx, mz],
-                  p4: [dx, dz],
-                  pcenter: [cx, cy, cz]
-                }).then(() => {
+                      setTimeout(function () {
+                        // SET ORIGIN BORDER
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 1 ' +
+                            (oz + 127) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+                            'x=' +
+                            ox +
+                            ',y=' +
+                            oy +
+                            ',z=' +
+                            oz +
+                            ',dx=250,dy=256,dz=2' +
+                            ',gamemode=adventure,' +
+                            notowner +
+                            ']"} replace'
+                        )
+                      }, 3 * 200)
+                      setTimeout(function () {
+                        // SET CB(Going out of Area)
+                        server.send(
+                            'setblock ' +
+                            (ox + 129) +
+                            ' 1 ' +
+                            (oz + 128) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+                            'x=' +
+                            (nx - 3) +
+                            ',y=' +
+                            ny +
+                            ',z=' +
+                            nz +
+                            ',dx=2,dy=256,dz=250' +
+                            ',gamemode=adventure,' +
+                            notowner +
+                            ']"} replace'
+                        )
+                      }, 3 * 200)
+                      setTimeout(function () {
+                        // SET CB(Going out of Area)
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 1 ' +
+                            (oz + 129) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+                            'x=' +
+                            (mx + 3) +
+                            ',y=' +
+                            my +
+                            ',z=' +
+                            (mz - 3) +
+                            ',dx=250,dy=256,dz=2' +
+                            ',gamemode=adventure,' +
+                            notowner +
+                            ']"} replace'
+                        )
+                      }, 3 * 200)
+                      setTimeout(function () {
+                        // SET CB(Going out of Area)
+                        server.send(
+                            'setblock ' +
+                            (ox + 127) +
+                            ' 1 ' +
+                            (oz + 128) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+                            'x=' +
+                            ox +
+                            ',y=' +
+                            oy +
+                            ',z=' +
+                            (oz + 3) +
+                            ',dx=2,dy=256,dz=250' +
+                            ',gamemode=adventure,' +
+                            notowner +
+                            ']"} replace'
+                        )
+                      }, 3 * 200)
+                      setTimeout(function () {
+                        // SET CB(Gamemode 2 for OTHERS)
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 0 ' +
+                            (oz + 128) +
+                            ' repeating_command_block{auto: 1b, Command:"/gamemode adventure @a[' +
+                            'x=' +
+                            (ox + 4) +
+                            ',y=' +
+                            oy +
+                            ',z=' +
+                            (oz + 4) +
+                            ',dx=247,dy=256,dz=247' +
+                            ',gamemode=survival,' +
+                            notowner +
+                            ']"} replace'
+                        )
+                      }, 6 * 200)
+                      setTimeout(function () {
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 1 ' +
+                            (oz + 128) +
+                            ' minecraft:stone'
+                        )
 
-                })
-
-                setTimeout(function () {
-                  // SET CB(Gamemode 0 for OWNER)
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 2 ' +
-                      (oz + 128) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                      'x=' +
-                      (ox + 4) +
-                      ',y=' +
-                      oy +
-                      ',z=' +
-                      (oz + 4) +
-                      ',dx=247,dy=256,dz=247' +
-                      ',gamemode=adventure,' +
-                      owner +
-                      ']"} replace'
-                  )
-                }, 0 * 200)
-
-                setTimeout(function () {
-                  // SET ORIGIN BORDER
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 1 ' +
-                      (oz + 127) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                      'x=' +
-                      ox +
-                      ',y=' +
-                      oy +
-                      ',z=' +
-                      oz +
-                      ',dx=250,dy=256,dz=2' +
-                      ',gamemode=adventure,' +
-                      notowner +
-                      ']"} replace'
-                  )
-                }, 3 * 200)
-                setTimeout(function () {
-                  // SET CB(Going out of Area)
-                  server.send(
-                    'setblock ' +
-                      (ox + 129) +
-                      ' 1 ' +
-                      (oz + 128) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                      'x=' +
-                      (nx - 3) +
-                      ',y=' +
-                      ny +
-                      ',z=' +
-                      nz +
-                      ',dx=2,dy=256,dz=250' +
-                      ',gamemode=adventure,' +
-                      notowner +
-                      ']"} replace'
-                  )
-                }, 3 * 200)
-                setTimeout(function () {
-                  // SET CB(Going out of Area)
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 1 ' +
-                      (oz + 129) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                      'x=' +
-                      (mx + 3) +
-                      ',y=' +
-                      my +
-                      ',z=' +
-                      (mz - 3) +
-                      ',dx=250,dy=256,dz=2' +
-                      ',gamemode=adventure,' +
-                      notowner +
-                      ']"} replace'
-                  )
-                }, 3 * 200)
-                setTimeout(function () {
-                  // SET CB(Going out of Area)
-                  server.send(
-                    'setblock ' +
-                      (ox + 127) +
-                      ' 1 ' +
-                      (oz + 128) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                      'x=' +
-                      ox +
-                      ',y=' +
-                      oy +
-                      ',z=' +
-                      (oz + 3) +
-                      ',dx=2,dy=256,dz=250' +
-                      ',gamemode=adventure,' +
-                      notowner +
-                      ']"} replace'
-                  )
-                }, 3 * 200)
-                setTimeout(function () {
-                  // SET CB(Gamemode 2 for OTHERS)
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 0 ' +
-                      (oz + 128) +
-                      ' repeating_command_block{auto: 1b, Command:"/gamemode adventure @a[' +
-                      'x=' +
-                      (ox + 4) +
-                      ',y=' +
-                      oy +
-                      ',z=' +
-                      (oz + 4) +
-                      ',dx=247,dy=256,dz=247' +
-                      ',gamemode=survival,' +
-                      notowner +
-                      ']"} replace'
-                  )
-                }, 6 * 200)
-                setTimeout(function () {
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 1 ' +
-                      (oz + 128) +
-                      ' minecraft:stone'
-                  )
-
-                  server.send(
-                    'setblock ' +
-                      (ox + 128) +
-                      ' 1 ' +
-                      (oz + 128) +
-                      ' minecraft:redstone_block'
-                  )
-                }, 15 * 200)
-                server.send(
-                  '/tellraw ' +
-                  user.username +
-                  ' ["",{"text":"Zonen-Zentrum: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET Meldung"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  cx +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  cy +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  cz +
-                  '","bold":true,"italic":true,"color":"none"}]'
-                )
-                server.send('gamemode survival ' + player)
+                        server.send(
+                            'setblock ' +
+                            (ox + 128) +
+                            ' 1 ' +
+                            (oz + 128) +
+                            ' minecraft:redstone_block'
+                        )
+                      }, 15 * 200)
+                      server.send(
+                          '/tellraw ' +
+                          user.username +
+                          ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                          cx +
+                          '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                          cy +
+                          '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                          cz +
+                          '","bold":true,"italic":true,"color":"none"}]'
+                      )
+                      server.util.actionbar(player, 'Zone purchased! -111°', 'green')
+                      server.send('gamemode survival ' + player)
+                    })
+                  })
+                } else {
+                  server.util.actionbar(player, 'You\'ll need 111° XPL!', 'red')
+                }
               })
             }
           })
@@ -472,10 +481,15 @@ module.exports = function Zone () {
       server.ZoneDb.findOne({ _id: zone }).then((zone) => {
         server.UserDb.findOne({ username: player }).then((user) => {
           if (user.xp >= 11) {
-            server.UserDb.update(
+            server.UserDb.updateOne(
               { username: player },
               { $inc: { xp: -11 } }
             ).then((_user) => {
+              server.util.actionbar(
+                  player,
+                  'Teleported to '+ zone.name +'! -11°',
+                  'green'
+              )
               server.send(
                 'tp ' + player + ' ' + zone.cx + ' ' + zone.cy + ' ' + zone.cz
               )

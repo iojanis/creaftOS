@@ -33,7 +33,21 @@ module.exports = function User () {
   })
 
   server.on('uuid', (event) => {
-    // todo: UUID check...
+    console.log('todo: UUID check...')
+  })
+
+  server.on('teleported', (event) => {
+    server.UserDb.findOneAndUpdate(
+        { username: event.player },
+        {
+          $set: {
+            joined_x: event.x,
+            joined_y: event.y,
+            joined_z: event.z,
+          }
+        },
+        { new: true }
+    )
   })
 
   server.on('quit', (event) => {
@@ -51,6 +65,8 @@ module.exports = function User () {
       server.onlinePlayers.splice(index, 1)
     }
   })
+
+
 
   server.user = {
     setOnline (event) {
@@ -343,6 +359,9 @@ module.exports = function User () {
     },
     setAdmin (player) {
       // todo: implement setAdmin in user-module
+    },
+    setLatLong (player) {
+      server.send('tp ' + player + ' ~ ~ ~')
     }
   }
 }

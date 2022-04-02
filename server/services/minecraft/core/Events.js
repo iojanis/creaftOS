@@ -43,6 +43,21 @@ module.exports = function Events () {
   })
 
   server.on('console', (event) => {
+    const stripped = event.match(
+      /Teleported ([\w]+) to ([-.\d]+),\s([-.\d]+),\s([-.\d]+)/
+    )
+    if (stripped) {
+      server.emit('teleported', {
+        player: stripped[1],
+        x: stripped[2],
+        y: stripped[3],
+        z: stripped[4],
+        timestamp: Date.now()
+      })
+    }
+  })
+
+  server.on('console', (event) => {
     const stripped = event.match(/]:\sUUID\sof\splayer\s([\w]+)\sis\s([a-z0-9-]+)/)
     if (stripped) {
       server.emit('uuid', {

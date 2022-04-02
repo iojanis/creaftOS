@@ -6,7 +6,7 @@
           <h3 class="ui white header">
             <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>
           </h3>
-          <p>THE FORUM IS UNDER DEVELOPMENT.</p>
+          <p>THE FOR<nuxt-link to="console">U</nuxt-link>M IS UNDER DEVELOPMENT.</p>
           <p>PLEASE USE THE CHAT FOR COMMUNICATION.</p>
           <p>THANK YOU FOR UNDERSTANDING.</p>
         </div>

@@ -26,7 +26,7 @@ module.exports = function Chat () {
       console.log('received chat message')
       const player = server.socket.getUsernameFromId(client.id)
       if (player) {
-        server.bot.respondWithAI({ player, message })
+        if (process.env.OPENAI_API_KEY) server.bot.respondWithAI({ player, message })
         server.latestMessages.unshift({ player, message })
         server.chat.sendChatMessage(player, message)
         server.send(
