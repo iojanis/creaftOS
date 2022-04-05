@@ -32,7 +32,7 @@
             <a href="https://github.com/users/iojanis/projects/4" target="_blank" class="item ui inverted basic button">
               Roadmap
             </a>
-            <a href="https://discord.gg/B2qnDq4y" target="_blank" style="background: #5865F2!important;" class="item ui inverted basic button">
+            <a href="https://discord.gg/UHyU5ptRcG" target="_blank" style="background: #5865F2!important;" class="item ui inverted basic button">
               Discord
             </a>
           </div>
