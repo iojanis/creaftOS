@@ -1,3 +1,4 @@
+const getSlug = require("speakingurl");
 module.exports = function Zone () {
   const server = this
   const getSlug = require('speakingurl')
@@ -305,47 +306,54 @@ module.exports = function Zone () {
   }
 
   function createZone(player, name, nx, nz, ox, oz, mx, mz, dx, dz, cx, cy, cz, oy, ny, my) {
+    const slug = getSlug(name)
     server.UserDb.findOne({username: player}).then((user) => {
       if (user.xp >= 111) {
-        server.UserDb.updateOne(
-            {username: player},
-            {$inc: {xp: -111}}
-        ).then((_user) => {
-          const owner = 'team=' + user.team
-          const notowner = 'team=!' + user.team
+        server.ZoneDb.findOne({ slug }).then((zone)=>{
+          if (!zone) {
+            server.UserDb.updateOne(
+              {username: player},
+              {$inc: {xp: -111}}
+            ).then((_user) => {
+              const owner = 'team=' + user.team
+              const notowner = 'team=!' + user.team
 
-          server.ZoneDb.create({
-            username: user.username,
-            name,
-            slug: getSlug(name),
-            team: user.team,
-            p1x: nx,
-            p1z: nz,
-            p2x: ox,
-            p2z: oz,
-            p3x: mx,
-            p3z: mz,
-            p4x: dx,
-            p4z: dz,
-            pcx: cx,
-            pcy: cy,
-            pcz: cz,
-          }).then(() => {
-            setCommandBlocks(ox, oz, oy, owner, notowner, nx, ny, nz, mx, my, mz)
-            server.send(
-                '/tellraw ' +
-                user.username +
-                ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                cx +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                cy +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                cz +
-                '","bold":true,"italic":true,"color":"none"}]'
-            )
-            server.util.actionbar(player, 'Zone purchased! -111°', 'green')
-            server.send('gamemode survival ' + player)
-          })
+              server.ZoneDb.create({
+                username: user.username,
+                name,
+                slug: getSlug(name),
+                team: user.team,
+                p1x: nx,
+                p1z: nz,
+                p2x: ox,
+                p2z: oz,
+                p3x: mx,
+                p3z: mz,
+                p4x: dx,
+                p4z: dz,
+                pcx: cx,
+                pcy: cy,
+                pcz: cz,
+              }).then(() => {
+                setCommandBlocks(ox, oz, oy, owner, notowner, nx, ny, nz, mx, my, mz)
+                server.send(
+                  '/tellraw ' +
+                  user.username +
+                  ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  cx +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                  cy +
+                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                  cz +
+                  '","bold":true,"italic":true,"color":"none"}]'
+                )
+                server.util.actionbar(player, 'Zone purchased! -111°', 'green')
+                server.send('gamemode survival ' + player)
+              })
+            })
+          } else {
+            server.util.actionbar(player, 'Zone ' + slug + ' already exists!', 'red')
+          }
         })
       } else {
         server.util.actionbar(player, 'You\'ll need 111° XPL!', 'red')

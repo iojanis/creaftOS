@@ -52,6 +52,9 @@ module.exports = function Bot () {
           '","bold":false}]'
         )
       }
+    },
+    async respondLikeAI(input) {
+
     }
   }
 }

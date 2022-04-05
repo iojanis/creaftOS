@@ -195,17 +195,12 @@
         :class="{'selected-team': item.slug === $store.state.currentTeam}"
       >
         <img
-          :src="'https://minotar.net/avatar/' + item.leader + '/32.png'"
+          v-for="member in item.whitelist"
+          :src="'https://minotar.net/avatar/' + member + '/32.png'"
           draggable="false"
-          class="ui avatar image"
-          style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;"
+          class="ui avatar image pr-2"
+          style="border-radius: 1px!important; height: 35px; width: auto; margin-top: 0.15em;"
         >
-<!--        <img-->
-<!--          :src="'/mcicons/' + item.type + '-' + item.meta + '.png'"-->
-<!--          draggable="false"-->
-<!--          class="ui avatar image"-->
-<!--          style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;"-->
-<!--        >-->
         <div class="content">
           <div class="description">
             <span>{{ item.leader }}'s</span>
@@ -213,22 +208,8 @@
           <div class="header elipsis" style="max-width: 160px">
             {{ item.name }}
           </div>
-          <div class="header" style="height: 0px!important;">
-          </div>
         </div>
-        <div class="right floated content" style="margin-top: 0.1em;">
-          <span
-            data-inverted=""
-            data-position="bottom center"
-            :data-tooltip="member"
-            v-for="member in item.whitelist">
-            <img
-              :src="'https://minotar.net/avatar/' + member + '/32.png'"
-              draggable="false"
-              class="ui avatar image"
-              style="border-radius: 3px!important; height: 35px; width: auto; "
-            >
-          </span>
+        <div class="right floated content" style="margin-top: 0.30em;">
           <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click="$socket.emit('change_team', item.name);">
             <span
               class="ui inverted basic label blue"
@@ -331,6 +312,8 @@ p {
 }
 
 .selected-team {
-  box-shadow: 0 0 0 2pt dodgerblue;
+  box-shadow: 0 0 0 2pt rgba(255, 255, 255, 0.4);
+  border-radius: 1px;
 }
+
 </style>

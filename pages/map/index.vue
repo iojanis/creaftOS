@@ -44,7 +44,7 @@ const CONFIG = {
         0,
         0
       ],
-      "maxZoom": 8,
+      "maxZoom": 9,
       "name": "EnderNET World",
       "renderView": "isometric",
       "rotations": [
@@ -66,7 +66,7 @@ const CONFIG = {
   ],
   "tileSetGroups": {
     "world_isometric_t1": {
-      "maxZoom": 8,
+      "maxZoom": 9,
       "tileOffsets": [
         [
           0,
@@ -102,7 +102,7 @@ export default {
   async mounted() {
 
     var Mapcrafter = new MapcrafterUI(CONFIG);
-    // Mapcrafter.addControl(new MousePosControl(), "topright", 1);
+    Mapcrafter.addControl(new MousePosControl(), "topright", 1);
     // Mapcrafter.addControl(new RotationSelectControl(), "bottomright", 1);
     // Mapcrafter.addControl(new MapSelectControl(), "topright", 1);
 
@@ -112,9 +112,15 @@ export default {
 
     let joined_x = this.$auth.loggedIn ? this.$auth.user.joined_x : 0
     let joined_z = this.$auth.loggedIn ? this.$auth.user.joined_z : 0
-    let joined_y = this.$auth.loggedIn ? this.$auth.user.joined_y : 0
+    let joined_y = this.$auth.loggedIn ? this.$auth.user.joined_y : 150
 
     Mapcrafter.init();
+
+    const latlng = Mapcrafter.mcToLatLng(joined_x, joined_z, joined_y)
+    Mapcrafter.lmap.setView(latlng, 5, { animate: true })
+
+    // zoom to joined_x, joined_z, joined_y
+    // Mapcrafter.lmap.zoom(joined_x, joined_z, joined_y)
 
     const MAPCRAFTER_MARKERS = [
       // just one example marker group

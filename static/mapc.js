@@ -257,9 +257,9 @@ RotationSelectHandler.prototype.update = function (text) {
     } else {
       button.style.display = 'inline'
       if (i == currentRotation) {
-        button.setAttribute('class', 'ui button active')
+        button.setAttribute('class', 'ui label active')
       } else {
-        button.setAttribute('class', 'ui button')
+        button.setAttribute('class', 'ui label')
       }
     }
   }
@@ -471,10 +471,10 @@ MousePosControl.prototype.create = function (wrapper) {
   const updatePos = (function (ui) {
     return function (event) {
       const xzy = ui.latLngToMC(event.latlng, 64)
-      document.getElementById('mouse-move-div').innerHTML = '<div class="ui buttons" role="group">' +
-        '<button type="button" class="ui button">' + 'X: ' + Math.round(xzy[0]) + '</button>' +
-        '<button type="button" class="ui button">' + 'Z: ' + Math.round(xzy[1]) + '</button>' +
-        '<button type="button" class="ui button">' + 'Y: ' + Math.round(xzy[2]) + '</button>' +
+      document.getElementById('mouse-move-div').innerHTML = '<div class="p-2" role="group">' +
+        '<span class="m-2 font-bold text-lg">' + 'X: ' + Math.round(xzy[0]) + ' </span>' +
+        '<span class="m-2 font-bold text-lg">' + 'Z: ' + Math.round(xzy[1]) + ' </span>' +
+        '<span class="m-2 font-bold text-lg">' + 'Y: ' + Math.round(xzy[2]) + ' </span>' +
         '</div>'
     }
   }(this.ui))
@@ -838,7 +838,7 @@ MapcrafterUI.prototype.setMapAndRotation = function (map, rotation) {
     // completely different map, reset view
 
     // reset zoom level, 0 or user-defined default zoom level
-    let zoom = 3
+    let zoom = 0
     if ('defaultZoom' in mapConfig) { zoom = mapConfig.defaultZoom }
 
     // set view to the map center or a user-defined default center
