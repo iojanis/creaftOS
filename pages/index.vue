@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div class="absolute top-0 bottom-0 left-0 right-0 pt-28 z-20 text-center flex justify-center">
+    <div class="absolute top-0 bottom-0 left-0 right-0 pt-12 md:pt-28 z-20 text-center flex justify-center">
       <div class="masthead">
         <h1 class="text-3xl ui inverted header" style="color: #fbbd08!important;">
           EnderNET
@@ -32,7 +32,7 @@
             <a href="https://github.com/users/iojanis/projects/4" target="_blank" class="item ui inverted basic button">
               Roadmap
             </a>
-            <a href="https://discord.gg/B2qnDq4y" target="_blank" class="item ui inverted basic button">
+            <a href="https://discord.gg/B2qnDq4y" target="_blank" style="background: #5865F2!important;" class="item ui inverted basic button">
               Discord
             </a>
           </div>

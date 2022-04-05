@@ -141,9 +141,9 @@
           <div class="ui big fluid transparent icon input">
             <a
               :data-tooltip="transferDirection ? 'Most Items' : 'Least Items'"
-              style="cursor: pointer"
               data-inverted=""
               data-position="bottom left"
+              style="cursor: pointer"
               @click="changeTransferDirection"
             >
               <i

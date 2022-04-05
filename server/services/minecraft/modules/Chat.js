@@ -12,7 +12,7 @@ module.exports = function Chat () {
     })
     server.latestMessages.unshift({
       player: event.player,
-      message: event.message
+      message: event.message, time: new Date()
     })
     server.chat.sendChatMessage(event.player, event.message)
     console.log(server.latestMessages)
@@ -27,7 +27,7 @@ module.exports = function Chat () {
       const player = server.socket.getUsernameFromId(client.id)
       if (player) {
         if (process.env.OPENAI_API_KEY) server.bot.respondWithAI({ player, message })
-        server.latestMessages.unshift({ player, message })
+        server.latestMessages.unshift({ player, message, time: new Date() })
         server.chat.sendChatMessage(player, message)
         server.send(
           'tellraw @a ["",{"text":"[' +
@@ -44,7 +44,7 @@ module.exports = function Chat () {
 
   server.chat = {
     sendChatMessage (player, message) {
-      server.io.emit('chat_message', { player, message })
+      server.io.emit('chat_message', { player, message, time: new Date() })
     }
   }
 }

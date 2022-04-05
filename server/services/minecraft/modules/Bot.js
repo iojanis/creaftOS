@@ -41,7 +41,7 @@ module.exports = function Bot () {
         })
         server.latestMessages.unshift({
           player: "Ender",
-          message: text
+          message: text, time: new Date()
         })
         server.chat.sendChatMessage("Ender", text)
         server.send(

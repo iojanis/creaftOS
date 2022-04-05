@@ -149,11 +149,11 @@ export default {
         'createMarker': function (ui, groupInfo, markerInfo) {
           const latlngs = []
           // use the ui.mcToLatLng-function to convert Minecraft coords to LatLngs
-          latlngs.push(ui.mcToLatLng(markerInfo.p1[0], markerInfo.p1[1], 64))
-          latlngs.push(ui.mcToLatLng(markerInfo.p2[0], markerInfo.p2[1], 64))
-          latlngs.push(ui.mcToLatLng(markerInfo.p3[0], markerInfo.p3[1], 64))
-          latlngs.push(ui.mcToLatLng(markerInfo.p4[0], markerInfo.p4[1], 64))
-          latlngs.push(ui.mcToLatLng(markerInfo.p1[0], markerInfo.p1[1], 64))
+          latlngs.push(ui.mcToLatLng(markerInfo.p1x, markerInfo.p1z, 64))
+          latlngs.push(ui.mcToLatLng(markerInfo.p2x, markerInfo.p2z, 64))
+          latlngs.push(ui.mcToLatLng(markerInfo.p3x, markerInfo.p3z, 64))
+          latlngs.push(ui.mcToLatLng(markerInfo.p4x, markerInfo.p4z, 64))
+          latlngs.push(ui.mcToLatLng(markerInfo.p1x, markerInfo.p1z, 64))
 
           return L.polyline(latlngs, { 'color': markerInfo.color })
         },
@@ -172,45 +172,65 @@ export default {
 
     zones.forEach((zone) => {
       const zoneObj2 = {
-        'pos': [parseInt(zone.pcenter[0]), parseInt(zone.pcenter[2]), parseInt(zone.pcenter[1])],
-        'title': zone.name + ': ' + zone.username + ' owns this property.'
+        'pos': [parseInt(zone.pcx), parseInt(zone.pcz), parseInt(zone.pcy)],
+        'title': zone.name + ': ' + zone.username + ' owns this property for team: ' + zone.team,
+        'icon': 'ender_pearl.png'
       }
       MAPCRAFTER_MARKERS[0].markers.world.push(zoneObj2)
 
       const zoneObj = {
-        'p1': [parseInt(zone.p1[0]), parseInt(zone.p1[1])],
-        'p2': [parseInt(zone.p2[0]), parseInt(zone.p2[1])],
-        'p3': [parseInt(zone.p3[0]), parseInt(zone.p3[1])],
-        'p4': [parseInt(zone.p4[0]), parseInt(zone.p4[1])],
+        p1x: zone.p1x,
+        p1z: zone.p1z,
+        p2x: zone.p2x,
+        p2z: zone.p2z,
+        p3x: zone.p3x,
+        p3z: zone.p3z,
+        p4x: zone.p4x,
+        p4z: zone.p4z,
         'color': 'white'
       }
+
+      console.dir(zoneObj)
+
       MAPCRAFTER_MARKERS[1].markers.world.push(zoneObj)
     })
 
 
 
-    //
-    // const cx = Math.round(this.gx) // center positions
-    // const cy = Math.round(this.gy)
-    // const cz = Math.round(this.gz)
-    // const ox = Math.round(cx - 127) // origin positions
-    // const oy = 0
-    // const oz = Math.round(cz - 127)
-    // const nx = Math.round(cx + 129) // next positions
-    // const ny = 0
-    // const nz = Math.round(cz - 127)
-    // const mx = Math.round(cx - 127) // more positions
-    // const my = 0
-    // const mz = Math.round(cz + 129)
-    // const dx = Math.round(cx + 129) // destination positions
-    // const dy = 256
-    // const dz = Math.round(cz + 129)
-    //
-    // console.dir(MAPCRAFTER_MARKERS[1].markers.world)
-    //
-    // MAPCRAFTER_MARKERS[1].markers.world.push({ 'p1': [nx, nz], 'p2': [ox, oz], 'p3': [mx, mz], 'p4': [dx, dz], 'color': 'white' })
-    //
-    // console.dir(MAPCRAFTER_MARKERS[1].markers.world)
+
+    const cx = Math.round(joined_x) // center positions
+    const cy = Math.round(joined_y)
+    const cz = Math.round(joined_z)
+    const ox = Math.round(cx - 127) // origin positions
+    const oy = 0
+    const oz = Math.round(cz - 127)
+    const nx = Math.round(cx + 129) // next positions
+    const ny = 0
+    const nz = Math.round(cz - 127)
+    const mx = Math.round(cx - 127) // more positions
+    const my = 0
+    const mz = Math.round(cz + 129)
+    const dx = Math.round(cx + 129) // destination positions
+    const dy = 256
+    const dz = Math.round(cz + 129)
+
+    console.dir(MAPCRAFTER_MARKERS[1].markers.world)
+
+    const zoneObj3 = {
+      p1x: nx,
+      p1z: nz,
+      p2x: ox,
+      p2z: oz,
+      p3x: mx,
+      p3z: mz,
+      p4x: dx,
+      p4z: dz,
+      'color': 'rgba(255,255,255,0.20)'
+    }
+
+    MAPCRAFTER_MARKERS[1].markers.world.push(zoneObj3)
+
+    console.dir(MAPCRAFTER_MARKERS[1].markers.world)
 
     if (typeof MAPCRAFTER_MARKERS !== 'undefined') {
       // eslint-disable-next-line no-var

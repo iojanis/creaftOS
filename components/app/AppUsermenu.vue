@@ -3,10 +3,16 @@
     <div v-if="$store.state.UserDrawer" class="ui right notification-bar vertical inverted sidebar visible menu" style="z-index: 105">
       <div v-if="$auth.loggedIn" style="padding: 0.5em;">
         <span class="ui green inverted basic label noselect">
-          <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow down icon" style="margin: 0" @click="downloadExp" /></a>
+          <a v-if="isCurrentlyOnline" class="detail"
+             data-inverted=""
+             data-tooltip="Download 11°"
+             data-position="bottom left" style="margin-left: 0"><i class="arrow down icon" style="margin: 0" @click="downloadExp" /></a>
           <span v-else class="detail" style="margin-left: 0"><i class="arrow down icon disabled" style="margin: 0" /></span>
           {{ currentExp }}°
-          <a v-if="isCurrentlyOnline" class="detail" style="margin-left: 0"><i class="arrow up icon" style="margin: 0" @click="uploadExp" /></a>
+          <a v-if="isCurrentlyOnline" class="detail"
+             data-inverted=""
+             data-tooltip="Upload 11°"
+             data-position="bottom right" style="margin-left: 0"><i class="arrow up icon" style="margin: 0" @click="uploadExp"  /></a>
           <span v-else class="detail" style="margin-left: 0"><i class="arrow up icon disabled" style="margin: 0" /></span>
         </span>
         <nuxt-link :to="'/whois/' + $auth.user.username">

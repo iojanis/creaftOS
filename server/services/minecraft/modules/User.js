@@ -105,25 +105,26 @@ module.exports = function User () {
               'title {"text":"' + 'EnderNET' + '","color":"gold"}'
             )
             setTimeout(function () {
-              server.util.actionbar(
-                event.player,
-                'Welcome back, ' + event.player,
-                'yellow'
-              )
+              server.zone.checkForZone(user.username)
               setTimeout(function () {
                 server.util.actionbar(
-                  event.player,
-                  'Your balance in the bank: ' + (user.xp).toFixed(2) + '°',
-                  'green'
+                    event.player,
+                    'Welcome back, ' + event.player,
+                    'yellow'
                 )
                 setTimeout(function () {
+
                   server.util.actionbar(
-                    event.player,
-                    'The price on your head: ' + user.bounty + '°',
-                    'green'
+                      event.player,
+                      'Your balance in the bank: ' + (user.xp).toFixed(2) + '°',
+                      'green'
                   )
                   setTimeout(function () {
-                    server.zone.checkForZone(user.username)
+                    server.util.actionbar(
+                        event.player,
+                        'The price on your head: ' + user.bounty + '°',
+                        'green'
+                    )
                   }, 3000)
                 }, 3000)
               }, 3000)

@@ -90,15 +90,13 @@ module.exports = function Team () {
     joinTeam (player, name) {
       console.log({ joinTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
-        if (user.online) {
+        if (user.online && !user.teamed) {
           const slug = getSlug(name)
           server.TeamDb.findOne({ slug }).then((team) => {
             if (!team) {
               return false
             }
-            if (team.whitelist.indexOf(user.username) < -1) {
-              return false
-            } else {
+            if (team.whitelist.includes(user.username)) {
               server.UserDb.updateOne(
                 { username: user.username },
                 { $set: { teamed: true, team: slug } }
@@ -124,7 +122,7 @@ module.exports = function Team () {
         if (user.online && user.teamed) {
           server.UserDb.updateOne(
             { username: user.username },
-            { $set: { teamed: false, team: null } }
+            { $set: { teamed: false, team: '' } }
           )
             .then(() => {
               server.send('team leave ' + player)
@@ -146,30 +144,20 @@ module.exports = function Team () {
     },
 
     changeTeam (player, name) {
+      const slug = getSlug(name)
       console.log({ changeTeam: { player, name } })
       server.UserDb.findOne({ username: player }).then((user) => {
-        if (user.online && user.teamed) {
-          server.UserDb.updateOne(
-            { username: user.username },
-            { $set: { teamed: false, team: null } }
-          ).then(() => {
-            server.send('team leave ' & user.username)
-            const slug = getSlug(name)
-            server.TeamDb.findOne({ slug }).then((team) => {
-              if (!team) {
-                return false
-              }
-              if (team.whitelist.indexOf(user.username) < -1) {
-                return false
-              } else {
-                server.UserDb.updateOne(
+        if (user.online) {
+          server.TeamDb.findOne({ slug }).then((team) => {
+            if (team.whitelist.includes(user.username)) {
+              server.UserDb.updateOne(
                   { username: user.username },
                   { $set: { teamed: true, team: slug } }
-                ).then(() => {
-                  server.send(
+              ).then(() => {
+                server.send('team leave ' & user.username)
+                server.send(
                     'team join ' + slug + ' ' + user.username
-                  )
-                })
+                )
                 server.io.to(user.username).send('team_changed', {
                   team, player
                 })
@@ -178,9 +166,11 @@ module.exports = function Team () {
                     'Switched to team: ' + team.name,
                     'green'
                 )
-                return true
-              }
-            })
+              })
+              return true
+            } else {
+              return false
+            }
           })
         } else {
           server.io.to(user.username).send('team_not_changed')
@@ -193,27 +183,29 @@ module.exports = function Team () {
       console.log({ addToTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
+          console.log("user teamed")
           server.TeamDb.findOne({
             slug: user.team,
             leader: user.username
           }).then((team) => {
             if (team) {
+              console.log("team exists")
               server.TeamDb.updateOne(
                 {
-                  slug: team.name,
-                  whitelist: { $ne: player }
+                  slug: team.name
                 },
                 {
                   $addToSet: { whitelist: player }
                 }
               ).then((affected) => {
                 if (affected) {
+                  console.log("team updated")
                   server.io.to(user.username).send('add_to_team_success', {
                     team, player
                   })
                   server.util.actionbar(
                       leader,
-                      'Added to team: ' + team.name,
+                      'Added to team: ' + player,
                       'green'
                   )
                   return true

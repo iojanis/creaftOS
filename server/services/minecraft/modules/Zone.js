@@ -1,4 +1,3 @@
-const getSlug = require("speakingurl")
 module.exports = function Zone () {
   const server = this
   const getSlug = require('speakingurl')
@@ -30,135 +29,344 @@ module.exports = function Zone () {
     })
   })
 
+  function setCommandBlocks(ox, oz, oy, owner, notowner, nx, ny, nz, mx, my, mz) {
+    setTimeout(function () {
+      // SET CB(Gamemode 0 for OWNER)
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 2 ' +
+          (oz + 128) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+          'x=' +
+          (ox + 4) +
+          ',y=' +
+          oy +
+          ',z=' +
+          (oz + 4) +
+          ',dx=247,dy=256,dz=247' +
+          ',gamemode=adventure,' +
+          owner +
+          ']"} replace'
+      )
+    }, 0)
+    setTimeout(function () {
+      // SET ORIGIN BORDER
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 1 ' +
+          (oz + 127) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+          'x=' +
+          ox +
+          ',y=' +
+          oy +
+          ',z=' +
+          oz +
+          ',dx=250,dy=256,dz=2' +
+          ',gamemode=adventure,' +
+          notowner +
+          ']"} replace'
+      )
+    }, 3 * 200)
+    setTimeout(function () {
+      // SET CB(Going out of Area)
+      server.send(
+          'setblock ' +
+          (ox + 129) +
+          ' 1 ' +
+          (oz + 128) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+          'x=' +
+          (nx - 3) +
+          ',y=' +
+          ny +
+          ',z=' +
+          nz +
+          ',dx=2,dy=256,dz=250' +
+          ',gamemode=adventure,' +
+          notowner +
+          ']"} replace'
+      )
+    }, 3 * 200)
+    setTimeout(function () {
+      // SET CB(Going out of Area)
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 1 ' +
+          (oz + 129) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+          'x=' +
+          (mx + 3) +
+          ',y=' +
+          my +
+          ',z=' +
+          (mz - 3) +
+          ',dx=250,dy=256,dz=2' +
+          ',gamemode=adventure,' +
+          notowner +
+          ']"} replace'
+      )
+    }, 3 * 200)
+    setTimeout(function () {
+      // SET CB(Going out of Area)
+      server.send(
+          'setblock ' +
+          (ox + 127) +
+          ' 1 ' +
+          (oz + 128) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
+          'x=' +
+          ox +
+          ',y=' +
+          oy +
+          ',z=' +
+          (oz + 3) +
+          ',dx=2,dy=256,dz=250' +
+          ',gamemode=adventure,' +
+          notowner +
+          ']"} replace'
+      )
+    }, 3 * 200)
+    setTimeout(function () {
+      // SET CB(Gamemode 2 for OTHERS)
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 0 ' +
+          (oz + 128) +
+          ' repeating_command_block{auto: 1b, Command:"/gamemode adventure @a[' +
+          'x=' +
+          (ox + 4) +
+          ',y=' +
+          oy +
+          ',z=' +
+          (oz + 4) +
+          ',dx=247,dy=256,dz=247' +
+          ',gamemode=survival,' +
+          notowner +
+          ']"} replace'
+      )
+    }, 6 * 200)
+    setTimeout(function () {
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 1 ' +
+          (oz + 128) +
+          ' minecraft:stone'
+      )
+
+      server.send(
+          'setblock ' +
+          (ox + 128) +
+          ' 1 ' +
+          (oz + 128) +
+          ' minecraft:redstone_block'
+      )
+    }, 15 * 200)
+  }
+
+  function getFilter(cx, cz, ox, oz, dx, dz, mx, mz, nx, nz) {
+    return {
+      $or: [
+        {
+          $and: [
+            {p2x:  {$lte: cx}},
+            {p2z:  {$lte: cz}},
+            {p4x:  {$gte: cx}},
+            {p4z:  {$gte: cz}}
+          ]
+        },
+        {
+          $and: [
+            {p2x: {$lte: ox}},
+            {p2z: {$lte: oz}},
+            {p4x: {$gte: ox}},
+            {p4z: {$gte: oz}}
+          ]
+        },
+        {
+          $and: [
+            {p2x: {$lte: dx}},
+            {p2z: {$lte: dz}},
+            {p4x: {$gte: dx}},
+            {p4z: {$gte: dz}}
+          ]
+        },
+        {
+          $and: [
+            {p2x: {$lte: mx}},
+            {p2z: {$lte: mz}},
+            {p4x: {$gte: mx}},
+            {p4z: {$gte: mz}}
+          ]
+        },
+        {
+          $and: [
+            {p2x: {$lte: nx}},
+            {p2z: {$lte: nz}},
+            {p4x: {$gte: nx}},
+            {p4z: {$gte: nz}}
+          ]
+        }
+      ]
+    }
+  }
+
+  function createCoors(user) {
+    const cx = Math.round(user.joined_x) // pcenter[0]
+    const cz = Math.round(user.joined_z) // pcenter[1]
+    const cy = Math.round(user.joined_y) // pcenter[2]
+
+    const nx = Math.round(cx + 129) // p1
+    const nz = Math.round(cz - 127) // p1
+
+    const ox = Math.round(cx - 127) // p2
+    const oz = Math.round(cz - 127) // p2
+
+    const mx = Math.round(cx - 127) // p3
+    const mz = Math.round(cz + 129) // p3
+
+    const dx = Math.round(cx + 129) // p4
+    const dz = Math.round(cz + 129) // p4
+
+    const oy = 0  // *1     *2
+    const ny = 0  //    *c
+    const my = 0  // *4     *3
+    return { cx, cz, cy, nx, nz, ox, oz, mx, mz, dx, dz, oy, ny, my }
+  }
+
+  function joinedFriendly(player, zone) {
+    server.util.actionbar(
+        player,
+        'You joined in/near a friendly Zone!',
+        'green'
+    )
+    server.send('gamemode survival ' + player)
+    server.send(
+        'tellraw ' +
+        player +
+        ' ["",{"text":"[' +
+        zone.name +
+        '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
+        zone.slug +
+        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+        zone.pcx +
+        '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+        zone.pcy +
+        '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+        zone.pcz +
+        '","bold":true,"italic":true,"color":"none"}]'
+    )
+  }
+
+  function joinedForeign(player, zone) {
+    server.util.actionbar(
+        player,
+        'You joined in/near a foreign Zone!',
+        'yellow'
+    )
+    server.send(
+        'tellraw ' +
+        player +
+        ' ["",{"text":"[' +
+        zone.name +
+        '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map' +
+        zone.slug +
+        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+        zone.pcx +
+        '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+        zone.pcy +
+        '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+        zone.pcz +
+        '","bold":true,"italic":true,"color":"none"}]'
+    )
+  }
+
+  function joinedClaimed(player) {
+    server.UserDb.findOne({username: player}).then((user) => {
+      server.util.actionbar(player, 'You joined in/near unclaimed land.', 'green')
+      server.send('gamemode survival ' + player)
+      server.send(
+          'tellraw ' +
+          player +
+          ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+          parseInt(user.joined_x) +
+          '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+          parseInt(user.joined_y) +
+          '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+          parseInt(user.joined_z) +
+          '","bold":true,"italic":true,"color":"none"}]'
+      )
+    })
+  }
+
+  function createZone(player, name, nx, nz, ox, oz, mx, mz, dx, dz, cx, cy, cz, oy, ny, my) {
+    server.UserDb.findOne({username: player}).then((user) => {
+      if (user.xp >= 111) {
+        server.UserDb.updateOne(
+            {username: player},
+            {$inc: {xp: -111}}
+        ).then((_user) => {
+          const owner = 'team=' + user.team
+          const notowner = 'team=!' + user.team
+
+          server.ZoneDb.create({
+            username: user.username,
+            name,
+            slug: getSlug(name),
+            team: user.team,
+            p1x: nx,
+            p1z: nz,
+            p2x: ox,
+            p2z: oz,
+            p3x: mx,
+            p3z: mz,
+            p4x: dx,
+            p4z: dz,
+            pcx: cx,
+            pcy: cy,
+            pcz: cz,
+          }).then(() => {
+            setCommandBlocks(ox, oz, oy, owner, notowner, nx, ny, nz, mx, my, mz)
+            server.send(
+                '/tellraw ' +
+                user.username +
+                ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                cx +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
+                cy +
+                '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
+                cz +
+                '","bold":true,"italic":true,"color":"none"}]'
+            )
+            server.util.actionbar(player, 'Zone purchased! -111°', 'green')
+            server.send('gamemode survival ' + player)
+          })
+        })
+      } else {
+        server.util.actionbar(player, 'You\'ll need 111° XPL!', 'red')
+      }
+    })
+  }
+
   server.zone = {
     checkForZone (player) {
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
-          const cx = Math.round(user.joined_x)
-          const cz = Math.round(user.joined_z)
-          // eslint-disable-next-line no-unused-vars
-          const cy = Math.round(user.joined_y)
-          const ox = Math.round(cx - 127)
-          const oz = Math.round(cz - 127)
-          const nx = Math.round(cx + 129)
-          const nz = Math.round(cz - 127)
-          const mx = Math.round(cx - 127)
-          const mz = Math.round(cz + 129)
-          const dx = Math.round(cx + 129)
-          const dz = Math.round(cz + 129)
-
-          // eslint-disable-next-line no-unused-vars
-          const oy = 0
-          // eslint-disable-next-line no-unused-vars
-          const ny = 0
-          // eslint-disable-next-line no-unused-vars
-          const my = 0
-
-          const filter = {
-            $or: [
-              {
-                $and: [
-                  { p1: { $lte: cx } },
-                  { p2: { $lte: cz } },
-                  { p3: { $gte: cx } },
-                  { p4: { $gte: cz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: ox } },
-                  { p2: { $lte: oz } },
-                  { p3: { $gte: ox } },
-                  { p4: { $gte: oz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: dx } },
-                  { p2: { $lte: dz } },
-                  { p3: { $gte: dx } },
-                  { p4: { $gte: dz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: mx } },
-                  { p2: { $lte: mz } },
-                  { p3: { $gte: mx } },
-                  { p4: { $gte: mz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: nx } },
-                  { p2: { $lte: nz } },
-                  { p3: { $gte: nx } },
-                  { p4: { $gte: nz } }
-                ]
-              }
-            ]
-          }
+          const { cx, cz, nx, nz, ox, oz, mx, mz, dx, dz } = createCoors(user)
+          const filter = getFilter(cx, cz, ox, oz, dx, dz, mx, mz, nx, nz)
 
           server.ZoneDb.findOne(filter).then((zone) => {
             if (zone && zone.username === player) {
-              server.util.actionbar(
-                player,
-                'You joined in/near a friendly Zone!',
-                'green'
-              )
-              server.send('gamemode survival ' + player)
-              server.send(
-                'tellraw ' +
-                player +
-                ' ["",{"text":"[' +
-                zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
-                zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                zone.pcenter[0] +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  zone.pcenter[1] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  zone.pcenter[2] +
-                  '","bold":true,"italic":true,"color":"none"}]'
-              )
+              joinedFriendly(player, zone)
             } else if (zone) {
-              server.util.actionbar(
-                player,
-                'You joined in/near a foreign Zone!',
-                'yellow'
-              )
-              server.send(
-                'tellraw ' +
-                  player +
-                  ' ["",{"text":"[' +
-                  zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
-                zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                zone.pcenter[0] +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                zone.pcenter[1] +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                zone.pcenter[2] +
-                '","bold":true,"italic":true,"color":"none"}]'
-              )
+              joinedForeign(player, zone)
             } else {
-              server.UserDb.findOne({ username: player }).then((user) => {
-                server.util.actionbar(player, 'You joined in/near unclaimed land.', 'blue')
-                server.send('gamemode survival ' + player)
-                server.send(
-                  'tellraw ' +
-                  player +
-                  ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"Creaft.NET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  parseInt(user.joined_x) +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  parseInt(user.joined_y) +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  parseInt(user.joined_z) +
-                  '","bold":true,"italic":true,"color":"none"}]'
-                )
-              })
+              joinedClaimed(player)
             }
           })
         }
@@ -169,307 +377,23 @@ module.exports = function Zone () {
     createZone (player, name) {
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
-          const cx = Math.round(user.joined_x)
-          const cz = Math.round(user.joined_z)
-          const cy = Math.round(user.joined_y)
-          const ox = Math.round(cx - 127)
-          const oz = Math.round(cz - 127)
-          const nx = Math.round(cx + 129)
-          const nz = Math.round(cz - 127)
-          const mx = Math.round(cx - 127)
-          const mz = Math.round(cz + 129)
-          const dx = Math.round(cx + 129)
-          const dz = Math.round(cz + 129)
-
-          const oy = 0
-          const ny = 0
-          const my = 0
-
-          const filter = {
-            $or: [
-              {
-                $and: [
-                  { p1: { $lte: cx } },
-                  { p2: { $lte: cz } },
-                  { p3: { $gte: cx } },
-                  { p4: { $gte: cz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: ox } },
-                  { p2: { $lte: oz } },
-                  { p3: { $gte: ox } },
-                  { p4: { $gte: oz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: dx } },
-                  { p2: { $lte: dz } },
-                  { p3: { $gte: dx } },
-                  { p4: { $gte: dz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: mx } },
-                  { p2: { $lte: mz } },
-                  { p3: { $gte: mx } },
-                  { p4: { $gte: mz } }
-                ]
-              },
-              {
-                $and: [
-                  { p1: { $lte: nx } },
-                  { p2: { $lte: nz } },
-                  { p3: { $gte: nx } },
-                  { p4: { $gte: nz } }
-                ]
-              }
-            ]
-          }
+          const { cx, cz, cy, nx, nz, ox, oz, mx, mz, dx, dz, oy, ny, my } = createCoors(user)
+          const filter = getFilter(cx, cz, ox, oz, dx, dz, mx, mz, nx, nz)
 
           server.ZoneDb.findOne(filter).then((zone) => {
             const implemented = true
             if (zone && zone.username === player) {
-              server.util.actionbar(
-                player,
-                'You joined in/near a friendly Zone!',
-                'green'
-              )
-              server.send('gamemode survival ' + player)
-              server.send(
-                'tellraw ' +
-                player +
-                ' ["",{"text":"[' +
-                zone.name +
-                '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
-                zone.slug +
-                '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                zone.pcenter[0] +
-                '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  zone.pcenter[1] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  zone.pcenter[2] +
-                  '","bold":true,"italic":true,"color":"none"}]'
-              )
+              joinedFriendly(player, zone)
             } else if (zone) {
-              server.util.actionbar(
-                player,
-                'You joined in/near a foreign Zone!',
-                'yellow'
-              )
-              server.send(
-                'tellraw ' +
-                  player +
-                  ' ["",{"text":"[' +
-                  zone.name +
-                  '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
-                  zone.slug +
-                  '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                  zone.pcenter[0] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                  zone.pcenter[1] +
-                  '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                  zone.pcenter[2] +
-                  '","bold":true,"italic":true,"color":"none"}]'
-              )
-            } else if (implemented) {
-              server.UserDb.findOne({ username: player }).then((user) => {
-                if (user.xp >= 111) {
-                  server.UserDb.updateOne(
-                      { username: player },
-                      { $inc: { xp: -111 } }
-                  ).then((_user) => {
-                    const owner = 'team=' + user.team
-                    const notowner = 'team=!' + user.team
-
-                    server.ZoneDb.create({
-                      cx,
-                      cy,
-                      cz,
-                      ox,
-                      oz,
-                      dx,
-                      dz,
-                      mx,
-                      mz,
-                      nx,
-                      nz,
-                      username: user.username,
-                      name,
-                      slug: getSlug(name),
-                      team: user.team,
-                      p1: [nx, nz],
-                      p2: [ox, oz],
-                      p3: [mx, mz],
-                      p4: [dx, dz],
-                      pcenter: [cx, cy, cz]
-                    }).then(() => {
-                      setTimeout(function () {
-                        // SET CB(Gamemode 0 for OWNER)
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 2 ' +
-                            (oz + 128) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                            'x=' +
-                            (ox + 4) +
-                            ',y=' +
-                            oy +
-                            ',z=' +
-                            (oz + 4) +
-                            ',dx=247,dy=256,dz=247' +
-                            ',gamemode=adventure,' +
-                            owner +
-                            ']"} replace'
-                        )
-                      }, 0 * 200)
-
-                      setTimeout(function () {
-                        // SET ORIGIN BORDER
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 1 ' +
-                            (oz + 127) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                            'x=' +
-                            ox +
-                            ',y=' +
-                            oy +
-                            ',z=' +
-                            oz +
-                            ',dx=250,dy=256,dz=2' +
-                            ',gamemode=adventure,' +
-                            notowner +
-                            ']"} replace'
-                        )
-                      }, 3 * 200)
-                      setTimeout(function () {
-                        // SET CB(Going out of Area)
-                        server.send(
-                            'setblock ' +
-                            (ox + 129) +
-                            ' 1 ' +
-                            (oz + 128) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                            'x=' +
-                            (nx - 3) +
-                            ',y=' +
-                            ny +
-                            ',z=' +
-                            nz +
-                            ',dx=2,dy=256,dz=250' +
-                            ',gamemode=adventure,' +
-                            notowner +
-                            ']"} replace'
-                        )
-                      }, 3 * 200)
-                      setTimeout(function () {
-                        // SET CB(Going out of Area)
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 1 ' +
-                            (oz + 129) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                            'x=' +
-                            (mx + 3) +
-                            ',y=' +
-                            my +
-                            ',z=' +
-                            (mz - 3) +
-                            ',dx=250,dy=256,dz=2' +
-                            ',gamemode=adventure,' +
-                            notowner +
-                            ']"} replace'
-                        )
-                      }, 3 * 200)
-                      setTimeout(function () {
-                        // SET CB(Going out of Area)
-                        server.send(
-                            'setblock ' +
-                            (ox + 127) +
-                            ' 1 ' +
-                            (oz + 128) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode survival @a[' +
-                            'x=' +
-                            ox +
-                            ',y=' +
-                            oy +
-                            ',z=' +
-                            (oz + 3) +
-                            ',dx=2,dy=256,dz=250' +
-                            ',gamemode=adventure,' +
-                            notowner +
-                            ']"} replace'
-                        )
-                      }, 3 * 200)
-                      setTimeout(function () {
-                        // SET CB(Gamemode 2 for OTHERS)
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 0 ' +
-                            (oz + 128) +
-                            ' repeating_command_block{auto: 1b, Command:"/gamemode adventure @a[' +
-                            'x=' +
-                            (ox + 4) +
-                            ',y=' +
-                            oy +
-                            ',z=' +
-                            (oz + 4) +
-                            ',dx=247,dy=256,dz=247' +
-                            ',gamemode=survival,' +
-                            notowner +
-                            ']"} replace'
-                        )
-                      }, 6 * 200)
-                      setTimeout(function () {
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 1 ' +
-                            (oz + 128) +
-                            ' minecraft:stone'
-                        )
-
-                        server.send(
-                            'setblock ' +
-                            (ox + 128) +
-                            ' 1 ' +
-                            (oz + 128) +
-                            ' minecraft:redstone_block'
-                        )
-                      }, 15 * 200)
-                      server.send(
-                          '/tellraw ' +
-                          user.username +
-                          ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
-                          cx +
-                          '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
-                          cy +
-                          '","bold":true,"italic":true,"color":"none"},{"text":" Z","color":"dark_blue","bold":true,"italic":false},{"text":" ' +
-                          cz +
-                          '","bold":true,"italic":true,"color":"none"}]'
-                      )
-                      server.util.actionbar(player, 'Zone purchased! -111°', 'green')
-                      server.send('gamemode survival ' + player)
-                    })
-                  })
-                } else {
-                  server.util.actionbar(player, 'You\'ll need 111° XPL!', 'red')
-                }
-              })
+              joinedForeign(player, zone)
+            } else if (implemented && !zone) {
+              createZone(player, name, nx, nz, ox, oz, mx, mz, dx, dz, cx, cy, cz, oy, ny, my)
             }
           })
         }
         return false
       })
-    }, // todo: Implement ASAP
+    },
 
     updateZone () {
     },
@@ -477,8 +401,9 @@ module.exports = function Zone () {
     removeZone () {
     },
 
-    tpToZone (player, zone) {
-      server.ZoneDb.findOne({ _id: zone }).then((zone) => {
+    tpToZone (player, zoneName) {
+      const slug = getSlug(zoneName)
+      server.ZoneDb.findOne({ slug }).then((zone) => {
         server.UserDb.findOne({ username: player }).then((user) => {
           if (user.xp >= 11) {
             server.UserDb.updateOne(
@@ -491,7 +416,7 @@ module.exports = function Zone () {
                   'green'
               )
               server.send(
-                'tp ' + player + ' ' + zone.cx + ' ' + zone.cy + ' ' + zone.cz
+                'tp ' + player + ' ' + zone.pcx + ' ' + zone.pcy + ' ' + zone.pcz
               )
             })
           }

@@ -838,7 +838,7 @@ MapcrafterUI.prototype.setMapAndRotation = function (map, rotation) {
     // completely different map, reset view
 
     // reset zoom level, 0 or user-defined default zoom level
-    let zoom = 0
+    let zoom = 3
     if ('defaultZoom' in mapConfig) { zoom = mapConfig.defaultZoom }
 
     // set view to the map center or a user-defined default center

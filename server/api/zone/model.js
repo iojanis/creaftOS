@@ -19,20 +19,38 @@ const zoneSchema = new Schema({
   username: {
     type: String
   },
-  p1: {
-    type: [String]
+  p1x: {
+    type: Number
   },
-  p2: {
-    type: [String]
+  p1z: {
+    type: Number
   },
-  p3: {
-    type: [String]
+  p2x: {
+    type: Number
   },
-  p4: {
-    type: [String]
+  p2z: {
+    type: Number
   },
-  pcenter: {
-    type: [String]
+  p3x: {
+    type: Number
+  },
+  p3z: {
+    type: Number
+  },
+  p4x: {
+    type: Number
+  },
+  p4z: {
+    type: Number
+  },
+  pcx: {
+    type: Number
+  },
+  pcy: {
+    type: Number
+  },
+  pcz: {
+    type: Number
   }
 }, {
   timestamps: true,
@@ -53,11 +71,17 @@ zoneSchema.methods = {
       team: this.team,
       team_name: this.team_name,
       username: this.username,
-      p1: this.p1,
-      p2: this.p2,
-      p3: this.p3,
-      p4: this.p4,
-      pcenter: this.pcenter,
+      p1x: this.p1x,
+      p1z: this.p1z,
+      p2x: this.p2x,
+      p2z: this.p2z,
+      p3x: this.p3x,
+      p3z: this.p3z,
+      p4x: this.p4x,
+      p4z: this.p4z,
+      pcx: this.pcx,
+      pcy: this.pcy,
+      pcz: this.pcz,
       createdAt: this.createdAt,
       updatedAt: this.updatedAt
     }

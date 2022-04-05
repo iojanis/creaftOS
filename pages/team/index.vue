@@ -28,13 +28,14 @@
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
-                <input type="text" placeholder="Name of Team">
+                <input v-model="teamName"  type="text" placeholder="Name of Team">
               </div>
             </div>
             <div class="inverted field">
               <div class="ui inverted input">
                 <!-- eslint-disable-next-line -->
                 <textarea
+                  v-model="teamDescription"
                   style="font-size: 1.1em;"
                   class="fonta"
                   placeholder="Description"
@@ -58,7 +59,7 @@
           >
             Cancel
           </div>
-          <div class="ui green inverted button">
+          <div @click="$socket.emit('create_team', teamName); newTeamModal = false; getTeams()" class="ui green inverted button">
             Create
           </div>
         </div>
@@ -76,7 +77,7 @@
         @click.stop=""
       >
         <div class="content" style="background: none!important;">
-          <form class="ui inverted fonta form" @submit.prevent="console.log()">
+          <form class="ui inverted fonta form">
             <h1 class="ui yellow header" style="text-align: center">
               Edit Team
             </h1>
@@ -89,7 +90,7 @@
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
-                <input type="text" placeholder="Name of Team">
+                <input v-model="teamName" type="text" placeholder="Name of Team">
               </div>
             </div>
             <div class="inverted field">
@@ -119,9 +120,9 @@
           >
             Cancel
           </div>
-          <div class="ui green inverted button">
+          <button class="ui green inverted button" @click="createTeam()">
             Create
-          </div>
+          </button>
         </div>
       </div>
     </div>
@@ -181,50 +182,64 @@
     <transition-group
       mode="out-in"
       tag="div"
-      class="ui relaxed selection inverted bordered list stackable two column grid"
+      class="ui relaxed selection inverted bordered list stackable"
       style="margin-top: 0.5em!important; padding-top: 0em!important;"
       name="fadeDown"
       appear
     >
       <div
         v-for="item in items"
-        :key="item.type"
-        class="bordered column item noselect"
+        :key="item.id"
+        class="bordered item noselect"
         style="height: 52px;"
+        :class="{'selected-team': item.slug === $store.state.currentTeam}"
       >
         <img
-          :src="'https://minotar.net/avatar/rgby'"
+          :src="'https://minotar.net/avatar/' + item.leader + '/32.png'"
           draggable="false"
           class="ui avatar image"
           style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;"
         >
-        <img
-          :src="'/mcicons/' + item.type + '-' + item.meta + '.png'"
-          draggable="false"
-          class="ui avatar image"
-          style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;"
-        >
+<!--        <img-->
+<!--          :src="'/mcicons/' + item.type + '-' + item.meta + '.png'"-->
+<!--          draggable="false"-->
+<!--          class="ui avatar image"-->
+<!--          style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;"-->
+<!--        >-->
         <div class="content">
           <div class="description">
-            <span>rgby's</span>
+            <span>{{ item.leader }}'s</span>
           </div>
           <div class="header elipsis" style="max-width: 160px">
             {{ item.name }}
           </div>
           <div class="header" style="height: 0px!important;">
-            <div
-              style="float: left;position: relative; bottom: 5px; left: -60px; text-shadow: 2px 2px #000000, -2px -2px #000000; text-align: right!important;"
-              class=""
-            >
-              {{ Math.floor(Math.random() * 1000) }}
-            </div>
           </div>
         </div>
-        <div class="right floated content" style="margin-top: 0.4em;">
-          <a draggable="false" href="#">
+        <div class="right floated content" style="margin-top: 0.1em;">
+          <span
+            data-inverted=""
+            data-position="bottom center"
+            :data-tooltip="member"
+            v-for="member in item.whitelist">
+            <img
+              :src="'https://minotar.net/avatar/' + member + '/32.png'"
+              draggable="false"
+              class="ui avatar image"
+              style="border-radius: 3px!important; height: 35px; width: auto; "
+            >
+          </span>
+          <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click="$socket.emit('change_team', item.name);">
             <span
-              class="ui inverted basic label green"
-            >{{ Math.floor(Math.random() * 1444) }}°</span>
+              class="ui inverted basic label blue"
+              :class="{'disabled':!isCurrentlyOnline}"
+            >JOIN</span>
+          </a>
+          <a draggable="false" v-if="item.slug === $store.state.currentTeam" href="#" @click="$socket.emit('leave_team');">
+            <span
+              class="ui inverted basic label red"
+              :class="{'disabled':!isCurrentlyOnline}"
+            >LEAVE</span>
           </a>
         </div>
       </div>
@@ -243,19 +258,24 @@ export default {
       editTeamModal: false,
       viewMode: 0,
       items: [],
-      search: ''
+      search: '',
+      teamName: '',
+      teamDescription: '',
     }
   },
   mounted() {
-    this.$axios.$get('/teams').then(response => {
-      this.items = response.data
-      console.log(response.data)
-    })
+    this.getTeams()
   },
   computed: {
     ...mapGetters(['isCurrentlyOnline'])
   },
   methods: {
+    getTeams() {
+      this.$axios.$get('/teams').then(response => {
+        this.items = response
+        console.log(response)
+      })
+    },
     changeView () {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     }
@@ -308,5 +328,9 @@ export default {
 
 p {
   color: #cccccc !important;
+}
+
+.selected-team {
+  box-shadow: 0 0 0 2pt dodgerblue;
 }
 </style>

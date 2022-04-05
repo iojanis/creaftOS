@@ -27,7 +27,7 @@
         <div v-if="false" class="ui right pointing inverted basic green label" style="margin-left: 0em;">
           -122°
         </div>
-        <img v-if="$auth.loggedIn" :src="'https://minotar.net/avatar/' + $auth.user.username" :class="{online: isCurrentlyOnline}" style="height: 30px; width: 30px; border-radius: 3px;">
+        <img v-if="$store.state && $store.state.username" :src="'https://minotar.net/avatar/' + $store.state.username" :class="{online: isCurrentlyOnline}" style="height: 30px; width: 30px; border-radius: 3px;">
         <img v-else style="height: 30px; width: 30px; border-radius: 3px;" src="https://minotar.net/avatar/steve">
       </a>
     </div>

@@ -3,7 +3,14 @@
 @tailwind utilities;
 
 .ui.basic.label, .ui.basic.labels .label {
+    border: 2px solid;
+    border-radius: 0px!important;
+}
+.ui.basic.label.green, .ui.basic.green.labels .green.label {
     border: 2px solid rgba(46, 191, 62, 0.50) !important;
+}
+.ui.basic.button, .ui.inverted.button, .ui.button,  .ui.basic.buttons .button {
+    border-radius: 0px!important;
 }
 
 .leaflet-top {
