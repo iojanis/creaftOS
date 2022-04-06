@@ -49,22 +49,19 @@ module.exports = function Boot () {
     run () {
       console.info('[C/Boot]: Bootstrapping...')
       // this.checkForOrCreateConfig()
+      // setTimeout(()=>{
+      //     this.deleteAllData()
+      //   }
+      // , 0)
+
+      this.insertData()
+      this.cleanDatabase()
+
       setTimeout(()=>{
-          this.deleteAllData()
-        }
-      , 0)
-      setTimeout(()=>{
-          this.insertData()
-        }
-      , 2000)
-      setTimeout(()=>{
-          this.cleanDatabase()
-        }
-      , 4000)
-      setTimeout(()=>{
-          this.cleanItems()
+        this.updateAllItems()
         }
       , 8000)
+
       // const version = this.loadConfig('version')
       // if (version) server.version.running = version
       // this.getUpdate()
@@ -156,6 +153,13 @@ module.exports = function Boot () {
         }
       })
     },
+    updateAllItems() {
+      server.UserDb.find({}).then((result) => {
+        result.forEach(function (user) {
+          server.user.prepareUserAccount(user.username)
+        })
+      })
+    },
     insertData () {
       server.DataDb.find({}).then((result) => {
         if (result.length === 0) {
@@ -179,11 +183,6 @@ module.exports = function Boot () {
               console.info('[C/Boot]: Removed item: ' + item.item)
             })
           }
-        })
-      })
-      server.UserDb.find({}).then((result) => {
-        result.forEach(function (user) {
-          server.user.prepareUserAccount(user.username)
         })
       })
     },
