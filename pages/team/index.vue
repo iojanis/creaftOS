@@ -127,6 +127,22 @@
       </div>
     </div>
     <div
+      v-if="teamModal"
+      class="ui dimmer modals page visible active overlay"
+      style="display: flex !important;"
+      @click="teamModal = false"
+    >
+      <div
+        class="ui mini inverted modal front visible active team-modal"
+        style="display: block !important;"
+        @click.stop=""
+      >
+        <div class="content" style="background: none!important;">
+          Hello World
+        </div>
+      </div>
+    </div>
+    <div
       class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
       aria-haspopup=""
       style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;"
@@ -237,6 +253,7 @@ export default {
     return {
       newTeamModal: false,
       editTeamModal: false,
+      teamModal: false,
       viewMode: 0,
       items: [],
       search: '',

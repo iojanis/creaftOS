@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui inventory fluid container padded pt-32 pb-64"
+    class="ui inventory padded pt-32 pb-64"
     style=" padding-left: 2em; padding-right: 2em;"
   >
     <div
@@ -168,7 +168,7 @@
               @click="search = ''"
             />
             <a
-              :data-tooltip="!manageMode ? 'Sell' : 'Manage'"
+              :data-tooltip="!manageMode ? 'Sell Mode' : 'Manage Mode'"
               style="cursor: pointer"
               data-inverted=""
               data-position="bottom right"
@@ -234,6 +234,9 @@
         >{{ item.amount }}</span>
         <!--        <span style="position: relative; left: 30px; top: -10px;background: #201c31!important;opacity: 0.95;border: 2px solid #4b4a5a!important;border-radius: 4px;padding: 2px;">{{ Math.floor(Math.random() * 63) }}</span>-->
       </a>
+      <div v-if="filteredItems.length === 0" class="p-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+        No items uploaded yet? Go online, search for an Item and click on it to add it to your Stock. You can also see all items by clicking on the "All Items" (Eye) button.
+      </div>
     </div>
   </div>
 </template>

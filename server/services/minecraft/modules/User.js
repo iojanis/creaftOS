@@ -317,12 +317,11 @@ module.exports = function User () {
       console.info(prefix + 'get all Items from DataDB')
       server.DataDb.find({}).then((items) => {
         console.info(prefix + 'found ' + items.length + ' items in DataDB')
-        server.ItemDb.findOne({ username }).then((exItem) => {
-          if (exItem) {
-            console.info(prefix + 'found an item in UserDb... exiting now')
-          } else {
-            items.forEach((item) => {
-              console.dir(item)
+        items.forEach((item) => {
+          server.ItemDb.findOne({ username, item: item.item }).then((exItem) => {
+            if (exItem) {
+              console.info(prefix + ' ' + item.item + ' found in ' + username + ' inventory not adding it again.')
+            } else {
               server.ItemDb.create({
                 username,
                 item: item.item,
@@ -330,9 +329,11 @@ module.exports = function User () {
                 amount: 0,
                 market: false,
                 price: 0
-              }).then((newItem) => {})
-            })
-          }
+              }).then((newItem) => {
+                console.info(prefix + ' ' + item.item + ' added to ' + username + ' inventory.')
+              })
+            }
+          })
         })
       })
     },
