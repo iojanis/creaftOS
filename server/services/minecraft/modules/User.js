@@ -320,7 +320,7 @@ module.exports = function User () {
         items.forEach((item) => {
           server.ItemDb.findOne({ username, item: item.item }).then((exItem) => {
             if (exItem) {
-              console.info(prefix + ' ' + item.item + ' found in ' + username + ' inventory not adding it again.')
+              // console.info(prefix + ' ' + item.item + ' found in ' + username + ' inventory not adding it again.')
             } else {
               server.ItemDb.create({
                 username,
