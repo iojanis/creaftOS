@@ -158,7 +158,7 @@
             <input
               v-model="search"
               style="text-align: center; color: #ffffff!important;padding: 0px"
-              placeholder="Search"
+              :placeholder="computedPlaceholder"
               autocomplete="off"
             >
             <i
@@ -210,6 +210,7 @@
 
     <div
       class="ui relaxed selection inverted bordered list"
+      style="padding-bottom: 5em;"
     >
       <a
         v-for="item in filteredItems"
@@ -257,6 +258,13 @@ export default {
     }
   },
   computed: {
+    computedPlaceholder () {
+      if (this.viewMode === 1) {
+        return 'Search all items'
+      } else {
+        return 'Search ' + this.filteredItems.length + ' items'
+      }
+    },
     ...mapGetters(['currentItems']),
     offerItem () {
       return true

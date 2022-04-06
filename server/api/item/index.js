@@ -17,7 +17,7 @@ const router = new Router()
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 401 user access only.
  */
-router.get('/', token({ required: true }), query({ limit: { max: 1000 } }), index)
+router.get('/', token({ required: true }), query({ limit: { max: 1150 } }), index)
 
 /**
  * @api {get} /items/:id Retrieve item

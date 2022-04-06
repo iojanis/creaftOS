@@ -10,8 +10,7 @@
     "mongo": "mongod --config /usr/local/etc/mongod.conf --fork",
     "dev": "cross-env NODE_ENV=development nodemon -i server/index.js --watch server",
     "prod": "cross-env NODE_ENV=production nodemon -i \"*.test.js\" -r dotenv-safe/config .",
-    "lint": "eslint ./ --fix",
-    "postdocs": "opn docs/index.html"
+    "lint": "eslint ./ --fix"
   },
   "jest": {
     "testEnvironment": "node",

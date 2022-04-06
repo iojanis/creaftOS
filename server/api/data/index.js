@@ -39,7 +39,7 @@ router.post(
  * @apiSuccess {Object[]} data List of data.
  * @apiError {Object} 400 Some parameters may contain invalid values.
  */
-router.get("/", query(), index);
+router.get("/", query({ limit: { max: 1150 } }), index);
 
 /**
  * @api {get} /data/:id Retrieve data
