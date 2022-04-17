@@ -1,7 +1,7 @@
 {
   "apps": [
   {
-    "name": "EnderNET",
+    "name": "Creaft",
     "script": "npm",
     "args" : "start"
   }

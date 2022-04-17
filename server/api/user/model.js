@@ -118,7 +118,7 @@ userSchema.pre('save', function (next) {
 userSchema.methods = {
   view (full) {
     const view = {}
-    let fields = ['id', 'username', 'joined_x', 'joined_y', 'joined_z']
+    let fields = ['id', 'username', 'joined_x', 'joined_y', 'joined_z', 'role', 'xp', 'kills', 'total_kills', 'bounty', 'last_item', 'teamed', 'team', 'last_online', 'online']
 
     if (full) {
       fields = [...fields, 'email', 'createdAt']

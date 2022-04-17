@@ -66,6 +66,13 @@ export default {
           disabled: true
         },
         {
+          name: 'whois',
+          title: 'WHO',
+          icon: '421-0',
+          auth: false,
+          disabled: true
+        },
+        {
           name: 'map',
           title: 'MAP',
           icon: '345-0',

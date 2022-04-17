@@ -154,7 +154,7 @@
               style="cursor: pointer"
               data-inverted=""
               data-position="bottom left"
-              :data-tooltip="isCurrentlyOnline ? 'Create Team' : 'You are currently offline'"
+              :data-tooltip="isCurrentlyOnline ? 'Create Team' : 'Go Online to Create Team'"
               @click="isCurrentlyOnline ? newTeamModal = true : newTeamModal = false"
             >
               <i
@@ -203,8 +203,9 @@
       name="fadeDown"
       appear
     >
-      <div
+      <nuxt-link
         v-for="item in items"
+        :to="'/team/' + item.slug"
         :key="item.id"
         class="bordered item noselect"
         style="height: 52px;"
@@ -226,7 +227,7 @@
           </div>
         </div>
         <div class="right floated content" style="margin-top: 0.30em;">
-          <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click="$socket.emit('change_team', item.name);">
+          <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click="$socket.emit('change_team', item.name); getTeams()">
             <span
               class="ui inverted basic label blue"
               :class="{'disabled':!isCurrentlyOnline}"
@@ -239,7 +240,7 @@
             >LEAVE</span>
           </a>
         </div>
-      </div>
+      </nuxt-link>
     </transition-group>
   </div>
 </template>

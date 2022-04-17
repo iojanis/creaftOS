@@ -363,7 +363,7 @@ module.exports = function User () {
       // todo: implement setAdmin in user-module
     },
     setLatLong (player) {
-      server.send('tp ' + player + ' ~ ~ ~')
+      server.send('data get entity ' + player + ' Pos')
     }
   }
 }

@@ -22,6 +22,20 @@ module.exports = {
     ]
   },
 
+  // publicRuntimeConfig: {
+  //   serverName: process.env.SERVER_NAME || 'Creaft',
+  //   serverNameShort: process.env.SERVER_NAME_SHORT || 'Creaft',
+  //   serverDescription: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
+  //   serverDescriptionShort: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
+  // },
+  //
+  // env: {
+  //   serverName: process.env.SERVER_NAME || 'Creaft',
+  //   serverNameShort: process.env.SERVER_NAME_SHORT || 'Creaft',
+  //   serverDescription: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
+  //   serverDescriptionShort: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
+  // },
+
   /*
   ** Customize the progress-bar color
   */
@@ -62,8 +76,8 @@ module.exports = {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    prefix: '/api/',
-    baseURL: 'api'
+    // prefix: '/api/',
+    baseURL: 'http://localhost:3000/api'
   },
 
   auth: {

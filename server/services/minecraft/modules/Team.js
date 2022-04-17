@@ -192,7 +192,7 @@ module.exports = function Team () {
               console.log("team exists")
               server.TeamDb.updateOne(
                 {
-                  slug: team.name
+                  slug: team.slug
                 },
                 {
                   $addToSet: { whitelist: player }
@@ -231,7 +231,7 @@ module.exports = function Team () {
             if (team) {
               server.TeamDb.updateOne(
                 {
-                  slug: team.name,
+                  slug: team.slug,
                   whitelist: { $ne: player }
                 },
                 {

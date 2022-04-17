@@ -8,7 +8,7 @@ export const index = ({ querymen: { query, select, cursor } }, res, next) =>
     .catch(next)
 
 export const show = ({ params }, res, next) =>
-  Team.findById(params.id)
+  Team.findOne({ slug: params.slug })
     .then(notFound(res))
     .then(team => team ? team.view() : null)
     .then(success(res))

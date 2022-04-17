@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { middleware as query } from 'querymen'
-import { index, show } from './controller'
+import { index, show, showByTeam } from "./controller";
 export Zone, { schema } from './model'
 
 const router = new Router()
@@ -25,7 +25,19 @@ router.get('/',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Zone not found.
  */
-router.get('/:id',
+router.get('/id/:id',
   show)
+
+
+/**
+ * @api {get} /zones/:team Retrieve zone
+ * @apiName RetrieveZone
+ * @apiGroup Zone
+ * @apiSuccess {Object} zone Zone's data.
+ * @apiError {Object} 400 Some parameters may contain invalid values.
+ * @apiError 404 Zone not found.
+ */
+router.get('/:team',
+  showByTeam)
 
 export default router

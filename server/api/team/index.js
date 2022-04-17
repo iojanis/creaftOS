@@ -25,7 +25,7 @@ router.get('/',
  * @apiError {Object} 400 Some parameters may contain invalid values.
  * @apiError 404 Team not found.
  */
-router.get('/:id',
+router.get('/:slug',
   show)
 
 export default router

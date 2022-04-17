@@ -3,17 +3,18 @@
     <div class="absolute top-0 bottom-0 left-0 right-0 pt-12 md:pt-28 z-20 text-center flex justify-center">
       <div class="masthead">
         <h1 class="text-3xl ui inverted header" style="color: #fbbd08!important;">
-          EnderNET
+          Creaft
         </h1>
         <h2 style="font-family: MinecraftiaRegular; margin-top: -0.5em;">
           Our World Is A Simulation
         </h2>
+        <iframe class="w-full mt-12 mb-4 shadow-xl rounded-md aspect-video" src="https://youtube.com/embed/u9RHrXgy-i0?autoplay=1"></iframe>
         <div class="ui text container pt-8">
           <p class="text-left mb-2">
             Glad you are here.
           </p>
           <p class="text-justify mb-4">
-            We could use some help! This Minecraft server is meant to be collaborative. Think of it as a micro-society managed by an intelligent computer system. EnderNET is open source and provides the website you are on and a Minecraft server connected to it. Through it, you can trade items, buy properties via a map, chat, and more.
+            We could use some help! This Minecraft server is meant to be collaborative. Think of it as a micro-society managed by an intelligent computer system. Creaft is open source and provides the website you are on and a Minecraft server connected to it. Through it, you can trade items, buy properties via a map, chat, and more.
           </p>
           <div v-if="!$auth.loggedIn" class="item mt-2">
             You can

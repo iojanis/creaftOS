@@ -13,3 +13,11 @@ export const show = ({ params }, res, next) =>
     .then(zone => zone ? zone.view() : null)
     .then(success(res))
     .catch(next)
+
+
+export const showByTeam = ({ params }, res, next) =>
+  Zone.find({ team: params.team })
+    .then(notFound(res))
+    .then(zones => zones.map(zone => zone.view()))
+    .then(success(res))
+    .catch(next)
