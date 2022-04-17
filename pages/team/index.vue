@@ -227,13 +227,13 @@
           </div>
         </div>
         <div class="right floated content" style="margin-top: 0.30em;">
-          <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click="$socket.emit('change_team', item.name); getTeams()">
+          <a draggable="false" v-if="item.whitelist.includes($store.state.username) && item.slug !== $store.state.currentTeam" href="#" @click.stop="$socket.emit('change_team', item.name); getTeams()">
             <span
               class="ui inverted basic label blue"
               :class="{'disabled':!isCurrentlyOnline}"
             >JOIN</span>
           </a>
-          <a draggable="false" v-if="item.slug === $store.state.currentTeam" href="#" @click="$socket.emit('leave_team');">
+          <a draggable="false" v-if="item.slug === $store.state.currentTeam" href="#" @click.stop="$socket.emit('leave_team');">
             <span
               class="ui inverted basic label red"
               :class="{'disabled':!isCurrentlyOnline}"
