@@ -34,7 +34,7 @@
                 <input
                   v-model="teamName"
                   type="text"
-                  placeholder="Name of Team"
+                  placeholder="Name of Zone"
                 />
               </div>
             </div>
