@@ -413,7 +413,7 @@ module.exports = function Zone () {
       const slug = getSlug(zoneName)
       server.ZoneDb.findOne({ slug }).then((zone) => {
         server.UserDb.findOne({ username: player }).then((user) => {
-          if (user.xp >= 11 && user.online) {
+          if (user.xp >= 11 && user.online && zone && zone.name) {
             server.UserDb.updateOne(
               { username: player },
               { $inc: { xp: -11 } }

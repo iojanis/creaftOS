@@ -158,6 +158,10 @@ export default {
       this.state.currentExp = event.xp
       console.log('[S]: XP-updated to: ' + event.xp)
     },
+    SOCKET_UPDATE_TEAM (state, event) {
+      console.log('[S]: Team-updated to: ' + event.team)
+      this.state.currentTeam = event.team
+    },
     GET_STOCK_ITEMS (state, mode) {
       this._vm.$socket.emit('get_stock_items', mode)
     },
@@ -214,6 +218,9 @@ export default {
     },
     currentExp: (state) => {
       return state.currentExp.toFixed(2)
+    },
+    currentTeam: (state) => {
+      return state.currentTeam
     },
     isCurrentlyOnline: (state) => {
       return state.isOnline

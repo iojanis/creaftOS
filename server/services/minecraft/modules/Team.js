@@ -1,3 +1,4 @@
+const getSlug = require("speakingurl")
 module.exports = function Team () {
   const server = this
   const getSlug = require('speakingurl')
@@ -25,6 +26,68 @@ module.exports = function Team () {
   })
 
   server.team = {
+
+    createAllTeamsFromDb() {
+      // find all teams in TeamDB
+      // create all Teams in Game
+
+      server.TeamDb.find({}, (err, teams) => {
+        if (err) {
+          console.log(err)
+        } else {
+          teams.forEach((team) => {
+            server.send('team add ' + team.slug + ' "' + team.name + '"')
+          })
+        }
+      })
+    },
+
+    checkTeam(player) {
+      console.log({ checkTeam: { player } })
+      server.UserDb.findOne({ username: player }).then((user) => {
+        if (user.online) {
+          const slug = getSlug(user.team)
+          server.TeamDb.findOne({ slug }).then((team) => {
+            if (!team) {
+              return false
+            }
+            if (team.whitelist.includes(user.username)) {
+              server.UserDb.updateOne(
+                { username: user.username },
+                { $set: { teamed: true, team: slug } }
+              )
+              server.send(
+                "team join " + slug + " " + user.username
+              )
+              server.util.actionbar(
+                player,
+                'You are part of ' + team.name,
+                'green'
+              )
+              server.io.to(user.username).emit('update_team', {
+                team: user.team,
+              })
+              return true
+            } else {
+              server.UserDb.updateOne(
+                { username: user.username },
+                { $set: { teamed: false, team: '' } }
+              )
+              server.util.actionbar(
+                player,
+                'You got removed from ' + team.name,
+                'red'
+              )
+              server.io.to(user.username).emit('update_team', {
+                team: '',
+              })
+              return false
+            }
+          })
+        }
+      })
+    },
+
     createTeam (player, name) {
       console.log({ createTeam: { player, name } })
       server.UserDb.findOne({ username: player })
@@ -49,11 +112,11 @@ module.exports = function Team () {
                       }
                       server.send('team add ' + slug + ' "' + name + '"')
                       server.send('team join ' + slug + ' ' + user.username)
-                      server.io.to(user.username).send('team_created', {
+                      server.io.to(user.username).emit('team_created', {
                         name,
                         slug
                       })
-                      server.io.to(user.username).send('team_created_success', {
+                      server.io.to(user.username).emit('team_created_success', {
                         team, player
                       })
                       server.util.actionbar(
@@ -71,7 +134,7 @@ module.exports = function Team () {
                       'Failed to create team...',
                       'red'
                   )
-                  server.io.to(user.username).send('team_created_fail', {
+                  server.io.to(user.username).emit('team_created_fail', {
                     team, player
                   })
                   return false
@@ -126,8 +189,8 @@ module.exports = function Team () {
           )
             .then(() => {
               server.send('team leave ' + player)
-              server.io.to(user.username).send('team_leave_success', {
-                player
+              server.io.to(user.username).emit('update_team', {
+                team: '',
               })
               server.util.actionbar(
                   player,
@@ -137,15 +200,14 @@ module.exports = function Team () {
               return true
             })
         } else {
-          server.io.to(user.username).send('team_leave_failed')
           return false
         }
       })
     },
 
     changeTeam (player, name) {
-      const slug = getSlug(name)
       console.log({ changeTeam: { player, name } })
+      const slug = getSlug(name)
       server.UserDb.findOne({ username: player }).then((user) => {
         if (user.online) {
           server.TeamDb.findOne({ slug }).then((team) => {
@@ -154,12 +216,12 @@ module.exports = function Team () {
                   { username: user.username },
                   { $set: { teamed: true, team: slug } }
               ).then(() => {
-                server.send('team leave ' & user.username)
+                server.send('team leave ' + player)
                 server.send(
                     'team join ' + slug + ' ' + user.username
                 )
-                server.io.to(user.username).send('team_changed', {
-                  team, player
+                server.io.to(user.username).emit('update_team', {
+                  team: user.team,
                 })
                 server.util.actionbar(
                     player,
@@ -173,7 +235,7 @@ module.exports = function Team () {
             }
           })
         } else {
-          server.io.to(user.username).send('team_not_changed')
+          server.io.to(user.username).emit('team_not_changed')
           return false
         }
       })
@@ -183,13 +245,11 @@ module.exports = function Team () {
       console.log({ addToTeam: { leader, player } })
       server.UserDb.findOne({ username: leader }).then((user) => {
         if (user.teamed) {
-          console.log("user teamed")
           server.TeamDb.findOne({
             slug: user.team,
             leader: user.username
           }).then((team) => {
             if (team) {
-              console.log("team exists")
               server.TeamDb.updateOne(
                 {
                   slug: team.slug
@@ -199,18 +259,22 @@ module.exports = function Team () {
                 }
               ).then((affected) => {
                 if (affected) {
-                  console.log("team updated")
-                  server.io.to(user.username).send('add_to_team_success', {
-                    team, player
+                  server.io.to(user.username).emit('update_team', {
+                    team: user.team,
                   })
                   server.util.actionbar(
                       leader,
-                      'Added to team: ' + player,
+                      'Added player whitelist: ' + player,
+                      'green'
+                  )
+                  server.util.actionbar(
+                      player,
+                      'Added to whitelist of: ' + team.name,
                       'green'
                   )
                   return true
                 } else {
-                  server.io.to(user.username).send('add_to_team_failed')
+                  server.io.to(user.username).emit('add_to_team_failed')
                   return false
                 }
               })
@@ -238,7 +302,7 @@ module.exports = function Team () {
                   $pull: { whitelist: player }
                 }
               ).then((affected) => {
-                return !!affected
+                this.checkTeam(player)
               })
             }
           })

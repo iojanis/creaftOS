@@ -10,6 +10,7 @@ module.exports = function Util () {
     server.util.clockWork()
     server.online = true
     console.info('[C/Util]: Minecraft-Server is now accepting connections') //
+    server.team.createAllTeamsFromDb()
     server.util.event({
       server: 'was re-/started.',
       public: true,

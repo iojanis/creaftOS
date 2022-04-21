@@ -44,7 +44,7 @@ const CONFIG = {
         0,
         0
       ],
-      "maxZoom": 9,
+      "maxZoom": 10,
       "name": "EnderNET World",
       "renderView": "isometric",
       "rotations": [
