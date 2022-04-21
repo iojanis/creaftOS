@@ -66,7 +66,7 @@ const CONFIG = {
   ],
   "tileSetGroups": {
     "world_isometric_t1": {
-      "maxZoom": 9,
+      "maxZoom": 10,
       "tileOffsets": [
         [
           0,
