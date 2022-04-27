@@ -2,3 +2,5 @@ node_modules
 .nuxt
 .idea
 .env
+yarn.lock
+yarn-error.log
