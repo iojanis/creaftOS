@@ -17,8 +17,11 @@
 </template>
 
 <script>
+import QuickUpload from "~/components/QuickUpload";
+import { mapActions } from "vuex";
 export default {
   name: 'AppBar',
+  components: { QuickUpload },
   data () {
     return {
       loaded: false,

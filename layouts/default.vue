@@ -1,6 +1,7 @@
 <template>
   <div class="default-layout">
     <app-bar/>
+    <quick-upload v-if="$auth.loggedIn && $store.state.isOnline"></quick-upload>
     <app-notifications/>
     <app-usermenu/>
     <app-overlay/>
@@ -20,9 +21,11 @@ import AppBar from '~/components/app/AppBar'
 import AppNav from '~/components/app/AppNav'
 import AppNotifications from '~/components/app/AppNotifications'
 import AppUsermenu from '~/components/app/AppUsermenu'
+import QuickUpload from "~/components/QuickUpload";
 
 export default {
   components: {
+    QuickUpload,
     AppCrashed,
     AppOverlay,
     AppNotifications,
@@ -54,7 +57,7 @@ export default {
     )
   },
   methods: {
-    ...mapActions(['setToken', 'toggleAll'])
+    ...mapActions(['setToken', 'toggleAll', 'toggleQuickUpload'])
   }
 }
 </script>

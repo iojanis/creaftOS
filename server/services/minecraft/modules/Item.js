@@ -69,19 +69,21 @@ module.exports = function Item () {
         return
       }
       server.ItemDb.findOne({ item }).then((remItem) => {
-        server.UserDb.updateOne(
-          { username },
-          { $set: { last_item: item } }
-        ).then(() => {
-          server.send(
-            'clear ' +
-            username +
-            ' minecraft:' +
-            remItem.item +
-            ' ' +
-            amount
-          )
-        })
+        if (remItem && remItem.item){
+          server.UserDb.updateOne(
+            { username },
+            { $set: { last_item: item } }
+          ).then(() => {
+            server.send(
+              "clear " +
+              username +
+              " minecraft:" +
+              remItem.item +
+              " " +
+              amount
+            )
+          })
+        }
       })
     },
     removeItemsFromDb (username, amount, name) {

@@ -1674,6 +1674,23 @@
   resolved "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   integrity sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==
 
+"@scriptserver/core@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@scriptserver/core/-/core-2.0.4.tgz#88a1f34c992c100d8f0d6457b3a4132e1284ce27"
+  integrity sha512-PcoJHDJNWsbRs21XWCDOgUo79cfLDAmzRoLyE17HYmNPsXslf5NeUenX4Fmv9965+xKCfE8fAcoY4n7yGH7q+A==
+  dependencies:
+    lodash.defaultsdeep "^4.6.1"
+    lodash.get "^4.4.2"
+
+"@scriptserver/util@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@scriptserver/util/-/util-2.0.4.tgz#d4b9603cc97a5fa43feacd969bedec3e306b97d5"
+  integrity sha512-o8S/3h7deq0xNvIirMI2b8uJpyNIbTJWZXGuK8dko/wfQPuRWYsqNT0BQOo/K6Yk9KuK2bh7vEXsUC8x8Tz3jg==
+  dependencies:
+    "@scriptserver/core" "^2.0.4"
+    lodash.defaultsdeep "^4.6.1"
+    lodash.get "^4.4.2"
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.npmjs.org/@sindresorhus/is/-/is-0.14.0.tgz"
@@ -2137,6 +2154,11 @@
   optionalDependencies:
     prettier "^1.18.2 || ^2.0.0"
 
+"@vue/composition-api@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.6.0.tgz#41c45672245fff2181f8be1f757c95cb6c9b0316"
+  integrity sha512-m/FbsCXn0Ov2QCYUEIt4yupWJLCL6nfZg/Xx2L5VlFUqgJb2iOrbLnkYSV0TO2VUxkBLSFtTZMyG8IIHZFdKNA==
+
 "@vue/reactivity-transform@3.2.31":
   version "3.2.31"
   resolved "https://registry.npmjs.org/@vue/reactivity-transform/-/reactivity-transform-3.2.31.tgz"
@@ -2152,6 +2174,21 @@
   version "3.2.31"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.2.31.tgz"
   integrity sha512-ymN2pj6zEjiKJZbrf98UM2pfDd6F2H7ksKw7NDt/ZZ1fh5Ei39X5tABugtT03ZRlWd9imccoK0hE8hpjpU7irQ==
+
+"@vueuse/core@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-5.3.0.tgz#d8c6e939e18089afa224fab6e443fae2bdb57a51"
+  integrity sha512-bBL1/JMRHFWmbgQzUZHF4WOwlqfenR1B8+elriXsbnHlogQM5foSz9++WyDBR0YPIVgCJq7fvNLqd4T7+cjc5w==
+  dependencies:
+    "@vueuse/shared" "5.3.0"
+    vue-demi "*"
+
+"@vueuse/shared@5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@vueuse/shared/-/shared-5.3.0.tgz#2b9583f80f1284242f808925e7e141310e400e45"
+  integrity sha512-qZfkPFH0qTScFpYiPOFpTcxWriRhlM3bgSzl3DFTgr/U0eZg3w2EFWaRZHdWeSvAUdNQyjOC4Toa8S0zJyEjHw==
+  dependencies:
+    vue-demi "*"
 
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
@@ -9550,6 +9587,11 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.npmjs.org/lodash.debounce/-/lodash.debounce-4.0.8.tgz"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.defaultsdeep@^4.6.1:
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.1.tgz#512e9bd721d272d94e3d3a63653fa17516741ca6"
+  integrity sha512-3j8wdDzYuWO3lM3Reg03MuQR957t287Rpcxp1njpEa8oDrikb+FwGdW3n+FELh/A6qib6yPit0j/pv9G/yeAqA==
+
 lodash.get@^4.4.2:
   version "4.4.2"
   resolved "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz"
@@ -15640,6 +15682,11 @@ vue-client-only@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/vue-client-only/-/vue-client-only-2.1.0.tgz#1a67a47b8ecacfa86d75830173fffee3bf8a4ee3"
   integrity sha512-vKl1skEKn8EK9f8P2ZzhRnuaRHLHrlt1sbRmazlvsx6EiC3A8oWF8YCBrMJzoN+W3OnElwIGbVjsx6/xelY1AA==
+
+vue-demi@*:
+  version "0.12.5"
+  resolved "https://registry.yarnpkg.com/vue-demi/-/vue-demi-0.12.5.tgz#8eeed566a7d86eb090209a11723f887d28aeb2d1"
+  integrity sha512-BREuTgTYlUr0zw0EZn3hnhC3I6gPWv+Kwh4MCih6QcAeaTlaIX0DwOVN0wHej7hSvDPecz4jygy/idsgKfW58Q==
 
 vue-eslint-parser@^8.0.1, vue-eslint-parser@^8.3.0:
   version "8.3.0"

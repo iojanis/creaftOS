@@ -13,13 +13,15 @@ export default {
       NotificationDrawer: false,
       Overlay: false,
       Crashed: false,
+      QuickUpload: false,
       onlinePlayers: [],
       latestMessages: [],
       currentItems: [],
       currentMarketItems: [],
       currentMarketItemStats: [],
       currentExp: 0,
-      currentTeam: 0
+      currentTeam: 0,
+      currentInventory: [],
     }
   },
   mutations: {
@@ -28,6 +30,9 @@ export default {
     },
     NOTIFICATION_DRAWER (state, status) {
       state.NotificationDrawer = status
+    },
+    QUICK_UPLOAD (state, status) {
+      state.QuickUpload = status
     },
     OVERLAY (state, status) {
       state.Overlay = status
@@ -162,6 +167,10 @@ export default {
       console.log('[S]: Team-updated to: ' + event.team)
       this.state.currentTeam = event.team
     },
+    SOCKET_UPDATE_INVENTORY (state, event) {
+      console.log('[S]: Inventory-updated to: ' + event)
+      this.state.currentInventory = event
+    },
     GET_STOCK_ITEMS (state, mode) {
       this._vm.$socket.emit('get_stock_items', mode)
     },
@@ -222,6 +231,9 @@ export default {
     currentTeam: (state) => {
       return state.currentTeam
     },
+    currentInventory: (state) => {
+      return state.currentInventory
+    },
     isCurrentlyOnline: (state) => {
       return state.isOnline
     }
@@ -233,6 +245,11 @@ export default {
     toggleUserDrawer ({ commit }, status) {
       commit('USER_DRAWER', status)
       commit('OVERLAY', true)
+    },
+    toggleQuickUpload ({ commit }, status) {
+      commit('USER_DRAWER', false)
+      commit('OVERLAY', false)
+      commit('QUICK_UPLOAD', status)
     },
     toggleNotificationDrawer ({ commit }, status) {
       commit('NOTIFICATION_DRAWER', status)

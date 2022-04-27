@@ -136,7 +136,7 @@ module.exports = function Events () {
   })
 
   server.on('console', (event) => {
-    const stripped = event.match(/([\w]+).was.([\w]+).by.([\w]+)/)
+    const stripped = event.match(/([\w]+).was.(.+).by.([\w]+)/)
     if (stripped) {
       server.emit('slain', {
         player: stripped[1],
