@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - ./mongodb:/data/db
+    ports:
+      - "27017:27017"
+  node:
+    depends_on:
+      - mongodb
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "25565:25565"
+      - "3000:3000"
+    volumes:
+      - ./minecraft:/minecraft_server
