@@ -1,8 +1,10 @@
 /src/node_modules/
 .env
-.idea
+.idea/
 /src/.nuxt/
 .DS_Store
 /src/dist/
 /minecraft/
 /mongodb/
+/static/
+/.DS_Store
