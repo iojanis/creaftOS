@@ -8,6 +8,12 @@ class Minecraft extends EventsEmitter {
     console.info('[C]: Minecraft-Server-Creator (Creaft) has been created')
     this.io = io
     this.config = config
+    this.name = config.options.server_name
+    this.modt = config.options.server_modt
+    this.host = config.options.server_host
+    console.info('[C]: This instance is named: ' + this.name)
+    console.info('[C]: This instance is hosted on: ' + this.host)
+    console.info('[C]: This instance is using the modt: ' + this.modt)
     this.online = false
     this.locked = true
     this.version = {
@@ -19,7 +25,7 @@ class Minecraft extends EventsEmitter {
     this.modules = []
     this.load('Core-Modules', '/core')
     this.load('Gameplay-Modules', '/modules')
-    console.info('[C]: Minecraft-Server-Creator (Creaft) has been initialized')
+    console.info('[C]: creaftOS has been initialized')
     this.boot.run()
   }
 

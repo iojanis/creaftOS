@@ -92,7 +92,7 @@
         <nuxt-link :to="'/whois/' + $auth.user.username" class="item">
           My Profile
         </nuxt-link>
-        <a @click="toggleQuickUpload(!$store.state.QuickUpload)" class="item">
+        <a @click="toggleQuickUpload(!$store.state.QuickUpload)" class="item" :class="{'disabled': !isCurrentlyOnline}">
           Quick*Upload
         </a>
         <nuxt-link to="/setttings" class="disabled item"> Settings </nuxt-link>

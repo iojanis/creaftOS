@@ -9,5 +9,6 @@ module.exports = {
   theme: {
     extend: {}
   },
+  variants: {container: ({ after }) => after(['disabled'])},
   plugins: []
 }

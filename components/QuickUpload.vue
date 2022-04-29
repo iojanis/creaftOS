@@ -1,19 +1,21 @@
 <template>
   <div
+    ref="draggableContainer" id="draggable-container"
     v-if="$store.state.QuickUpload"
     style="z-index: 111"
-    class="fixed left-0 right-0 top-0 bottom-0 h-screen w-screen pointer-events-none"
+    class="fixed left-0 right-0 top-0 bottom-0 h-screen w-screen pointer-events-none "
   >
     <div
-      class="ui inventory fluid container padded pt-12 pb-64"
+      id="draggable-header" @mousedown="dragMouseDown" @touchstart="dragMouseDown"
+      class="ui inventory  fluid container padded pt-12 pb-64"
       style="padding-left: 2em; padding-right: 2em"
     >
-      <div ref="el" :style="style" class="main1 pointer-events-auto">
+      <div ref="el" class="main1 pointer-events-auto">
         <h1>
           Quick*Upload
           <button
             class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
-            @click="$socket.emit('get-inventory')"
+            @click.stop="$socket.emit('get-inventory')"
           >
             Refresh
           </button>
@@ -30,7 +32,7 @@
             v-for="item in invItems"
             :key="item.slot"
             class="box"
-            @click="
+            @click.prevent="
               $socket.emit('upload_item', item.id, 1111);
               $socket.emit('get-inventory');
             "
@@ -49,7 +51,7 @@
             v-for="item in hotBar"
             :key="item.slot"
             class="box"
-            @click="
+            @click.prevent="
               $socket.emit('upload_item', item.id, 1111);
               $socket.emit('get-inventory');
             "
@@ -78,7 +80,14 @@ export default {
   //   return {el}
   // },
   data() {
-    return {};
+    return {
+      positions: {
+        clientX: undefined,
+        clientY: undefined,
+        movementX: 0,
+        movementY: 0
+      }
+    };
   },
   watch: {
     visibleUpload () {
@@ -156,6 +165,28 @@ export default {
     },
     getItems() {
       this.$socket.emit("get-inventory");
+    },
+    dragMouseDown: function (event) {
+      event.preventDefault()
+      // get the mouse cursor position at startup:
+      this.positions.clientX = event.clientX
+      this.positions.clientY = event.clientY
+      document.onmousemove = this.elementDrag
+      document.onmouseup = this.closeDragElement
+    },
+    elementDrag: function (event) {
+      event.preventDefault()
+      this.positions.movementX = this.positions.clientX - event.clientX
+      this.positions.movementY = this.positions.clientY - event.clientY
+      this.positions.clientX = event.clientX
+      this.positions.clientY = event.clientY
+      // set the element's new position:
+      this.$refs.draggableContainer.style.top = (this.$refs.draggableContainer.offsetTop - this.positions.movementY) + 'px'
+      this.$refs.draggableContainer.style.left = (this.$refs.draggableContainer.offsetLeft - this.positions.movementX) + 'px'
+    },
+    closeDragElement () {
+      document.onmouseup = null
+      document.onmousemove = null
     },
     ...mapActions(["toggleQuickUpload"]),
   },

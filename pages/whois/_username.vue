@@ -4,9 +4,14 @@
       <div class="center">
         <div style="min-width: 300px;">
           <h3 class="ui white header">
-            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> WHO-IS UNAVAILABLE.</span>
+            <span class="uppercase" style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em">Whois {{ $route.params.username }}</span>
           </h3>
-          <p>THE WHO-IS IS UNDER DEVELOPMENT.</p>
+          <img class="mx-auto" :src="'https://minotar.net/body/' + $route.params.username + '.png'" >
+
+          <h3 class="ui white header">
+            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> YET UNAVAILABLE.</span>
+          </h3>
+          <p>THE PAGE IS UNDER DEVELOPMENT.</p>
           <p>THANK YOU FOR UNDERSTANDING.</p>
         </div>
       </div>

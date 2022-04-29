@@ -63,6 +63,9 @@ async function start () {
       server_ram: process.env.SERVER_RAM || 4096,
       server_locked: process.env.SERVER_LOCKED || false,
       game_debug: process.env.GAME_DEBUG || true,
+      server_host: process.env.SERVER_HOST || '0.0.0.0',
+      server_name: process.env.SERVER_NAME || 'creaftOS',
+      server_modt: process.env.SERVER_MODT || 'Our World is a Simulation',
       mapcrafter_path: process.env.MAPCRAFTER_PATH || '/root/mapcrafter',
       mapcrafter_config_path: process.env.MAPCRAFTER_CONFIG_PATH || '/root/mapcrafter/config.json'
     }

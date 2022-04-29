@@ -97,12 +97,12 @@ module.exports = function User () {
             server.cmdTo(
               'title',
               event.player,
-              'subtitle {"text":"' + 'Our World Is A Simulation' + '"}'
+              'subtitle {"text":"' + server.modt + '"}'
             )
             server.cmdTo(
               'title',
               event.player,
-              'title {"text":"' + 'EnderNET' + '","color":"gold"}'
+              'title {"text":"' + server.name + '","color":"gold"}'
             )
             setTimeout(function () {
               server.team.checkTeam(event.player)
@@ -164,7 +164,7 @@ module.exports = function User () {
               server.send(
                 'kick ' +
                   player +
-                  ' Go to: EnderNET/join Token: ' +
+                  ' Go to '+ 'sd' +' Token: ' +
                   user.code
               )
             }, 0 * 500)
@@ -173,7 +173,7 @@ module.exports = function User () {
             server.user.preparePlayer(player)
             const code = Math.floor(Math.random() * (1 + 99999 - 11111))
             console.info(
-              '[C/User]: ' + player + ' is new to EnderNET. His token is: ' + code
+              '[C/User]: ' + player + ' is new. His token is: ' + code
             )
             const newToken = server.TokenDb({
               username: player,
@@ -187,7 +187,7 @@ module.exports = function User () {
               server.send(
                 'tell ' +
                   player +
-                  ' Go to EnderNET/join to create an account!'
+                  ' Go to '+server.host+'/join to create an account!'
               )
             }, 0 * 500)
           }
@@ -205,7 +205,7 @@ module.exports = function User () {
         server.cmdTo(
           'title',
           player,
-          'title {"text":"' + 'EnderNET' + '","color":"gold"}'
+          'title {"text":"'+server.host+'","color":"gold"}'
         )
         setTimeout(function () {
           server.cmdTo('title', player, 'times 20 200 20')
@@ -224,7 +224,7 @@ module.exports = function User () {
             server.cmdTo(
               'title',
               player,
-              'subtitle {"text":"' + 'Visit EnderNET/Join to create an account.' + '"}'
+              'subtitle {"text":"' + 'Visit '+server.host+'/join to create an account.' + '"}'
             )
             server.cmdTo(
               'title',
@@ -366,7 +366,27 @@ module.exports = function User () {
       // todo: implement setAdmin in user-module
     },
     setLatLong (player) {
-      server.send('data get entity ' + player + ' Pos')
+      console.log('[C/User/setLatLong]: ' + player + ' is going to be set.')
+      server.rcon.send('data get entity ' + player + ' Pos').then(r => {
+        console.log(r)
+      })
+      server.rcon.util.getLocation(player).then(r => {
+        console.log(r)
+        if (r.x && r.y && r.z) {
+          server.UserDb.updateOne(
+            { username: player },
+            {
+              $set: {
+                joined_x: r.x,
+                joined_y: r.y,
+                joined_z: r.z
+              }
+            }
+          ).then(() => {
+            console.log('[C/User/setLatLong]: ' + player + ' is set.')
+          })
+        }
+      })
     }
   }
 }

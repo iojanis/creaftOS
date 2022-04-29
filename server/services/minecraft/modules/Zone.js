@@ -25,7 +25,7 @@ module.exports = function Zone () {
     client.on('tp_to_zone', (zone) => {
       server.zone.tpToZone(server.socket.getUsernameFromId(client.id), zone)
     })
-    client.on('set_lat_long', () => {
+    client.on('get_position', () => {
       server.user.setLatLong(server.socket.getUsernameFromId(client.id))
     })
   })
@@ -254,7 +254,7 @@ module.exports = function Zone () {
         zone.name +
         '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map/' +
         zone.slug +
-        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"'+server.name+'"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
         zone.pcx +
         '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
         zone.pcy +
@@ -277,7 +277,7 @@ module.exports = function Zone () {
         zone.name +
         '] nearby: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map' +
         zone.slug +
-        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+        '"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"'+server.name+'"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
         zone.pcx +
         '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
         zone.pcy +
@@ -294,7 +294,7 @@ module.exports = function Zone () {
       server.send(
           'tellraw ' +
           player +
-          ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+          ' ["",{"text":"Free Zone: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc/map"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"'+server.name+'"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
           parseInt(user.joined_x) +
           '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
           parseInt(user.joined_y) +
@@ -339,7 +339,7 @@ module.exports = function Zone () {
                 server.send(
                   '/tellraw ' +
                   user.username +
-                  ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"EnderNET Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
+                  ' ["",{"text":"Zone Center: ","bold":true,"clickEvent":{"action":"open_url","value":"https://rea.lity.cc"},"hoverEvent":{"action":"show_text","value":{"text":"","extra":[{"text":"'+server.name+' Alert"}]}}},{"text":"X ","color":"red","bold":true},{"text":"' +
                   cx +
                   '","bold":true,"italic":true,"color":"none"},{"text":" Y ","color":"green","bold":true,"italic":false},{"text":"' +
                   cy +
@@ -413,19 +413,27 @@ module.exports = function Zone () {
       const slug = getSlug(zoneName)
       server.ZoneDb.findOne({ slug }).then((zone) => {
         server.UserDb.findOne({ username: player }).then((user) => {
-          if (user.xp >= 11 && user.online && zone && zone.name) {
+          if (user.xp >= 3 && user.online && zone && zone.name) {
             server.UserDb.updateOne(
               { username: player },
-              { $inc: { xp: -11 } }
+              { $inc: { xp: -3 } }
             ).then((_user) => {
-              server.util.actionbar(
+              server.UserDb.updateOne(
+                { username: zone.username },
+                { $inc: { xp: 3 } }
+              ).then((_user) => {
+                server.util.actionbar(
                   player,
-                  'Teleported to '+ zone.name +'! -11°',
+                  'Teleported to '+ zone.name +'! -3°',
                   'green'
-              )
-              server.send(
-                'tp ' + player + ' ' + zone.pcx + ' ' + zone.pcy + ' ' + zone.pcz
-              )
+                )
+                server.send(
+                  'tp ' + player + ' ' + zone.pcx + ' ' + zone.pcy + ' ' + zone.pcz
+                )
+                server.send(
+                  `execute at ${player} run particle cloud ~ ~1 ~ 1 1 1 0.1 100 force`,
+                )
+              })
             })
           }
         })

@@ -33,6 +33,7 @@ const config = {
     },
     minecraft: {
       options: {
+        server_name: process.env.SERVER_NAME || 'creaftOS',
         server_path: process.env.server_path
       }
     }

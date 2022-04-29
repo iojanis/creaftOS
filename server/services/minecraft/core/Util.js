@@ -2,21 +2,11 @@
   Name: Util-Module (user.js)
   Description: Handles basic interactions and contains helper methods.
  */
+import { RconConnection } from '@scriptserver/core'
+
 module.exports = function Util () {
   const server = this
   let i = 0
-
-  server.on('done', (event) => {
-    server.util.clockWork()
-    server.online = true
-    console.info('[C/Util]: Minecraft-Server is now accepting connections') //
-    server.team.createAllTeamsFromDb()
-    server.util.event({
-      server: 'was re-/started.',
-      public: true,
-      createdAt: new Date()
-    })
-  })
 
   server.on('terminal', (event) => {
     if (!event.text.includes('Set the time to')) {
@@ -74,10 +64,21 @@ module.exports = function Util () {
       return server.send(`tellraw ${target} ${JSON.stringify(options)}`)
     },
 
+    createClockWorkRcon() {
+      server.clockrcon = new RconConnection({
+        rconConnection: {
+          port: 25575,
+          password: 'lolparty12378',
+        },
+      })
+
+      server.clockrcon.connect()
+    },
+
     clockWork () {
       function workLoop (time) {
         setTimeout(function () {
-          server.send('time set ' + i)
+          server.clockrcon.send('time set ' + i).then(r => {})
           i++
           if (i > 14000) {
             workLoop(500)
@@ -95,6 +96,11 @@ module.exports = function Util () {
     setClock (time) {
       console.info('[C]: Set the clock to ' + time + '!')
       i = time
+    },
+
+    prepareGamerules () {
+      server.send('gamerule doDaylightCycle false')
+      // server.send('gamerule doMobLoot false')
     }
   }
 }

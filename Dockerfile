@@ -1,20 +1,11 @@
-FROM node:alpine
-
+FROM node:16
+RUN apt update && apt install -y \
+        default-jre
 # Create app directory
 WORKDIR /app
 ADD . /app/
 
-RUN apk --no-cache add openjdk11 --repository=http://dl-cdn.alpinelinux.org/alpine/edge/community
-
-RUN apk add --update-cache \
-    python \
-    python-dev \
-    py-pip \
-    build-base \
-  && pip install virtualenv \
-  && rm -rf /var/cache/apk/*
-
-RUN npm install
+RUN npm install --save --legacy-peer-deps
 RUN npm run build
 
 ENV HOST 0.0.0.0

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui inventory fluid container padded"
+    class="ui inventory fluid  padded"
     style="
       padding-top: 8em !important;
       padding-bottom: 8em !important;
@@ -38,17 +38,17 @@
                 />
               </div>
             </div>
-            <div class="inverted field">
-              <div class="ui inverted input">
-                <!-- eslint-disable-next-line -->
-                <textarea
-                  v-model="teamDescription"
-                  style="font-size: 1.1em"
-                  class="fonta"
-                  placeholder="Description"
-                ></textarea>
-              </div>
-            </div>
+<!--            <div class="inverted field">-->
+<!--              <div class="ui inverted input">-->
+<!--                &lt;!&ndash; eslint-disable-next-line &ndash;&gt;-->
+<!--                <textarea-->
+<!--                  v-model="teamDescription"-->
+<!--                  style="font-size: 1.1em"-->
+<!--                  class="fonta"-->
+<!--                  placeholder="Description"-->
+<!--                ></textarea>-->
+<!--              </div>-->
+<!--            </div>-->
             <div class="inverted field" style="text-align: center">
               <label style="color: white">
                 A team cost you a fee of 111°
@@ -78,7 +78,7 @@
               getTeams();
             "
           >
-            Create
+            Create (111°)
           </div>
         </div>
       </div>
@@ -302,7 +302,7 @@
             >
           </a>
           <a
-            v-if="item.slug === $store.state.currentTeam"
+            v-if="item.slug === currentTeam"
             draggable="false"
             href="#"
             @click.stop="$socket.emit('leave_team')"
@@ -344,9 +344,7 @@ export default {
   },
   watch: {
     currentTeam() {
-      this.$nextTick(() => {
-        this.getTeams()
-      })
+      this.getTeams()
     },
   },
   methods: {

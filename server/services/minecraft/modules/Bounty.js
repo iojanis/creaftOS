@@ -2,7 +2,7 @@ module.exports = function Bounty () {
   const server = this
 
   server.on('slain', (event) => {
-    console.info(`[C/Bounty]: ${event.player} ${event.by} ${event.killer}.`)
+    console.info(`[C/Bounty]: ${event.player} ${event.by} by ${event.killer}.`)
     server.bounty.checkBounty(event.player, event.by, event.killer)
   })
 
@@ -50,7 +50,7 @@ module.exports = function Bounty () {
                 server.UserDb.findOne({ username: player })
                   .then((dbPlayer) => {
                     if (dbPlayer.bounty > 0) {
-                      server.bounty.payBounty(killer, dbPlayer.bounty)
+                      server.bounty.payBounty(player, dbPlayer.bounty, killer)
                       server.bounty.unsetBounty(player)
                     } else {
                       server.bounty.setBounty(killer)
@@ -62,20 +62,23 @@ module.exports = function Bounty () {
         })
     },
     setBounty (player) {
-      server.UserDb.update({ username: player }, { $inc: { bounty: 11 } })
-        .then(() => {
+      server.UserDb.updateOne({ username: player }, { $inc: { bounty: 11 } })
+        .then((user) => {
           console.info(`[C/Bounty]: ${player} bounty set!`)
-          server.event.genericNotification(player, 'YOU GOT A BOUNTY ON YOUR HEAD', 'red')
+          if (user.bounty > 11) {
+            server.event.genericNotification(player, 'YOUR BOUNTY HAS INCREASED', 'red')
+          } else {
+            server.event.genericNotification(player, 'YOU GOT A BOUNTY ON YOUR HEAD', 'red')
+          }
         })
         .catch(() => {
           console.error(`[C/Bounty]: couldn't set bounty for ${player}!`)
         })
     },
     incKills (player) {
-      server.UserDb.update({ username: player }, { $inc: { total_kills: 1 } })
+      server.UserDb.updateOne({ username: player }, { $inc: { total_kills: 1 } })
         .then(() => {
           console.info(`[C/Bounty]: incremented total_kills for ${player}`)
-          server.event.genericNotification(player, 'YOUR BOUNTY HAS INCREASED', 'red')
         })
         .catch(() => {
           console.error(`[C/Bounty]: couldn't increment total_kills for ${player}!`)
@@ -88,7 +91,7 @@ module.exports = function Bounty () {
       console.info(`[C/Bounty]: Removed ${killer} ${amount}°.`)
     },
     unsetBounty (player) {
-      server.UserDb.update({ username: player }, { kills: 0, bounty: 0 })
+      server.UserDb.updateOne({ username: player }, { kills: 0, bounty: 0 })
         .then(() => {
           console.info(`[C/Bounty]: Set bounty and kills of ${player} to 0.`)
         })

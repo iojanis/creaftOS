@@ -1,7 +1,7 @@
 {
   "apps": [
   {
-    "name": "Creaft",
+    "name": "creaftOS",
     "script": "npm",
     "args" : "start"
   }

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui inventory fluid container padded"
+    class="ui inventory fluid  padded"
     style="
       padding-top: 8em !important;
       padding-bottom: 8em !important;
@@ -9,7 +9,7 @@
     "
   >
     <div
-      v-if="newTeamModal && isCurrentlyOnline"
+      v-if="newTeamModal && isCurrentlyOnline && $store.state.currentTeam === item.slug"
       class="ui dimmer modals page visible active overlay"
       style="display: flex !important"
       @click="newTeamModal = false"
@@ -24,10 +24,17 @@
             <h1 class="ui yellow header" style="text-align: center">
               Create a Zone
             </h1>
-            <div class="field">
-              <div class="ui error message">
-                <div class="header">Error</div>
-              </div>
+            <div class="inverted field" style="text-align: center">
+              <label style="color: white">
+                Zone Center: X: {{ $auth.user.joined_x }} Y: {{ $auth.user.joined_y }} Z: {{ $auth.user.joined_z }}
+                <button
+                  class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
+                  type="button"
+                  @click="$socket.emit('get_position'); fetchUser()"
+                >
+                  Refresh
+                </button>
+              </label>
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
@@ -36,17 +43,6 @@
                   type="text"
                   placeholder="Name of Zone"
                 />
-              </div>
-            </div>
-            <div class="inverted field">
-              <div class="ui inverted input">
-                <!-- eslint-disable-next-line -->
-                <textarea
-                  v-model="teamDescription"
-                  style="font-size: 1.1em"
-                  class="fonta"
-                  placeholder="Description"
-                ></textarea>
               </div>
             </div>
             <div class="inverted field" style="text-align: center">
@@ -78,7 +74,7 @@
               getZones();
             "
           >
-            Create
+            Buy (111°)
           </div>
         </div>
       </div>
@@ -187,7 +183,7 @@
               data-inverted=""
               data-position="bottom left"
               :data-tooltip="
-                isCurrentlyOnline ? 'Buy Zone' : 'Go Online to Buy Zone'
+                isCurrentlyOnline ?  $store.state.currentTeam === item.slug ? 'Buy Zone' : 'Not your team!' : 'Go Online to Buy Zone'
               "
               @click="
                 isCurrentlyOnline
@@ -285,9 +281,9 @@
           <div class="right floated content" style="margin-top: 0.30em;">
             <a draggable="false" href="#" @click="$socket.emit('tp_to_zone', zone.name);">
             <span
-              class="ui inverted basic label blue"
+              class="ui small inverted button blue"
               :class="{'disabled':!isCurrentlyOnline}"
-            >TP</span>
+            >Teleport (3°)</span>
             </a>
           </div>
         </div>
@@ -321,6 +317,16 @@ export default {
   computed: {
     ...mapGetters(["isCurrentlyOnline"]),
   },
+  watch: {
+    newTeamModal(val) {
+      if (val) {
+        this.teamName = ""
+        this.teamDescription = ""
+        this.$socket.emit('get_position');
+        this.fetchUser()
+      }
+    },
+  },
   methods: {
     getTeam() {
       this.$axios.$get("/teams/" + this.$route.params.slug).then((response) => {
@@ -333,6 +339,12 @@ export default {
         this.zones = response
         console.log(response)
       })
+    },
+    fetchUser() {
+      setTimeout(() => {
+
+        this.$auth.fetchUser()
+      }, 1000)
     },
     changeView() {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)

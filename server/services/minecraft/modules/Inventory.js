@@ -18,7 +18,7 @@ module.exports = function Inventory () {
 
   server.io.on('connection', (client) => {
     client.on('get-inventory', (eventMessage) => {
-      console.info('[C/NewModule]: get-inventory ' + eventMessage)
+      console.info('[C/NewModule]: get-inventory ' + server.socket.getUsernameFromId(client.id))
       server.inventory.getCurrentInventory(server.socket.getUsernameFromId(client.id))
     })
   })

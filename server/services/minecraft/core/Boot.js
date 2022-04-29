@@ -15,6 +15,21 @@ module.exports = function Boot () {
     // todo: implement running server version & event
   })
 
+  server.on('done', (event) => {
+    server.util.createClockWorkRcon()
+    server.util.clockWork()
+    server.util.prepareGamerules()
+    server.online = true
+    console.info('[C/Util]: Minecraft-Server is now accepting connections') //
+    server.team.createAllTeamsFromDb()
+    server.util.event({
+      server: 'was re-/started.',
+      public: true,
+      createdAt: new Date()
+    })
+  })
+
+
   server.io.on('connection', (client) => {
     client.on('start-server', () => {
       // todo: implement start-server-socket-event
@@ -46,6 +61,7 @@ module.exports = function Boot () {
   }
 
   server.boot = {
+
     run () {
       console.info('[C/Boot]: Bootstrapping...')
       // this.checkForOrCreateConfig()
@@ -57,10 +73,10 @@ module.exports = function Boot () {
       this.insertData()
       this.cleanDatabase()
 
-      setTimeout(()=>{
-        this.updateAllItems()
-        }
-      , 8000)
+      // setTimeout(()=>{
+      //   this.updateAllItems()
+      //   }
+      // , 8000)
 
       // const version = this.loadConfig('version')
       // if (version) server.version.running = version

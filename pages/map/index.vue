@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui terminal inverted fluid container padded"
+    class="ui terminal inverted fluid padded"
     style="padding-top: 7em!important;"
   >
     <!--    <div class="overlay">-->
