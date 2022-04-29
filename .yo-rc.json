@@ -1,9 +1,0 @@
-{
-  "generator-rest": {
-    "srcDir": "server",
-    "apiDir": "api",
-    "authMethods": [
-      "password"
-    ]
-  }
-}

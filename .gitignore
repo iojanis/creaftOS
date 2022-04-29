@@ -1,6 +1,8 @@
-node_modules
-.nuxt
-.idea
+/src/node_modules/
 .env
-yarn.lock
-yarn-error.log
+.idea
+/src/.nuxt/
+.DS_Store
+/src/dist/
+/minecraft/
+/mongodb/

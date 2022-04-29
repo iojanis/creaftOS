@@ -1,9 +1,0 @@
-{
-  "apps": [
-  {
-    "name": "creaftOS",
-    "script": "npm",
-    "args" : "start"
-  }
-]
-}
