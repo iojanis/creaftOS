@@ -8,7 +8,7 @@
       <div class="ui right notification-bar vertical inverted sidebar visible menu" style="padding-top: 1px;">
         <nuxt-link class="item" style="border-bottom: 2px solid rgba(255, 255, 255, 0.2) !important;" to="/">
           <h3 class="ui yellow header shaft boldcraft" style="margin-bottom: 0;border: none; ">
-            Creaft
+            {{ $config.serverNameShort }}
           </h3>
         </nuxt-link>
         <a href="https://github.com/iojanis/CraftOS" target="_blank" class="item">

@@ -367,23 +367,22 @@ module.exports = function User () {
     },
     setLatLong (player) {
       console.log('[C/User/setLatLong]: ' + player + ' is going to be set.')
-      server.rcon.send('data get entity ' + player + ' Pos').then(r => {
-        console.log(r)
-      })
       server.rcon.util.getLocation(player).then(r => {
         console.log(r)
         if (r.x && r.y && r.z) {
           server.UserDb.updateOne(
-            { username: player },
-            {
-              $set: {
-                joined_x: r.x,
-                joined_y: r.y,
-                joined_z: r.z
+              { username: player },
+              {
+                $set: {
+                  joined_x: r.x,
+                  joined_y: r.y,
+                  joined_z: r.z
+                }
               }
-            }
           ).then(() => {
             console.log('[C/User/setLatLong]: ' + player + ' is set.')
+          }).catch(err => {
+            console.log(err)
           })
         }
       })

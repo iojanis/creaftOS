@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui inventory fluid container padded"
+    class="ui inventory fluid padded"
     style="padding-top: 8em!important; padding-bottom: 8em!important; padding-left: 2em; padding-right: 2em;"
   >
     <div
@@ -27,6 +27,9 @@
           </div>
         </div>
       </div>
+    </div>
+    <div class="pt-6 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      Go to a users profile to add them to your <strong>current</strong> team
     </div>
     <transition-group
       mode="out-in"

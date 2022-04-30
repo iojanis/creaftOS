@@ -1,6 +1,6 @@
 <template>
   <transition name="slideUp">
-    <div v-if="loaded" class="centered-menu bordered ui bottom eight labeled icon sidebar menu push visible inverted blurred">
+    <div v-if="loaded" class="centered-menu bordered ui bottom eight labeled icon sidebar menu push visible inverted blurred iphone">
       <nuxt-link
         v-for="Item in MenuItems"
         :key="Item.name"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import QuickUpload from "~/components/QuickUpload";
+import QuickUpload from "@/components/inventory/QuickUpload";
 import { mapActions } from "vuex";
 export default {
   name: 'AppBar',
@@ -37,7 +37,7 @@ export default {
           name: 'forum',
           title: 'FORUM',
           icon: '387-1',
-          auth: true,
+          auth: false,
           disabled: true
         },
         {
@@ -115,21 +115,22 @@ export default {
   }
   .bordered.item {
     margin: 0;
-    border: 2px dashed rgba(255, 255, 255, .0) !important;
+    border: 2px solid rgba(255, 255, 255, .0) !important;
   }
   .bordered.item.disabled {
     margin: 0;
+    border-radius: 4px!important;
     color: #878787 !important;
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
-    border: 2px dashed rgba(255, 255, 255, .0) !important;
+    border: 2px solid rgba(255, 255, 255, .0) !important;
   }
   .bordered.item:hover {
     margin: 0;
-    border: 2px dashed rgba(255, 255, 255, .1) !important;
+    border: 2px solid rgba(255, 255, 255, .1) !important;
   }
   .bordered.item:active {
-    border: 2px dashed rgba(255, 255, 255, .5) !important;
+    border: 2px solid rgba(255, 255, 255, .5) !important;
   }
   .ui.inverted.menu.bordered .active.item {
     background: rgba(255, 255, 255, 0.1);
@@ -150,5 +151,12 @@ export default {
     backdrop-filter: blur(5px)!important;
     background: rgba(3, 1, 25, 0.9) !important;
   }
+
+  @media all and (display-mode: standalone) {
+    .iphone {
+      padding-bottom: 15px!important;
+    }
+  }
+
 
 </style>

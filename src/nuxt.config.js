@@ -9,11 +9,11 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: pkg.name,
+    title: process.env.SERVER_NAME,
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover' },
+      { hid: 'description', name: 'description', content: process.env.SERVER_MODT }
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     script: [
@@ -22,16 +22,17 @@ module.exports = {
     ]
   },
 
-  // publicRuntimeConfig: {
-  //   serverName: process.env.SERVER_NAME || 'Creaft',
-  //   serverNameShort: process.env.SERVER_NAME_SHORT || 'Creaft',
-  //   serverDescription: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
-  //   serverDescriptionShort: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
-  // },
+  publicRuntimeConfig: {
+    serverUrl: process.env.SERVER_URL || 'rea.lity.cc',
+    serverName: process.env.SERVER_NAME || 'creaftOS',
+    serverNameShort: process.env.SERVER_NAME_SHORT || 'cOS',
+    serverDescription: process.env.SERVER_MODT || 'Our World is a Simulation',
+    serverDescriptionLong: process.env.SERVER_DESCRIPTION || 'This Minecraft Server blows your mind. Try it out! It\'s free and open source.',
+  },
   //
   // env: {
-  //   serverName: process.env.SERVER_NAME || 'Creaft',
-  //   serverNameShort: process.env.SERVER_NAME_SHORT || 'Creaft',
+  //   serverName: process.env.SERVER_NAME || 'creaftOS',
+  //   serverNameShort: process.env.SERVER_NAME_SHORT || 'creaftOS',
   //   serverDescription: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
   //   serverDescriptionShort: process.env.SERVER_DESCRIPTION || 'Our World is a Simulation',
   // },
@@ -95,6 +96,24 @@ module.exports = {
   },
   router: {
     middleware: ['auth']
+  },
+
+  pwa: {
+    manifest: {
+      name: process.env.SERVER_NAME,
+      short_name: process.env.SERVER_NAME,
+      lang: 'en',
+      useWebmanifestExtension: false,
+      display: 'standalone',
+    },
+    meta: {
+      name: process.env.SERVER_NAME,
+      description: process.env.SERVER_MODT,
+      viewport:
+        'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover',
+      mobileAppIOS: true,
+      appleStatusBarStyle: 'black-translucent',
+    },
   },
 
   buildModules: [

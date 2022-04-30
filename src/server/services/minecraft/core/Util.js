@@ -78,7 +78,7 @@ module.exports = function Util () {
     clockWork () {
       function workLoop (time) {
         setTimeout(function () {
-          server.clockrcon.send('time set ' + i).then(r => {})
+          //server.clockrcon.send('time set ' + i).then(r => {})
           i++
           if (i > 14000) {
             workLoop(500)

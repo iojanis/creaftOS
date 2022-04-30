@@ -21,7 +21,7 @@ import AppBar from '~/components/app/AppBar'
 import AppNav from '~/components/app/AppNav'
 import AppNotifications from '~/components/app/AppNotifications'
 import AppUsermenu from '~/components/app/AppUsermenu'
-import QuickUpload from "~/components/QuickUpload";
+import QuickUpload from "~/components/inventory/QuickUpload"
 
 export default {
   components: {
@@ -63,6 +63,14 @@ export default {
 </script>
 
 <style>
+
+  @supports(padding:max(0px)) {
+    body, header, footer {
+      padding-left: min(0vmin, env(safe-area-inset-left));
+      padding-right: min(0vmin, env(safe-area-inset-right));
+    }
+  }
+
 
   input, textarea {
     color: #ffffff!important;

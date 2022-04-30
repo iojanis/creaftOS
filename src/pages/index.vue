@@ -3,19 +3,24 @@
     <div class="absolute top-0 bottom-0 left-0 right-0 pt-12 md:pt-28 z-20 text-center flex justify-center">
       <div class="masthead">
         <h1 class="text-3xl ui inverted header" style="color: #fbbd08!important;">
-          Creaft
+          {{ $config.serverName }}
         </h1>
         <h2 style="font-family: MinecraftiaRegular; margin-top: -0.5em;">
-          Our World Is A Simulation
+          {{ $config.serverDescriptionShort }}
         </h2>
-        <iframe class="w-full mt-12 mb-4 shadow-xl rounded-md aspect-video" src="https://youtube.com/embed/u9RHrXgy-i0?autoplay=1"></iframe>
-        <div class="ui text container pt-8">
-          <p class="text-left mb-2">
-            Glad you are here.
+        <div class="ui text container mx-auto pt-8 ">
+          <p class="mx-auto relative text-xl text-center max-w-sm mb-2">
+            {{  $config.serverDescriptionLong }}
           </p>
-          <p class="text-justify mb-4">
-            We could use some help! This Minecraft server is meant to be collaborative. Think of it as a micro-society managed by an intelligent computer system. Creaft is open source and provides the website you are on and a Minecraft server connected to it. Through it, you can trade items, buy properties via a map, chat, and more.
+<!--          <p class="text-justify mb-4">-->
+<!--            We could use some help! This Minecraft server is meant to be collaborative. Think of it as a micro-society managed by an intelligent computer system. Creaft is open source and provides the website you are on and a Minecraft server connected to it. Through it, you can trade items, buy properties via a map, chat, and more.-->
+<!--          </p>-->
+
+          <p class="text-center mt-8">
+            What are you waiting for? Connect to <span class="bg-gray-500/30 rounded-sm px-2 py-1 mr-1 select-all">{{ $config.serverUrl }}</span>!
           </p>
+<!--                  <iframe class="w-full mt-12 mb-4 shadow-xl rounded-md aspect-video" src="https://youtube.com/embed/u9RHrXgy-i0?autoplay=1"></iframe>-->
+
           <div v-if="!$auth.loggedIn" class="item mt-2">
             You can
             <nuxt-link to="/login">
@@ -26,20 +31,19 @@
               <span style="color: #ffffff;  margin-top: 8px">Create an Account</span>
             </nuxt-link>
           </div>
+          <div class="m-2 p-4">
+            <a href="https://github.com/iojanis/CraftOS" target="_blank" class="item ui inverted basic large button">
+              Read the Handbook!
+            </a>
+          </div>
           <div class="mt-4">
-            <a href="https://github.com/iojanis/CraftOS" target="_blank" class="item ui inverted basic button">
-              Github
-            </a>
-            <a href="https://github.com/users/iojanis/projects/4" target="_blank" class="item ui inverted basic button">
-              Roadmap
-            </a>
-            <a href="https://discord.gg/UHyU5ptRcG" target="_blank" style="background: #5865F2!important;" class="item ui inverted basic button">
+            <nuxt-link to="chat" class="item ui inverted basic button mt-2">
+              Chat
+            </nuxt-link>
+            <a href="https://discord.gg/UHyU5ptRcG" target="_blank" style="background: #5865F2!important;" class="item ui inverted basic button mt-2">
               Discord
             </a>
           </div>
-          <p class="text-center mt-4">
-            What are you waiting for? Connect to <span class="bg-gray-500/30 rounded-sm px-2 py-1 select-all">rea.lity.cc</span>
-          </p>
         </div>
       </div>
     </div>
@@ -54,10 +58,8 @@ export default {
   auth: false,
   data () {
     return {
-      stats: []
+      stats: [],
     }
-  },
-  mounted () {
   }
 }
 </script>

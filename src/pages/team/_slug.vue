@@ -22,7 +22,7 @@
         <div class="content" style="background: none !important">
           <form class="ui inverted fonta form" @submit.prevent="createZone()">
             <h1 class="ui yellow header" style="text-align: center">
-              Create a Zone
+              New Zone
             </h1>
             <div class="inverted field" style="text-align: center">
               <label style="color: white">
@@ -183,7 +183,7 @@
               data-inverted=""
               data-position="bottom left"
               :data-tooltip="
-                isCurrentlyOnline ?  $store.state.currentTeam === item.slug ? 'Buy Zone' : 'Not your team!' : 'Go Online to Buy Zone'
+                isCurrentlyOnline ?  $store.state.currentTeam === item.slug ? 'Buy Zone' : 'Not your current team!' : 'Go Online to Buy Zone'
               "
               @click="
                 isCurrentlyOnline
@@ -207,6 +207,7 @@
                 color: #ffffff !important;
                 padding: 0px;
               "
+              disabled
               :placeholder="'Team Message' + ''"
               autocomplete="off"
             />
@@ -232,24 +233,34 @@
       </div>
     </div>
     <h1 class="ui header">{{ item.name }}</h1>
-    <h3 class="ui header">Members</h3>
+    <div class="pt-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      Team Description
+    </div>
+    <h3 class="ui header">Members <button
+      class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
+      @click.stop="showRemoveButton = !showRemoveButton"
+    >
+      remove from team
+    </button></h3>
     <div class="ui divided items">
       <span
-        v-for="member in item.whitelist">
+        v-for="(member, i) in item.whitelist">
         <img
           :src="'https://minotar.net/avatar/' + member + '/32.png'"
           draggable="false"
           class="ui avatar image rounded-sm pr-2"
           style="border-radius: 1px!important; height: 35px; width: auto; margin-top: 0.15em;"
         >
-<!--        <a draggable="false" href="#" @click="$socket.emit('tp_to_zone', zone.name);">-->
-<!--            <span-->
-<!--              class="ui inverted basic label blue"-->
-<!--              :class="{'disabled':!isCurrentlyOnline}"-->
-<!--            >REMOVE</span>-->
-<!--        </a>-->
+        <a v-if="showRemoveButton && i !== 0" draggable="false" href="#" @click="$socket.emit('remove_from_team', member);">
+          {{ member }}
+            <span
+              class="ui inverted basic red mini button"
+            >REMOVE</span>
+        </a>
       </span>
-
+      <div class="pt-6 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+        Go to a users profile to add them to your <strong>current</strong> team
+      </div>
     </div>
 
     <h3 class="ui header">Zones</h3>
@@ -281,13 +292,17 @@
           <div class="right floated content" style="margin-top: 0.30em;">
             <a draggable="false" href="#" @click="$socket.emit('tp_to_zone', zone.name);">
             <span
-              class="ui small inverted button blue"
+              class="ui mini inverted button green"
               :class="{'disabled':!isCurrentlyOnline}"
-            >Teleport (3°)</span>
+            >TP 3°</span>
             </a>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="pt-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      On teleport you pay 3° to the zones owner
     </div>
   </div>
 </template>
@@ -308,6 +323,7 @@ export default {
       search: "",
       teamName: "",
       teamDescription: "",
+      showRemoveButton: false
     }
   },
   mounted() {

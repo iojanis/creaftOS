@@ -91,19 +91,19 @@
         </div>
         <div
           class="actions"
-          style="background: #06051b;border-top: 1px solid rgba(34,36,38,.85);color: #fff;"
+          style="qabackground: #06051b;border-top: 1px solid rgba(34,36,38,.85);color: #fff;"
         >
           <div
-            class="ui red left floated inverted button"
+            class="ui  left floated inverted button"
             @click="offerModal = false"
           >
-            Cancel
+            Close
           </div>
-          <div class="ui inverted button" @click="removeOffer()">
-            Remove Offer
+          <div class="ui red inverted button" @click="removeOffer()">
+            Remove
           </div>
           <div class="ui green inverted button" @click="submitOffer()">
-            Set Offer
+            Set
           </div>
         </div>
       </div>

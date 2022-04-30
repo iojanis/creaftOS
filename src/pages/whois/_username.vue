@@ -1,18 +1,19 @@
 <template>
-  <div class="ui inventory container padded" style="padding-top: 7.5em!important; padding-bottom: 7em!important;">
+  <div class="ui inventory container padded" style="padding-top: 4.5em!important; padding-bottom: 7em!important;">
     <div class="overlay">
       <div class="center">
         <div style="min-width: 300px;">
+
+          <button
+            class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
+            @click.stop="$socket.emit('add_to_team', $route.params.username)"
+          >
+            add to current team's whitelist
+          </button>
           <h3 class="ui white header">
             <span class="uppercase" style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em">Whois {{ $route.params.username }}</span>
           </h3>
           <img class="mx-auto" :src="'https://minotar.net/body/' + $route.params.username + '.png'" >
-
-          <h3 class="ui white header">
-            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> YET UNAVAILABLE.</span>
-          </h3>
-          <p>THE PAGE IS UNDER DEVELOPMENT.</p>
-          <p>THANK YOU FOR UNDERSTANDING.</p>
         </div>
       </div>
     </div>

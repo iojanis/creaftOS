@@ -27,7 +27,7 @@ const { title, content, likes, comments, username } = schema.tree
  */
 router.post('/',
   token({ required: true }),
-  body({ title, content, likes, comments, username }),
+  body({ title, content, username }),
   create)
 
 /**

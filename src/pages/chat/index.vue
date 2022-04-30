@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui terminal inverted fluid container padded"
+    class="ui terminal inverted fluid padded"
     style="padding-top: 8em!important; padding-bottom: 8em; padding-left: 2em; padding-right: 2em;"
   >
     <div
@@ -38,7 +38,7 @@
             >
               <i
                 class="level down rotated icon light"
-                style="margin-top: 0.3em; color: #ffffff!important;cursor: pointer"
+                style="margin-top: 0.4em; color: #ffffff!important;cursor: pointer"
                 @click="sendChatMessage"
               />
             </a>
@@ -100,7 +100,7 @@
         </div>
       </div>
     </transition-group>
-    <div class="p-2 opacity-50 hover:opacity-100 transition-opacity duration-300">
+    <div class="p-2 pt-0 opacity-50 hover:opacity-100 transition-opacity duration-300">
       Messages will vanish after a restart.
     </div>
   </div>

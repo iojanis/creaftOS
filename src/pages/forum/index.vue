@@ -1,177 +1,268 @@
 <template>
-  <div class="ui inventory container padded" style="padding-top: 7.5em!important; padding-bottom: 7em!important;">
-    <div class="overlay">
-      <div class="center">
-        <div style="min-width: 300px;">
-          <h3 class="ui white header">
-            <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>
-          </h3>
-          <p>THE FOR<nuxt-link to="console">U</nuxt-link>M IS UNDER DEVELOPMENT.</p>
-          <p>PLEASE USE THE CHAT FOR COMMUNICATION.</p>
-          <p>THANK YOU FOR UNDERSTANDING.</p>
+  <div
+    class="ui inventory fluid  padded"
+    style="
+      padding-top: 8em !important;
+      padding-bottom: 8em !important;
+      padding-left: 2em;
+      padding-right: 2em;
+    "
+  >    <div class="overlay">
+    <div class="center">
+      <div style="min-width: 300px;">
+        <h3 class="ui white header">
+          <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>
+        </h3>
+        <p>THE FORUM IS UNDER DEVELOPMENT.</p>
+        <p>THANK YOU FOR UNDERSTANDING.</p>
+      </div>
+    </div>
+  </div>
+    <div
+      v-if="newTeamModal"
+      class="ui dimmer modals page visible active overlay"
+      style="display: flex !important"
+      @click="newTeamModal = false"
+    >
+      <div
+        class="ui mini inverted modal front visible active team-modal"
+        style="display: block !important"
+        @click.stop=""
+      >
+        <div class="content" style="background: none !important">
+          <form class="ui inverted fonta form" @submit.prevent="createBook()">
+            <h1 class="ui yellow header" style="text-align: center">
+              New Book
+            </h1>
+            <div class="field">
+              <div class="ui error message">
+                <div class="header">Error</div>
+              </div>
+            </div>
+            <div class="inverted field">
+              <div class="ui large left inverted input">
+                <input
+                  v-model="bookName"
+                  type="text"
+                  placeholder="Book Name"
+                />
+              </div>
+            </div>
+            <div class="inverted field">
+              <div class="ui inverted input">
+                <!-- eslint-disable-next-line -->
+                <textarea
+                  v-model="bookContent"
+                  style="font-size: 1.1em"
+                  class="fonta"
+                  placeholder="Content"
+                ></textarea>
+              </div>
+            </div>
+<!--            <div class="inverted field" style="text-align: center">-->
+<!--              <label style="color: white">-->
+<!--                A team cost you a fee of 111°-->
+<!--              </label>-->
+<!--            </div>-->
+          </form>
+        </div>
+        <div
+          class="actions"
+          style="
+            background: #06051b;
+            border-top: 1px solid rgba(34, 36, 38, 0.85);
+            color: #fff;
+          "
+        >
+          <div
+            class="ui left floated inverted button"
+            @click="newTeamModal = false"
+          >
+            Close
+          </div>
+          <button type="submit"
+            class="ui green inverted button"
+          >
+            Publish
+          </button>
         </div>
       </div>
     </div>
     <div
       class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
       style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;"
+
     >
-      <div class="ui container item" style="border: none!important; ">
-        <div class="ui form" style="width: 100%;">
+      <div class="ui fluid container item" style="border: none !important">
+        <div class="ui form" style="width: 100%">
           <div class="ui big fluid transparent icon input">
             <a
-              :data-tooltip="transferDirection ? 'Most Items' : 'Least Items'"
+              v-if="$auth.loggedIn"
               style="cursor: pointer"
               data-inverted=""
               data-position="bottom left"
-              @click="changeTransferDirection"
+              :data-tooltip="
+              'Create a new book'"
+              @click="newTeamModal = true"
             >
               <i
-                :class="{ sort: true, size: true, up: (transferDirection === 0), down: (transferDirection === 1), icon: true, light: true }"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
+                class="icon plus"
+                style="
+                  margin-top: 0.3em;
+                  color: rgba(0, 0, 0, 0.34);
+                  margin-right: 0.5em;
+                "
               />
             </a>
-            <a
-              :data-tooltip="transferRateText()"
-              style="cursor: pointer"
-              data-inverted=""
-              data-position="bottom left"
-              @click="changeTransferRate"
-            >
-              <i
-                :class="{ disabled: (manageMode === 0), signal: true, one: (transferRate === 0), two: (transferRate === 1), three: (transferRate === 2), four: (transferRate === 3), icon: true, light: true }"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-right: 0.5em;"
-              />
-            </a>
-            <input v-model="search" style="text-align: center; color: #ffffff!important;padding: 0px" placeholder="Search" autocomplete="off">
+            <input
+              v-model="search"
+              style="
+                text-align: center;
+                color: #ffffff !important;
+                padding: 0px;
+              "
+              placeholder="Search"
+              disabled
+              autocomplete="off"
+            />
             <i
               v-if="search.length > 0"
               class="remove link icon"
-              style="color: rgba(0, 0, 0, 0.34); margin-right: 4.1em; margin-top: 0.1em;"
+              style="
+                color: rgba(0, 0, 0, 0.34);
+                margin-right: 4.1em;
+                margin-top: 0.1em;
+              "
               @click="search = ''"
             />
-            <a :data-tooltip="!manageMode ? 'Sell' : 'Manage'" style="cursor: pointer" data-inverted="" data-position="bottom right" @click="changeManage">
+            <a
+              v-if="false"
+              :data-tooltip="!viewMode ? 'All Teams' : 'Own Teams'"
+              style="cursor: pointer"
+              disabled
+              class="disabled"
+              data-inverted=""
+              data-position="bottom right"
+              @click="changeView"
+            >
               <i
-                :class="{ mouse: true, coin: (manageMode === 0), pointer: (manageMode === 1), icon: true, light: true }"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-left: 0.5em;"
-              />
-            </a>
-            <a :data-tooltip="!viewMode ? 'All Offers' : 'Own Offers'" style="cursor: pointer" data-inverted="" data-position="bottom right" @click="changeView">
-              <i
-                :class="{ eye: true, slash: (viewMode === 1), icon: true, light: true }"
-                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-left: 0.5em;"
+                :class="{
+                  eye: true,
+                  slash: viewMode === 1,
+                  icon: true,
+                  light: true,
+                }"
+                style="
+                  margin-top: 0.3em;
+                  color: rgba(0, 0, 0, 0.34);
+                  margin-left: 0.5em;
+                "
               />
             </a>
           </div>
         </div>
       </div>
     </div>
+    <div class="p-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      Buy books to support the authors.
+    </div>
     <transition-group
       mode="out-in"
       tag="div"
-      class="ui relaxed selection inverted bordered list stackable two column grid"
-      style="margin-top: 0.5em!important; padding-top: 0em!important;"
+      class="ui relaxed selection inverted bordered list stackable"
+      style="margin-top: 0.5em !important; padding-top: 0em !important"
       name="fadeDown"
       appear
     >
-      <div
+      <nuxt-link
         v-for="item in items"
-        :key="item.type"
-        class="bordered column item noselect"
-        style="height: 52px;"
+        :key="item.id"
+        :to="'/book/' + item.id"
+        class="bordered item noselect"
+        style="height: 52px"
       >
         <img
-          :src="'https://minotar.net/avatar/rgby'"
+          :src="'https://minotar.net/avatar/' + item.username + '/32.png'"
           draggable="false"
-          class="ui avatar image"
-          style="border-radius: 3px!important; height: 35px; width: auto; margin-top: 0.15em;"
-        >
-        <img
-          :src="'/mcicons/'+item.type+'-'+item.meta+'.png'"
-          draggable="false"
-          class="ui avatar image"
-          style="margin-top: -1px; height: 42px; width: auto; border-radius: 3px!important;"
-        >
+          class="ui avatar image pr-2"
+          style="
+            border-radius: 1px !important;
+            height: 35px;
+            width: auto;
+            margin-top: 0.15em;
+          "
+        />
         <div class="content">
           <div class="description">
-            <span>rgby's</span>
+            <span>{{ item.username }}'s</span>
           </div>
           <div class="header elipsis" style="max-width: 160px">
-            {{ item.name }}
-          </div>
-          <div class="header" style="height: 0px!important;">
-            <div style="float: left;position: relative; bottom: 5px; left: -60px; text-shadow: 2px 2px #000000, -2px -2px #000000; text-align: right!important;" class="">
-              {{ Math.floor(Math.random() * 1000) }}
-            </div>
+            {{ item.title }}
           </div>
         </div>
-        <div class="right floated content" style="margin-top: 0.4em;">
-          <a draggable="false" href="#">
-            <span class="ui inverted basic label green">{{ Math.floor(Math.random() * 1444) }}°</span>
-          </a>
+        <div class="right floated content" style="margin-top: 0.3em">
+
+            <span
+              class="ui inverted basic label blue"
+            >Buy</span
+            >
         </div>
-      </div>
+      </nuxt-link>
     </transition-group>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
   auth: false,
-  data () {
+  data() {
     return {
-      transferDirection: 0,
-      transferRate: 3,
-      manageMode: 1,
+      newTeamModal: false,
+      editTeamModal: false,
+      teamModal: false,
       viewMode: 0,
       items: [],
-      search: ''
+      search: "",
+      bookName: "",
+      bookContent: "",
     }
   },
+  mounted() {
+    this.getTeams()
+  },
+  computed: {
+    ...mapGetters(["isCurrentlyOnline", "currentTeam"]),
+  },
+  watch: {
+    currentTeam() {
+      this.getTeams()
+    },
+  },
   methods: {
-    downloadItem (item, amount) {
-      this.$socket.emit('download-item', item, amount)
+    createBook() {
+      this.$axios.$post("/books", {
+        title: this.bookName,
+        username: this.$store.state.username,
+        content: this.bookContent,
+      }).then(() => {
+        this.newTeamModal = false
+        this.bookName = ""
+        this.bookContent = ""
+      })
     },
-    changeTransferRate () {
-      switch (this.transferRate) {
-        case 0:
-          this.transferRate = 1
-          break
-        case 1:
-          this.transferRate = 2
-          break
-        case 2:
-          this.transferRate = 3
-          break
-        case 3:
-          this.transferRate = 0
-          break
-      }
+    getTeams() {
+      this.items = []
+      this.$axios.$get("/books").then((response) => {
+        this.items = response
+        console.log(response)
+      })
     },
-    transferRateText () {
-      switch (this.transferRate) {
-        case 0:
-          return '1 Item'
-        case 1:
-          return '16 Items'
-        case 2:
-          return '32 Items'
-        case 3:
-          return '64 Items'
-      }
-    },
-    changeTransferDirection () {
-      this.transferDirection === 0
-        ? (this.transferDirection = 1)
-        : (this.transferDirection = 0)
-    },
-    changeView () {
+    changeView() {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)
     },
-    changeManage () {
-      this.manageMode === 0 ? (this.manageMode = 1) : (this.manageMode = 0)
-    }
-  }
+  },
 }
 </script>
 
@@ -182,37 +273,48 @@ export default {
   left: auto !important;
   background: none;
 }
-.ui.grid>.column:not(.row) {
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
+.ui.grid > .column:not(.row) {
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
 }
 .overlay {
-    backdrop-filter: blur(5px)!important;
-    /* Height & width depends on how you want to reveal the overlay (see JS below) */
-    height: 100vh;
-    width: 100vw;
-    position: fixed; /* Stay in place */
-    left: 0;
-    top: 0;
-    text-align: center;
-    z-index: 11;
-    background-color: rgba(6, 7, 50, 0.95); /* Black w/opacity */
-    overflow-x: hidden; /* Disable horizontal scroll */
+  backdrop-filter: blur(5px) !important;
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  height: 100vh;
+  width: 100vw;
+  position: fixed; /* Stay in place */
+  left: 0;
+  top: 0;
+  text-align: center;
+  z-index: 11;
+  background-color: rgba(6, 7, 50, 0.95); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
 }
+
+.team-modal {
+  background: rgba(3, 1, 25, 0.8) !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+}
+
 .center {
-    height: 100vh;
-    position: relative;
+  height: 100vh;
+  position: relative;
 }
 
 .center div {
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 p {
-    color: #cccccc!important;
+  color: #cccccc !important;
+}
+
+.selected-team {
+  box-shadow: 0 0 0 2pt rgba(255, 255, 255, 0.4);
+  border-radius: 1px;
 }
 </style>

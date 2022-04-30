@@ -9,7 +9,7 @@
     "
   >
     <div
-      v-if="newTeamModal && isCurrentlyOnline"
+      v-if="newTeamModal && isCurrentlyOnline && $store.state.currentTeam === item.slug"
       class="ui dimmer modals page visible active overlay"
       style="display: flex !important"
       @click="newTeamModal = false"
@@ -20,38 +20,34 @@
         @click.stop=""
       >
         <div class="content" style="background: none !important">
-          <form class="ui inverted fonta form" @submit.prevent="createTeam()">
+          <form class="ui inverted fonta form" @submit.prevent="createZone()">
             <h1 class="ui yellow header" style="text-align: center">
-              New Team
+              New Zone
             </h1>
-            <div class="field">
-              <div class="ui error message">
-                <div class="header">Error</div>
-              </div>
+            <div class="inverted field" style="text-align: center">
+              <label style="color: white">
+                Zone Center: X: {{ $auth.user.joined_x }} Y: {{ $auth.user.joined_y }} Z: {{ $auth.user.joined_z }}
+                <button
+                  class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
+                  type="button"
+                  @click="$socket.emit('get_position'); fetchUser()"
+                >
+                  Refresh
+                </button>
+              </label>
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
                 <input
                   v-model="teamName"
                   type="text"
-                  placeholder="Name of Team"
+                  placeholder="Name of Zone"
                 />
               </div>
             </div>
-<!--            <div class="inverted field">-->
-<!--              <div class="ui inverted input">-->
-<!--                &lt;!&ndash; eslint-disable-next-line &ndash;&gt;-->
-<!--                <textarea-->
-<!--                  v-model="teamDescription"-->
-<!--                  style="font-size: 1.1em"-->
-<!--                  class="fonta"-->
-<!--                  placeholder="Description"-->
-<!--                ></textarea>-->
-<!--              </div>-->
-<!--            </div>-->
             <div class="inverted field" style="text-align: center">
               <label style="color: white">
-                A team cost you a fee of 111°
+                A zone cost you a fee of 111°
               </label>
             </div>
           </form>
@@ -65,20 +61,20 @@
           "
         >
           <div
-            class="ui left floated inverted button"
+            class="ui red left floated inverted button"
             @click="newTeamModal = false"
           >
-            Close
+            Cancel
           </div>
           <div
             class="ui green inverted button"
             @click="
-              $socket.emit('create_team', teamName);
+              $socket.emit('create_zone', teamName);
               newTeamModal = false;
-              getTeams();
+              getZones();
             "
           >
-            Create (111°)
+            Buy (111°)
           </div>
         </div>
       </div>
@@ -109,7 +105,7 @@
                 <input
                   v-model="teamName"
                   type="text"
-                  placeholder="team name"
+                  placeholder="Name of Team"
                 />
               </div>
             </div>
@@ -139,10 +135,10 @@
           "
         >
           <div
-            class="ui  left floated inverted button"
+            class="ui red left floated inverted button"
             @click="newTeamModal = false"
           >
-            Close
+            Cancel
           </div>
           <button class="ui green inverted button" @click="createTeam()">
             Create
@@ -168,7 +164,9 @@
     </div>
     <div
       class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
+      aria-haspopup=""
       style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;"
+
     >
       <div class="ui fluid container item" style="border: none !important">
         <div class="ui form" style="width: 100%">
@@ -178,7 +176,7 @@
               data-inverted=""
               data-position="bottom left"
               :data-tooltip="
-                isCurrentlyOnline ? 'Create Team' : 'Go Online to Create Team'
+                isCurrentlyOnline ?  $store.state.currentTeam === item.slug ? 'Buy Zone' : 'Not your current team!' : 'Go Online to Buy Zone'
               "
               @click="
                 isCurrentlyOnline
@@ -202,118 +200,102 @@
                 color: #ffffff !important;
                 padding: 0px;
               "
-              placeholder="Search"
-              disabled
+              :placeholder="'Team Message' + ''"
               autocomplete="off"
             />
-            <i
-              v-if="search.length > 0"
-              class="remove link icon"
-              style="
-                color: rgba(0, 0, 0, 0.34);
-                margin-right: 4.1em;
-                margin-top: 0.1em;
-              "
-              @click="search = ''"
-            />
-            <a
-              v-if="false"
-              :data-tooltip="!viewMode ? 'All Teams' : 'Own Teams'"
-              style="cursor: pointer"
-              disabled
-              class="disabled"
-              data-inverted=""
-              data-position="bottom right"
-              @click="changeView"
-            >
-              <i
-                :class="{
-                  eye: true,
-                  slash: viewMode === 1,
-                  icon: true,
-                  light: true,
-                }"
-                style="
-                  margin-top: 0.3em;
-                  color: rgba(0, 0, 0, 0.34);
-                  margin-left: 0.5em;
-                "
-              />
+            <!--            <a-->
+            <!--              :data-tooltip="!viewMode ? 'All Teams' : 'Own Teams'"-->
+            <!--              style="cursor: pointer"-->
+            <!--              data-inverted=""-->
+            <!--              data-position="bottom right"-->
+            <!--              @click="changeView"-->
+            <!--            >-->
+            <!--              <i-->
+            <!--                :class="{-->
+            <!--                  eye: true,-->
+            <!--                  slash: viewMode === 1,-->
+            <!--                  icon: true,-->
+            <!--                  light: true-->
+            <!--                }"-->
+            <!--                style="margin-top: 0.3em; color: rgba(0, 0, 0, 0.34); margin-left: 0.5em;"-->
+            <!--              />-->
+            <!--            </a>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <h1 class="ui header">{{ item.name }}</h1>
+    <div class="pt-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      Team Description
+    </div>
+    <h3 class="ui header">Members <button
+      class="text-sm hover:bg-gray-200/50 p-1 active:bg-gray-500/20 rounded-sm"
+      @click.stop="showRemoveButton = !showRemoveButton"
+    >
+      remove from team
+    </button></h3>
+    <div class="ui divided items">
+      <span
+        v-for="(member, i) in item.whitelist">
+        <img
+          :src="'https://minotar.net/avatar/' + member + '/32.png'"
+          draggable="false"
+          class="ui avatar image rounded-sm pr-2"
+          style="border-radius: 1px!important; height: 35px; width: auto; margin-top: 0.15em;"
+        >
+        <a v-if="showRemoveButton && i !== 0" draggable="false" href="#" @click="$socket.emit('remove_from_team', member);">
+          {{ member }}
+            <span
+              class="ui inverted basic red mini button"
+            >REMOVE</span>
+        </a>
+      </span>
+      <div class="pt-6 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+        Go to a users profile to add them to your <strong>current</strong> team
+      </div>
+    </div>
+
+    <h3 class="ui header">Zones</h3>
+    <div>
+      <div
+        class="ui relaxed inverted bordered list stackable"
+        style="margin-top: 0.5em!important; padding-top: 0em!important;"
+      >
+        <div
+          v-for="zone in zones"
+          :key="zone.slug"
+          class="bordered item noselect"
+          style="height: 52px;"
+        >
+          <img
+            :src="'https://minotar.net/avatar/' + zone.username + '/32.png'"
+            draggable="false"
+            class="ui avatar image pr-2"
+            style="border-radius: 1px!important; height: 35px; width: auto; margin-top: 0.15em;"
+          >
+          <div class="content">
+            <div class="description">
+<!--              <span>{{ zone.leader }}'s</span>-->
+            </div>
+            <div class="header elipsis" style="max-width: 160px">
+              {{ zone.name }}
+            </div>
+          </div>
+          <div class="right floated content" style="margin-top: 0.30em;">
+            <a draggable="false" href="#" @click="$socket.emit('tp_to_zone', zone.name);">
+            <span
+              class="ui mini inverted button green"
+              :class="{'disabled':!isCurrentlyOnline}"
+            >TP 3°</span>
             </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="p-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
-      Team up to become great!
+
+    <div class="pt-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+      On teleport you pay 3° to the zones owner
     </div>
-    <transition-group
-      mode="out-in"
-      tag="div"
-      class="ui relaxed selection inverted bordered list stackable"
-      style="margin-top: 0.5em !important; padding-top: 0em !important"
-      name="fadeDown"
-      appear
-    >
-      <nuxt-link
-        v-for="item in items"
-        :key="item.id"
-        :to="'/team/' + item.slug"
-        class="bordered item noselect"
-        style="height: 52px"
-        :class="{ 'selected-team': item.slug === $store.state.currentTeam }"
-      >
-        <img
-          v-for="member in item.whitelist"
-          :src="'https://minotar.net/avatar/' + member + '/32.png'"
-          draggable="false"
-          class="ui avatar image pr-2"
-          style="
-            border-radius: 1px !important;
-            height: 35px;
-            width: auto;
-            margin-top: 0.15em;
-          "
-        />
-        <div class="content">
-          <div class="description">
-            <span>{{ item.leader }}'s</span>
-          </div>
-          <div class="header elipsis" style="max-width: 160px">
-            {{ item.name }}
-          </div>
-        </div>
-        <div class="right floated content" style="margin-top: 0.3em">
-          <a
-            v-if="
-              item.whitelist.includes($store.state.username) &&
-              item.slug !== $store.state.currentTeam
-            "
-            draggable="false"
-            href="#"
-            @click.stop="$socket.emit('change_team', item.name)"
-          >
-            <span
-              class="ui inverted basic label blue"
-              :class="{ disabled: !isCurrentlyOnline }"
-              >JOIN</span
-            >
-          </a>
-          <a
-            v-if="item.slug === currentTeam"
-            draggable="false"
-            href="#"
-            @click.stop="$socket.emit('leave_team')"
-          >
-            <span
-              class="ui inverted basic label red"
-              :class="{ disabled: !isCurrentlyOnline }"
-              >LEAVE</span
-            >
-          </a>
-        </div>
-      </nuxt-link>
-    </transition-group>
   </div>
 </template>
 
@@ -328,30 +310,49 @@ export default {
       editTeamModal: false,
       teamModal: false,
       viewMode: 0,
-      items: [],
+      item: {},
+      zones: [],
       search: "",
       teamName: "",
       teamDescription: "",
+      showRemoveButton: false
     }
   },
   mounted() {
-    this.getTeams()
+    this.getTeam()
+    this.getZones()
   },
   computed: {
-    ...mapGetters(["isCurrentlyOnline", "currentTeam"]),
+    ...mapGetters(["isCurrentlyOnline"]),
   },
   watch: {
-    currentTeam() {
-      this.getTeams()
+    newTeamModal(val) {
+      if (val) {
+        this.teamName = ""
+        this.teamDescription = ""
+        this.$socket.emit('get_position');
+        this.fetchUser()
+      }
     },
   },
   methods: {
-    getTeams() {
-      this.items = []
-      this.$axios.$get("/teams").then((response) => {
-        this.items = response
+    getTeam() {
+      this.$axios.$get("/teams/" + this.$route.params.slug).then((response) => {
+        this.item = response
         console.log(response)
       })
+    },
+    getZones() {
+      this.$axios.$get("/zones/" + this.$route.params.slug).then((response) => {
+        this.zones = response
+        console.log(response)
+      })
+    },
+    fetchUser() {
+      setTimeout(() => {
+
+        this.$auth.fetchUser()
+      }, 1000)
     },
     changeView() {
       this.viewMode === 0 ? (this.viewMode = 1) : (this.viewMode = 0)

@@ -7,17 +7,30 @@
     <!--</a>-->
     <a class="item" @click="toggleNotificationDrawer(true)">
       <h3 class="ui yellow header shaft boldcraft" style="margin-bottom: 0">
-        Creaft
+        {{ $config.serverNameShort }}
       </h3>
       <div v-if="false" class="ui left pointing inverted blue basic label" style="margin-right: 0em;">
         12
       </div>
     </a>
+    <a
+      data-inverted=""
+      data-tooltip="Quick*Upload"
+      data-position="center left"
+      v-if="isCurrentlyOnline"
+      :class="{'active': $store.state.QuickUpload}"
+      class="item" href="#" @click="toggleQuickUpload(!$store.state.QuickUpload)">
+      Q*U
+    </a>
 
     <transition
       name="slideDown"
     >
-      <div v-if="latestChatMassage" class="item ellipsis" style="padding-left: 2em; padding-right: 2em; z-index: 99!important; width: calc(100% - 250px);">
+      <!--        data-inverted=""-->
+      <!--        :data-tooltip="latestChatMassage"-->
+      <!--        data-position="center right"-->
+      <div
+        v-if="latestChatMassage" class="item ellipsis bg-red-200" style="padding-left: 2em; padding-right: 2em; z-index: 99!important; width: calc(100% - 250px);">
         {{ latestChatMassage }}
       </div>
     </transition>
@@ -70,7 +83,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleNotificationDrawer', 'toggleUserDrawer'])
+    ...mapActions(['toggleNotificationDrawer', 'toggleUserDrawer', 'toggleQuickUpload'])
   }
 }
 </script>

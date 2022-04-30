@@ -1,14 +1,13 @@
 <template>
   <div
-    ref="draggableContainer" id="draggable-container"
-    v-if="$store.state.QuickUpload"
+    v-if="$store.state.QuickUpload" id="draggable-container"
+    ref="draggableContainer"
     style="z-index: 111"
     class="fixed left-0 right-0 top-0 bottom-0 h-screen w-screen pointer-events-none "
   >
     <div
-      id="draggable-header" @mousedown="dragMouseDown" @touchstart="dragMouseDown"
-      class="ui inventory  fluid container padded pt-12 pb-64"
-      style="padding-left: 2em; padding-right: 2em"
+      id="draggable-header" class="ui inventory  fluid container padded pt-12 pb-64" @mousedown="dragMouseDown"
+      @touchmove="dragMouseDown"
     >
       <div ref="el" class="main1 pointer-events-auto">
         <h1>
@@ -70,7 +69,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex"
 // import { ref } from '@vue/composition-api'
 
 export default {
@@ -87,7 +86,7 @@ export default {
         movementX: 0,
         movementY: 0
       }
-    };
+    }
   },
   watch: {
     visibleUpload () {
@@ -101,72 +100,72 @@ export default {
     },
     normalizeInventory() {
       // get the inventory from the store
-      let json;
-      const slots = [];
-      const inventory = this.currentInventory.toString();
+      let json
+      const slots = []
+      const inventory = this.currentInventory.toString()
       const strange = inventory
         .replace(/(\d+)[a-z]/gi, "$1")
         .replace(/minecraft:/gi, "")
         .replace(/'/g, "")
         .toLocaleLowerCase()
-        .replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":');
+        .replace(/([{,])(\s*)([A-Za-z0-9_\-]+?)\s*:/g, '$1"$3":')
       try {
-        json = JSON.parse(strange);
-        let didIt = false;
+        json = JSON.parse(strange)
+        let didIt = false
         for (let i = 0; i < 36; i++) {
           for (let j = 0; j < json.length; j++) {
             if (json[j].slot === i) {
-              slots.push(json[j]);
-              didIt = true;
+              slots.push(json[j])
+              didIt = true
             }
           }
           if (didIt) {
-            didIt = false;
+            didIt = false
           } else {
             slots.push({
               slot: i,
-            });
+            })
           }
         }
       } catch (err) {}
-      console.log(slots);
-      return slots;
+      console.log(slots)
+      return slots
     },
     hotBar() {
-      return this.normalizeInventory.slice(0, 9);
+      return this.normalizeInventory.slice(0, 9)
     },
     invItems() {
-      return this.normalizeInventory.slice(9);
+      return this.normalizeInventory.slice(9)
     },
     filteredItems() {
-      let filter = false;
+      let filter = false
       if (this.search.length > 2) {
         filter = (item) =>
-          item.name.toLowerCase().includes(this.search.toLowerCase());
+          item.name.toLowerCase().includes(this.search.toLowerCase())
       } else if (this.viewMode === 1) {
-        filter = (item) => item.amount > 0;
+        filter = (item) => item.amount > 0
       } else {
-        filter = (item) => item;
+        filter = (item) => item
       }
-      return this.currentItems.filter(filter);
+      return this.currentItems.filter(filter)
     },
   },
   mounted() {
-    this.getItems();
+    this.getItems()
   },
   methods: {
     updateItem(i, item) {
       this.$socket.emit("update_item", {
         item,
-      });
+      })
     },
     deleteItem() {
-      this.$socket.emit("delete_item", this.item);
+      this.$socket.emit("delete_item", this.item)
     },
     getItems() {
-      this.$socket.emit("get-inventory");
+      this.$socket.emit("get-inventory")
     },
-    dragMouseDown: function (event) {
+    dragMouseDown (event) {
       event.preventDefault()
       // get the mouse cursor position at startup:
       this.positions.clientX = event.clientX
@@ -174,7 +173,7 @@ export default {
       document.onmousemove = this.elementDrag
       document.onmouseup = this.closeDragElement
     },
-    elementDrag: function (event) {
+    elementDrag (event) {
       event.preventDefault()
       this.positions.movementX = this.positions.clientX - event.clientX
       this.positions.movementY = this.positions.clientY - event.clientY
@@ -190,7 +189,7 @@ export default {
     },
     ...mapActions(["toggleQuickUpload"]),
   },
-};
+}
 </script>
 
 <style>
@@ -233,9 +232,9 @@ export default {
   flex-direction: column;
 
   height: auto;
-  padding: 0 15px;
   padding-bottom: 15px;
   max-width: 380px;
+  min-width: 350px;
   background-color: #c6c6c6;
   box-shadow: 8px 0 0 0 #555555, 0 8px 0 0 #555555, 4px 4px 0 0 #555555,
     -8px 0 0 0 #e8e8e8, 0 -8px 0 0 #e8e8e8, -4px -4px 0 0 #e8e8e8,

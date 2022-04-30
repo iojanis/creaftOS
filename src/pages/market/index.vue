@@ -1,6 +1,6 @@
 <template>
   <div
-    class="ui inventory fluid container padded"
+    class="ui inventory fluid padded"
     style="padding-top: 8em!important; padding-bottom: 8em!important; padding-left: 2em; padding-right: 2em;"
   >
     <div
@@ -73,9 +73,10 @@
           </div>
           <h3 v-else class="ui white header">
             <span
+              class="m-auto relative"
               style="background: rgba(204,204,204,0.12); padding-left: 0.3em; padding-right: 0.2em"
             >
-              NO DATA</span>
+              NO DATA YET</span>
           </h3>
           <transition-group
             mode="out-in"
