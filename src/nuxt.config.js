@@ -15,7 +15,7 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover' },
       { hid: 'description', name: 'description', content: process.env.SERVER_MODT }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }, { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     script: [
       { src: '/leaflet.js' },
       { src: '/mapc.js' }
