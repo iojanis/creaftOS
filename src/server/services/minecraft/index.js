@@ -8,6 +8,7 @@ class Minecraft extends EventsEmitter {
     console.info('[C]: Minecraft-Server-Creator (Creaft) has been created')
     this.io = io
     this.config = config
+    console.info(config)
     this.name = config.options.server_name
     this.modt = config.options.server_modt
     this.host = config.options.server_host

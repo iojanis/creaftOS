@@ -71,6 +71,16 @@ export default {
     }
   }
 
+  .padded::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge add Firefox */
+  .padded {
+    -ms-overflow-style: none;
+    scrollbar-width: none; /* Firefox */
+  }
+
 
   input, textarea {
     color: #ffffff!important;

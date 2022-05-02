@@ -68,7 +68,7 @@
 <!--            <span>Bounty: {{ item.bounty }} ° XP</span>-->
           </div>
           <div class="header elipsis" style="max-width: 160px">
-            {{ item.xp }}° xp
+            {{ Math.round(item.xp, 2) }}° xp
           </div>
         </div>
       </nuxt-link>

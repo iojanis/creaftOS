@@ -52,6 +52,8 @@ module.exports = function Market () {
           if (items) {
             server.io.to(username).emit('receive_market_item_stats', items)
           }
+        }).catch((err) => {
+          console.error(err)
         })
     },
     getRecentMarketItems (username, filter) {
@@ -120,6 +122,8 @@ module.exports = function Market () {
           { new: true }
         ).then((item) => {
           server.item.updateItem(username, item)
+        }).catch((err) => {
+          console.error(err)
         })
       } else {
         server.ItemDb.findOneAndUpdate(
@@ -128,6 +132,8 @@ module.exports = function Market () {
           { new: true }
         ).then((item) => {
           server.item.updateItem(username, item, false)
+        }).catch((err) => {
+          console.error(err)
         })
       }
     },
@@ -166,6 +172,8 @@ module.exports = function Market () {
               { new: true }
             ).then((user_) => {
               server.bank.updateXp(username, user_.xp)
+            }).catch((err) => {
+              console.error(err)
             })
             server.UserDb.findOneAndUpdate(
               { username: seller },
@@ -173,6 +181,8 @@ module.exports = function Market () {
               { new: true }
             ).then((user_) => {
               server.bank.updateXp(seller, user_.xp)
+            }).catch((err) => {
+              console.error(err)
             })
             server.ItemDb.findOneAndUpdate(
               { item: name, username: seller },
@@ -180,6 +190,8 @@ module.exports = function Market () {
               { new: true }
             ).then((item_) => {
               server.item.updateItem(seller, item_)
+            }).catch((err) => {
+              console.error(err)
             })
             server.ItemDb.findOneAndUpdate(
               { item: name, username },
@@ -187,10 +199,16 @@ module.exports = function Market () {
               { new: true }
             ).then((item_) => {
               server.item.updateItem(username, item_, true)
+            }).catch((err) => {
+              console.error(err)
             })
             server.stats.noteItemPrice(name, price, amount)
           }
+        }).catch((err) => {
+          console.error(err)
         })
+      }).catch((err) => {
+        console.error(err)
       })
     }
   }

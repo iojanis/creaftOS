@@ -13,15 +13,15 @@
         12
       </div>
     </a>
-    <a
-      data-inverted=""
-      data-tooltip="Quick*Upload"
-      data-position="center left"
-      v-if="isCurrentlyOnline"
-      :class="{'active': $store.state.QuickUpload}"
-      class="item" href="#" @click="toggleQuickUpload(!$store.state.QuickUpload)">
-      Q*U
-    </a>
+<!--    <a-->
+<!--      data-inverted=""-->
+<!--      data-tooltip="Quick*Upload"-->
+<!--      data-position="center left"-->
+<!--      v-if="isCurrentlyOnline"-->
+<!--      :class="{'active': $store.state.QuickUpload}"-->
+<!--      class="item" href="#" @click="toggleQuickUpload(!$store.state.QuickUpload)">-->
+<!--      Q*U-->
+<!--    </a>-->
 
     <transition
       name="slideDown"
@@ -30,7 +30,7 @@
       <!--        :data-tooltip="latestChatMassage"-->
       <!--        data-position="center right"-->
       <div
-        v-if="latestChatMassage" class="item ellipsis bg-red-200" style="padding-left: 2em; padding-right: 2em; z-index: 99!important; width: calc(100% - 250px);">
+        v-if="latestChatMassage" class="item ellipsis bg-red-200" style="padding-left: 2em; padding-right: 2em; z-index: 99!important; width: calc(100% - 140px);">
         {{ latestChatMassage }}
       </div>
     </transition>

@@ -1,6 +1,7 @@
 <template>
   <transition name="slideUp">
-    <div v-if="loaded" class="centered-menu bordered ui bottom eight labeled icon sidebar menu push visible inverted blurred iphone">
+    <div v-if="loaded" class="centered-menu bordered ui bottom eight labeled icon sidebar menu px-3 push visible inverted blurred iphone">
+      <div class="w-16"></div>
       <nuxt-link
         v-for="Item in MenuItems"
         :key="Item.name"
@@ -12,6 +13,7 @@
         <img :src="'/mcicons/' + Item.icon + '.png'" draggable="false" class="img-icon">
         {{ Item.title }}
       </nuxt-link>
+      <div class="w-16"></div>
     </div>
   </transition>
 </template>
@@ -108,6 +110,8 @@ export default {
   @media only screen and (min-width: 750px) {
     .centered-menu {
       z-index: 1000;
+      padding-left: 2em!important;
+      padding-right: 2em!important;
       border-top: 0px solid rgba(255, 255, 255, 0.16) !important;
       display: flex!important;
       justify-content: center!important;
