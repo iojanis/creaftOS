@@ -379,7 +379,7 @@
           </div>
         </div>
         <div class="right floated content" style="margin-top: 0.4em">
-          <a draggable="false" href="#" @click.stop="">
+          <a draggable="false" @click.stop="">
             <a
               v-if="$store.state.username != item.username"
               :data-tooltip="`Buy ${transferRateNumber()} for ${
