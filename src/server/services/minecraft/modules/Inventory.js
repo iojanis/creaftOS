@@ -29,6 +29,7 @@ module.exports = function Inventory () {
      */
 
     createRcon() {
+      console.log('Creating Rcon Connection with pw:' + server.config.options.server_rcon_pw)
       server.rcon = new RconConnection({
         rconConnection: {
           port: 25575,

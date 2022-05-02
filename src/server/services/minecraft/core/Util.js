@@ -65,6 +65,7 @@ module.exports = function Util () {
     },
 
     createClockWorkRcon() {
+      console.log('Creating Rcon Connection with pw:' + server.config.options.server_rcon_pw)
       server.clockrcon = new RconConnection({
         rconConnection: {
           port: 25575,
