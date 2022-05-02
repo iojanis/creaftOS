@@ -264,11 +264,9 @@
         :class="{ 'selected-team': item.slug === $store.state.currentTeam }"
       >
         <img
-          v-for="(member, i) in item.whitelist"
-          :src="'https://minotar.net/avatar/' + member + '/32.png'"
+          :src="'https://minotar.net/avatar/' + item.leader + '/32.png'"
           draggable="false"
           class="ui avatar image pr-2"
-          :class="{'owner': i === 0, 'member xs:hidden': i !== 0}"
           style="
             border-radius: 1px !important;
             height: 35px;
@@ -278,11 +276,25 @@
         />
         <div class="content">
           <div class="description">
-            <span>{{ item.leader }}'s</span>
+            <span>{{ item.leader }}</span>
           </div>
           <div class="header elipsis" style="max-width: 160px">
             {{ item.name }}
           </div>
+
+<!--          <img-->
+<!--            v-for="(member, i) in item.whitelist"-->
+<!--            :src="'https://minotar.net/avatar/' + member + '/32.png'"-->
+<!--            draggable="false"-->
+<!--            class="ui avatar image pr-2"-->
+<!--            :class="{'owner': i === 0, 'member xs:hidden': i !== 0}"-->
+<!--            style="-->
+<!--            border-radius: 1px !important;-->
+<!--            height: 35px;-->
+<!--            width: auto;-->
+<!--            margin-top: 0.15em;-->
+<!--          "-->
+<!--          />-->
         </div>
         <div class="right floated content" style="margin-top: 0.3em">
           <a

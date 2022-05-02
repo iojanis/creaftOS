@@ -69,7 +69,6 @@ module.exports = function Util () {
       server.clockrcon = new RconConnection({
         rconConnection: {
           port: 25575,
-          host: server.config.options.server_host,
           password: server.config.options.server_rcon_pw.toString(),
         },
       })
