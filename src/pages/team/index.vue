@@ -264,10 +264,11 @@
         :class="{ 'selected-team': item.slug === $store.state.currentTeam }"
       >
         <img
-          v-for="member in item.whitelist"
+          v-for="(member, i) in item.whitelist"
           :src="'https://minotar.net/avatar/' + member + '/32.png'"
           draggable="false"
           class="ui avatar image pr-2"
+          :class="{'owner': i === 0, 'member xs:hidden': i !== 0}"
           style="
             border-radius: 1px !important;
             height: 35px;
