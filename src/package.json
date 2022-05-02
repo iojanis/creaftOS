@@ -1,7 +1,7 @@
 {
   "name": "creaft-os",
-  "version": "3.3.0",
-  "license": "Creative Commons Attribution-NonCommercial (CC-BY-NC)",
+  "version": "3.4.0",
+  "license": "AGPLv3 license",
   "main": "server",
   "private": true,
   "scripts": {

@@ -32,7 +32,7 @@ module.exports = function Inventory () {
       server.rcon = new RconConnection({
         rconConnection: {
           port: 25575,
-          password: 'lolparty12378',
+          password: this.config.options.server_rcon_pw
         },
       })
 

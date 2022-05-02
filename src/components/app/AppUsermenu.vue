@@ -103,7 +103,7 @@
         class="item"
         style="position: absolute; bottom: 0; right: 0; padding-right: 2em"
       >
-        EnderNET αv3.3.0
+        creaftOS αv3.4.0
       </div>
     </div>
   </transition>
