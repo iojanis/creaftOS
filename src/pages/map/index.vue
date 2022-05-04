@@ -39,22 +39,22 @@ const CONFIG = {
     "map_world": {
       "imageFormat": "png",
       "lastRendered": [
-        1648140376,
+        1651544406,
         0,
         0,
         0
       ],
-      "maxZoom": 10,
-      "name": "EnderNET World",
+      "maxZoom": 11,
+      "name": "CraftOS World",
       "renderView": "topdown",
       "rotations": [
         0
       ],
       "textureSize": 12,
-      "tileSetGroup": "world_isometric_t1",
+      "tileSetGroup": "world_topdown_t1",
       "tileSize": [
-        384,
-        384
+        192,
+        192
       ],
       "world": "world",
       "worldName": "world",
@@ -65,8 +65,8 @@ const CONFIG = {
     "map_world"
   ],
   "tileSetGroups": {
-    "world_isometric_t1": {
-      "maxZoom": 10,
+    "world_topdown_t1": {
+      "maxZoom": 11,
       "tileOffsets": [
         [
           0,

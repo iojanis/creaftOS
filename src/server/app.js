@@ -72,8 +72,16 @@ async function start () {
     }
   }
 
-  const Creaft = new Minecraft(settings, io)
-  Creaft.sanityCheck()
+  // const Creaft = new Minecraft(settings, io)
+  //
+  // // auto restart server
+  // Creaft.on('exit', () => {
+  //   consola.info('[EX]: Server closed')
+  //   Creaft.stop()
+  //   Creaft.start()
+  // })
+  //
+  // Creaft.sanityCheck()
 }
 
 start().then()

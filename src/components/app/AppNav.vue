@@ -10,7 +10,7 @@
         active-class="active"
         class="bordered item"
       >
-        <img :src="'/mcicons/' + Item.icon + '.png'" draggable="false" class="img-icon">
+        <img :src="'/mcimages/' + Item.icon + '.png'" draggable="false" class="img-icon">
         {{ Item.title }}
       </nuxt-link>
       <div class="w-16"></div>
@@ -31,56 +31,56 @@ export default {
         {
           name: 'chat',
           title: 'CHAT',
-          icon: '381-0',
+          icon: 'ender_eye',
           auth: false,
           disabled: false
         },
         {
           name: 'forum',
           title: 'FORUM',
-          icon: '387-1',
+          icon: 'enchanted_book',
           auth: false,
           disabled: true
         },
         {
           name: 'stock',
           title: 'STOCK',
-          icon: '54-0',
+          icon: 'bundle',
           auth: true,
           disabled: false
         },
         {
           name: 'market',
           title: 'MARKET',
-          icon: '264-0',
+          icon: 'emerald',
           auth: true,
           disabled: false
         },
         {
           name: 'bank',
           title: 'BANK',
-          icon: '384-0',
+          icon: 'experience_bottle',
           auth: true,
           disabled: true
         },
         {
           name: 'team',
           title: 'TEAM',
-          icon: '354-0',
+          icon: 'cake',
           auth: true,
           disabled: true
         },
         {
           name: 'whois',
           title: 'WHO',
-          icon: '421-0',
+          icon: 'name_tag',
           auth: false,
           disabled: true
         },
         {
           name: 'map',
           title: 'MAP',
-          icon: '345-0',
+          icon: 'spyglass',
           auth: false,
           disabled: false
         }

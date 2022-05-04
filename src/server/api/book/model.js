@@ -7,19 +7,26 @@ const bookSchema = new Schema({
     required: true
   },
   title: {
-    type: String
+    type: String,
+    required: true
   },
   content: {
-    type: String
+    type: String,
+    required: true
   },
   likes: {
-    type: String
+    type: String,
+    required: true,
+    default: 0
   },
   comments: {
-    type: String
+    type: String,
+    required: true,
+    default: 0
   },
   username: {
-    type: String
+    type: String,
+    required: true
   }
 }, {
   timestamps: true,

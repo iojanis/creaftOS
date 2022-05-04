@@ -1,23 +1,32 @@
 <template>
   <div
-    class="ui inventory fluid  padded"
+    class="ui inventory fluid padded"
     style="
       padding-top: 8em !important;
       padding-bottom: 8em !important;
       padding-left: 2em;
       padding-right: 2em;
     "
-  >    <div class="overlay">
-    <div class="center">
-      <div style="min-width: 300px;">
-        <h3 class="ui white header">
-          <span style="background: rgba(204,204,204,0.09); padding-left: 0.3em; padding-right: 0.2em"> FORUM IS UNAVAILABLE.</span>
-        </h3>
-        <p>THE FORUM IS UNDER DEVELOPMENT.</p>
-        <p>THANK YOU FOR UNDERSTANDING.</p>
+  >
+    <div v-if="false" class="overlay">
+      <div class="center">
+        <div style="min-width: 300px">
+          <h3 class="ui white header">
+            <span
+              style="
+                background: rgba(204, 204, 204, 0.09);
+                padding-left: 0.3em;
+                padding-right: 0.2em;
+              "
+            >
+              FORUM IS UNAVAILABLE.</span
+            >
+          </h3>
+          <p>THE FORUM IS UNDER DEVELOPMENT.</p>
+          <p>THANK YOU FOR UNDERSTANDING.</p>
+        </div>
       </div>
     </div>
-  </div>
     <div
       v-if="newTeamModal"
       class="ui dimmer modals page visible active overlay"
@@ -41,11 +50,7 @@
             </div>
             <div class="inverted field">
               <div class="ui large left inverted input">
-                <input
-                  v-model="bookName"
-                  type="text"
-                  placeholder="Book Name"
-                />
+                <input v-model="bookName" type="text" placeholder="Book Name" />
               </div>
             </div>
             <div class="inverted field">
@@ -59,11 +64,11 @@
                 ></textarea>
               </div>
             </div>
-<!--            <div class="inverted field" style="text-align: center">-->
-<!--              <label style="color: white">-->
-<!--                A team cost you a fee of 111°-->
-<!--              </label>-->
-<!--            </div>-->
+            <!--            <div class="inverted field" style="text-align: center">-->
+            <!--              <label style="color: white">-->
+            <!--                A team cost you a fee of 111°-->
+            <!--              </label>-->
+            <!--            </div>-->
           </form>
         </div>
         <div
@@ -80,8 +85,10 @@
           >
             Close
           </div>
-          <button type="submit"
+          <button
+            type="submit"
             class="ui green inverted button"
+            @click="createBook()"
           >
             Publish
           </button>
@@ -90,8 +97,7 @@
     </div>
     <div
       class="ui top horizontal fixed inverted labeled sidebar overlay visible menu boldcraft second blurred"
-      style="position: fixed; width: 100%; z-index: 10;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important; overflow: visible;overflow-y: visible!important;"
-
+      style="position: fixed; width: 100%; z-index: 100;top: 3.4em!important; border-bottom: rgba(255, 255, 255, 0.07) 2px solid!important;overflow: visible;overflow-y: visible!important;"
     >
       <div class="ui fluid container item" style="border: none !important">
         <div class="ui form" style="width: 100%">
@@ -101,8 +107,7 @@
               style="cursor: pointer"
               data-inverted=""
               data-position="bottom left"
-              :data-tooltip="
-              'Create a new book'"
+              :data-tooltip="'Create a new book'"
               @click="newTeamModal = true"
             >
               <i
@@ -136,8 +141,7 @@
               @click="search = ''"
             />
             <a
-              v-if="false"
-              :data-tooltip="!viewMode ? 'All Teams' : 'Own Teams'"
+              :data-tooltip="!viewMode ? 'All Books' : 'Own Books'"
               style="cursor: pointer"
               disabled
               class="disabled"
@@ -163,7 +167,9 @@
         </div>
       </div>
     </div>
-    <div class="p-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300">
+    <div
+      class="p-2 opacity-50 hover:opacity-100 transition-opacity tracking-wide duration-300"
+    >
       Buy books to support the authors.
     </div>
     <transition-group
@@ -201,11 +207,7 @@
           </div>
         </div>
         <div class="right floated content" style="margin-top: 0.3em">
-
-            <span
-              class="ui inverted basic label blue"
-            >Buy</span
-            >
+          <span class="ui inverted basic label blue">Buy</span>
         </div>
       </nuxt-link>
     </transition-group>
@@ -242,15 +244,22 @@ export default {
   },
   methods: {
     createBook() {
-      this.$axios.$post("/books", {
-        title: this.bookName,
-        username: this.$store.state.username,
-        content: this.bookContent,
-      }).then(() => {
-        this.newTeamModal = false
-        this.bookName = ""
-        this.bookContent = ""
-      })
+      this.$axios
+        .$post("/books/", JSON.stringify({
+            title: this.bookName,
+            content: this.bookContent,
+            username: this.$store.state.username,
+          }),
+          {headers:{'Content-Type': 'application/x-www-form-urlencoded'}} )
+        .then(() => {
+          this.newTeamModal = false
+          this.bookName = ""
+          this.bookContent = ""
+        }).catch(() => {
+          this.newTeamModal = false
+          this.bookName = ""
+          this.bookContent = ""
+        })
     },
     getTeams() {
       this.items = []
