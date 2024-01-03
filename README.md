@@ -1,10 +1,11 @@
 # creaftOS
-https://user-images.githubusercontent.com/12971934/165981154-953c9619-f231-4514-a0b3-2e89ef8b1d2b.mp4
 
 Welcome to the official GitHub repository of creaftOS, the platform designed to simulate a rich and interactive society within Minecraft. Here you'll find the source code and documentation for the legacy version of creaftOS, which laid the groundwork for its successor, craftSystem.
 
 ## About creaftOS
 creaftOS was a pioneering project that integrated real-life societal elements into Minecraft, offering features like a dynamic economy, property and land management, team collaborations, and a suite of tools for server administration—all managed through a complementary app interface.
+
+https://user-images.githubusercontent.com/12971934/165981225-6007d12e-f397-44d9-a98a-76c0131484c7.mp4
 
 ### Final Version
 This repository represents the final version of creaftOS as support has been officially discontinued. We encourage the community to explore craftSystem, available through a licensing model to support its ongoing development. However, creaftOS remains as an open-source resource for those interested in its architecture and concepts.
@@ -36,5 +37,5 @@ This README serves as a historical reference for the creaftOS project. Please su
 
 Old article: https://janis.io/journal/our-world-is-a-simulation
 
-https://user-images.githubusercontent.com/12971934/165981225-6007d12e-f397-44d9-a98a-76c0131484c7.mp4
+https://user-images.githubusercontent.com/12971934/165981154-953c9619-f231-4514-a0b3-2e89ef8b1d2b.mp4
 
